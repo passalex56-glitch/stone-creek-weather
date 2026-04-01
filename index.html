@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stone Creek Dr · Weather</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --mg:#1a4a2e;--mgm:#2d6b44;--mgl:#4a8c5c;
+  --gold:#c9a84c;--goldl:#e8c97a;
+  --az:#d4547e;--azl:#f0b8cc;
+  --cream:#f5f0e8;--creamd:#e8e0d0;
+  --sky:#b8d4e8;--pine:#0f2d1a;
+}
+html,body{min-height:100vh;background:#0a1f10;display:flex;align-items:center;justify-content:center;font-family:'EB Garamond',Georgia,serif;padding:20px}
+.outer{width:100%;max-width:520px}
+.card{background:var(--mg);border-radius:20px;overflow:hidden;position:relative;box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px rgba(201,168,76,.15)}
+.pine-bg{position:absolute;top:0;left:0;right:0;bottom:0;opacity:.07;pointer-events:none;width:100%;height:100%}
+.header{background:var(--pine);padding:18px 26px 14px;border-bottom:2px solid var(--gold);display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.header h1{font-family:'Playfair Display',serif;font-size:11px;font-weight:400;font-style:italic;color:var(--goldl);letter-spacing:.14em;text-transform:uppercase}
+.header h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--cream);margin-top:2px}
+.header-right{text-align:right}
+.header-right .date{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--gold);letter-spacing:.05em}
+.header-right .loc{font-size:11px;color:var(--creamd);opacity:.6;margin-top:3px}
+.sound-btn{position:absolute;bottom:14px;right:26px;background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.4);border-radius:20px;padding:5px 14px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);cursor:pointer;letter-spacing:.06em;transition:background .2s;display:flex;align-items:center;gap:5px;z-index:10}
+.sound-btn:hover{background:rgba(201,168,76,.22)}
+.main{padding:20px 26px 18px;position:relative;z-index:1}
+.masters-tag{display:flex;justify-content:center;margin-bottom:14px}
+.masters-tag span{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.13);border:.5px solid rgba(201,168,76,.38);border-radius:20px;padding:3px 14px;font-size:10px;font-style:italic;font-family:'Playfair Display',serif;color:var(--gold);letter-spacing:.07em}
+.temp-row{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin-bottom:4px}
+.temp-main{font-family:'Playfair Display',serif;font-size:80px;font-weight:400;color:var(--cream);line-height:1;letter-spacing:-2px}
+.temp-unit{font-family:'EB Garamond',serif;font-size:28px;color:var(--gold);margin-bottom:13px}
+.cond-badge{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
+.cond-dot{width:5px;height:5px;border-radius:50%;background:var(--az)}
+.cond-text{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--azl)}
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--gold) 20%,var(--gold) 80%,transparent);opacity:.3;margin:0 0 16px}
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+.stat-box{background:rgba(255,255,255,.06);border:.5px solid rgba(201,168,76,.2);border-radius:10px;padding:10px 8px;text-align:center}
+.stat-label{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:5px;font-family:'EB Garamond',serif}
+.stat-value{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--cream)}
+.stat-sub{font-size:10px;color:var(--creamd);opacity:.5;margin-top:2px;font-style:italic}
+.tradition{font-family:'Playfair Display',serif;font-size:10px;font-style:italic;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.65;text-align:center;margin-bottom:14px}
+.fc-label{font-size:10px;font-style:italic;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.6;text-align:center;margin-bottom:8px;font-family:'Playfair Display',serif}
+.fc-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.fc-scroll::-webkit-scrollbar{display:none}
+.fc-day{flex:0 0 68px;background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.14);border-radius:8px;padding:8px 4px;text-align:center}
+.fc-day.today{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.08)}
+.fc-day.masters{border-color:rgba(201,168,76,.36)}
+.fc-dn{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);opacity:.72;margin-bottom:4px;font-family:'EB Garamond',serif}
+.fc-icon{font-size:15px;display:block;margin-bottom:4px}
+.fc-hi{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--cream)}
+.fc-lo{font-size:11px;color:var(--creamd);opacity:.5;margin-top:1px}
+.fc-pop{font-size:10px;color:var(--sky);opacity:.75;margin-top:2px}
+.updated-tag{text-align:center;font-size:10px;color:var(--creamd);opacity:.35;margin-top:10px;font-style:italic;font-family:'EB Garamond',serif}
+.flag-strip{height:3px;background:linear-gradient(to right,var(--gold) 33%,var(--az) 33%,var(--az) 66%,var(--mgl) 66%);opacity:.55}
+.loading{display:flex;align-items:center;justify-content:center;height:220px;font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:15px;opacity:.7}
+.playing-dots{display:inline-flex;gap:2px;align-items:center}
+.playing-dots span{width:3px;height:8px;border-radius:2px;background:var(--gold);animation:bounce 1s ease-in-out infinite}
+.playing-dots span:nth-child(2){animation-delay:.15s}
+.playing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:scaleY(.5);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+</style>
+</head>
+<body>
+<div class="outer">
+  <div class="card">
+    <svg class="pine-bg" viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
+      <g fill="#4a8c5c">
+        <polygon points="40,640 65,450 90,640"/><polygon points="52,520 77,330 102,520"/><polygon points="64,420 89,230 114,420"/>
+        <polygon points="270,640 293,460 316,640"/><polygon points="279,530 302,350 325,530"/><polygon points="288,440 311,260 334,440"/>
+        <polygon points="420,640 438,500 456,640"/><polygon points="427,555 445,415 463,555"/>
+        <polygon points="145,640 160,530 175,640"/><polygon points="150,565 165,455 180,565"/>
+        <polygon points="355,640 368,540 381,640"/>
+      </g>
+    </svg>
+
+    <div class="header">
+      <div>
+        <h1>Live weather</h1>
+        <h2>503 Stone Creek Dr</h2>
+      </div>
+      <div class="header-right">
+        <div class="date" id="cur-date">—</div>
+        <div class="loc">Makanda, Illinois</div>
+      </div>
+      <button class="sound-btn" id="sound-btn" onclick="toggleSound()">
+        <span id="sound-icon">♪</span>
+        <span id="sound-label">Play Augusta</span>
+      </button>
+    </div>
+
+    <div class="main" id="main-content">
+      <div class="loading">Walking Magnolia Lane…</div>
+    </div>
+    <div class="flag-strip"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+<script>
+const LAT=37.5981,LON=-89.2118;
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const WMO={0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Icy fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Rain showers',81:'Rain showers',82:'Violent showers',85:'Snow showers',86:'Heavy snow showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
+const ICON={0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌧',61:'🌦',63:'🌧',65:'🌧',71:'🌨',73:'❄️',75:'❄️',80:'🌦',81:'🌧',82:'⛈',85:'🌨',86:'❄️',95:'⛈',96:'⛈',99:'⛈'};
+
+function isMasters(s){const d=new Date(s+'T12:00:00');return d.getFullYear()===2026&&d.getMonth()===3&&d.getDate()>=9&&d.getDate()<=13}
+
+async function loadWeather(){
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weathercode,apparent_temperature&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&forecast_days=10&timezone=America%2FChicago`;
+  try{
+    const r=await fetch(url);
+    const d=await r.json();
+    renderWeather(d);
+  }catch(e){
+    document.getElementById('main-content').innerHTML='<p style="color:var(--azl);text-align:center;padding:40px;font-style:italic">Unable to load weather. Check connection.</p>';
+  }
+}
+
+function renderWeather(data){
+  const cur=data.current,daily=data.daily;
+  const now=new Date(),todayStr=now.toISOString().split('T')[0];
+  document.getElementById('cur-date').textContent=DAYS[now.getDay()]+', '+MONTHS[now.getMonth()]+' '+now.getDate()+' · '+now.getFullYear();
+  const code=cur.weathercode,temp=Math.round(cur.temperature_2m),feels=Math.round(cur.apparent_temperature);
+  const ti=daily.time.indexOf(todayStr);
+  const hi=ti>=0?Math.round(daily.temperature_2m_max[ti]):'—';
+  const pop=ti>=0?daily.precipitation_probability_max[ti]:'—';
+  const mastersTag=isMasters(todayStr)?`<div class="masters-tag"><span>⛳ Masters Week 2026</span></div>`:'';
+  const fcHTML=daily.time.map((date,i)=>{
+    const d2=new Date(date+'T12:00:00');
+    const isToday=date===todayStr;
+    const c2=daily.weathercode[i];
+    const h2=Math.round(daily.temperature_2m_max[i]);
+    const l2=Math.round(daily.temperature_2m_min[i]);
+    const p2=daily.precipitation_probability_max[i];
+    const cls=isToday?'today':(isMasters(date)?'masters':'');
+    return `<div class="fc-day ${cls}"><div class="fc-dn">${isToday?'Today':DAYS[d2.getDay()]}</div><span class="fc-icon">${ICON[c2]||'🌡'}</span><div class="fc-hi">${h2}°</div><div class="fc-lo">${l2}°</div><div class="fc-pop">${p2}%</div></div>`;
+  }).join('');
+  document.getElementById('main-content').innerHTML=`
+    ${mastersTag}
+    <div class="temp-row"><div class="temp-main">${temp}</div><div class="temp-unit">°F</div></div>
+    <div class="cond-badge"><div class="cond-dot"></div><div class="cond-text">${WMO[code]||'Fair conditions'}</div><div class="cond-dot"></div></div>
+    <div class="divider"></div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-label">Today's high</div><div class="stat-value">${hi}°</div><div class="stat-sub">afternoon peak</div></div>
+      <div class="stat-box"><div class="stat-label">Rain chance</div><div class="stat-value">${pop}%</div><div class="stat-sub">today</div></div>
+      <div class="stat-box"><div class="stat-label">Feels like</div><div class="stat-value">${feels}°</div><div class="stat-sub">apparent</div></div>
+    </div>
+    <div class="tradition">"Your dogwoods and pines play on my mind like a song"</div>
+    <div class="fc-label">10-day forecast · Makanda, IL</div>
+    <div class="fc-scroll">${fcHTML}</div>
+    <div class="updated-tag">Live via Open-Meteo · refreshes on every page load</div>`;
+}
+
+// ── SOUND ──────────────────────────────────────────────────
+let audioReady=false,isPlaying=false;
+let masterGain,birdLoop,melodyPart,chordSeq;
+
+// Augusta main motif in G major (simplified faithful recreation)
+const MELODY_NOTES=[
+  {time:0,    note:'G4', dur:'4n'},
+  {time:0.55, note:'B4', dur:'4n'},
+  {time:1.1,  note:'D5', dur:'4n'},
+  {time:1.65, note:'G5', dur:'2n'},
+  {time:2.75, note:'F#5',dur:'4n'},
+  {time:3.3,  note:'E5', dur:'4n'},
+  {time:3.85, note:'D5', dur:'2n.'},
+  {time:5.2,  note:'B4', dur:'4n'},
+  {time:5.75, note:'G4', dur:'4n'},
+  {time:6.3,  note:'A4', dur:'4n'},
+  {time:6.85, note:'B4', dur:'4n'},
+  {time:7.4,  note:'D5', dur:'2n'},
+  {time:8.5,  note:'E5', dur:'4n'},
+  {time:9.05, note:'D5', dur:'4n'},
+  {time:9.6,  note:'B4', dur:'2n'},
+  {time:10.7, note:'G4', dur:'1n'},
+];
+
+const CHORDS=[
+  ['G2','D3','G3','B3'],
+  ['C3','E3','G3','C4'],
+  ['D3','F#3','A3','D4'],
+  ['G2','D3','G3','B3'],
+];
+
+function buildAudio(){
+  if(audioReady)return;
+  audioReady=true;
+
+  masterGain=new Tone.Gain(0).toDestination();
+
+  // Birds — FM chirps with random timing
+  const birdFM=new Tone.FMSynth({
+    harmonicity:12,modulationIndex:4,
+    envelope:{attack:0.005,decay:0.06,sustain:0,release:0.04},
+    modulationEnvelope:{attack:0.005,decay:0.04,sustain:0,release:0.02},
+    volume:-16
+  }).connect(masterGain);
+
+  const birdNotes2=['D6','E6','F#6','G6','A6','B6','C7'];
+  birdLoop=new Tone.Loop(time=>{
+    const n=birdNotes2[Math.floor(Math.random()*birdNotes2.length)];
+    const chirps=2+Math.floor(Math.random()*3);
+    for(let i=0;i<chirps;i++) birdFM.triggerAttackRelease(n,'32n',time+i*0.075);
+  },'0:1:1');
+
+  // Piano — triangle for soft warmth
+  const reverb=new Tone.Reverb({decay:3.5,wet:0.4}).connect(masterGain);
+  const piano=new Tone.PolySynth(Tone.Synth,{
+    oscillator:{type:'triangle'},
+    envelope:{attack:0.05,decay:0.4,sustain:0.25,release:1.5},
+    volume:-8
+  });
+  piano.connect(reverb);
+  piano.connect(masterGain);
+
+  // Strings pad
+  const strFilter=new Tone.Filter(700,'lowpass').connect(masterGain);
+  const strings=new Tone.PolySynth(Tone.Synth,{
+    oscillator:{type:'sawtooth'},
+    envelope:{attack:0.8,decay:0.3,sustain:0.7,release:2.5},
+    volume:-22
+  }).connect(strFilter);
+
+  melodyPart=new Tone.Part((time,ev)=>{
+    piano.triggerAttackRelease(ev.note,ev.dur,time);
+  },MELODY_NOTES.map(e=>[e.time,e]));
+  melodyPart.loop=true;
+  melodyPart.loopEnd=13;
+
+  chordSeq=new Tone.Sequence((time,chord)=>{
+    strings.triggerAttackRelease(chord,'1n',time);
+  },CHORDS,'1n');
+  chordSeq.loop=true;
+}
+
+async function toggleSound(){
+  const icon=document.getElementById('sound-icon');
+  const label=document.getElementById('sound-label');
+  buildAudio();
+  await Tone.start();
+
+  if(!isPlaying){
+    Tone.getTransport().bpm.value=66;
+    masterGain.gain.rampTo(0.9,2.5);
+    birdLoop.start(0);
+    chordSeq.start(0);
+    melodyPart.start('+1');
+    Tone.getTransport().start();
+    isPlaying=true;
+    icon.innerHTML='<span class="playing-dots"><span></span><span></span><span></span></span>';
+    label.textContent='Mute';
+  } else {
+    masterGain.gain.rampTo(0,1.8);
+    setTimeout(()=>{
+      Tone.getTransport().stop();
+      Tone.getTransport().cancel();
+      birdLoop.stop();melodyPart.stop();chordSeq.stop();
+      audioReady=false;
+    },2000);
+    isPlaying=false;
+    icon.textContent='♪';
+    label.textContent='Play Augusta';
+  }
+}
+
+// Init
+const n=new Date();
+document.getElementById('cur-date').textContent=DAYS[n.getDay()]+', '+MONTHS[n.getMonth()]+' '+n.getDate()+' · '+n.getFullYear();
+loadWeather();
+</script>
+</body>
+</html>
