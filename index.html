@@ -303,18 +303,122 @@ opacity:.6;
 .pdots span:nth-child(3){animation-delay:.3s;}
 @keyframes vb{0%,100%{transform:scaleY(.3);opacity:.3}50%{transform:scaleY(1);opacity:1}}
 
+/* ── TABLET ── */
 @media(max-width:1000px){
 .fc-grid{grid-template-columns:repeat(5,1fr);}
 .metrics-grid{grid-template-columns:repeat(2,1fr);}
 .extra-row{grid-template-columns:repeat(2,1fr);}
-.hero-section{padding:0 20px 90px;flex-direction:column;align-items:flex-start;justify-content:flex-end;}
-.bar{padding:9px 16px;}.bar-title{display:none;}
-.today-widget{bottom:16px;left:16px;min-width:160px;}
-.hole-info{right:20px;bottom:60px;}
-.apr11-strip,.countdown-section,.hourly-section,.wind-metrics,.extra-row,.tee-section,.lb-section,.fc-section{padding-left:20px;padding-right:20px;}
-.gdiv{padding:0 20px;}
-.sb-head,.sb-row{grid-template-columns:70px 1fr repeat(4,55px);}
+.hero-section{padding:0 16px 80px;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:12px;}
+.bar{padding:9px 16px;}
+.bar-title{display:none;}
+.apr11-strip,.countdown-section,.hourly-section,.wind-metrics,.extra-row,.tee-section,.lb-section,.fc-section,.champions-section{padding-left:16px;padding-right:16px;}
+.gdiv{padding:0 16px;}
 .wind-metrics{flex-direction:column;}
+.sb-head,.sb-row{grid-template-columns:60px 1fr repeat(4,52px);}
+}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+/* Bar */
+.bar{padding:8px 14px;}
+.bar-tag{font-size:10px;letter-spacing:.1em;}
+.bar-title{display:none;}
+.bar-date{font-size:11px;}
+.bar-loc{display:none;}
+.snd-btn{padding:4px 12px;font-size:10px;}
+
+/* Hero */
+.hero-section{padding:0 14px 70px;gap:10px;}
+.hero-overlay{background:linear-gradient(to bottom,rgba(7,26,12,.8) 0%,rgba(7,26,12,.35) 30%,rgba(7,26,12,.75) 65%,rgba(7,26,12,.98) 100%);}
+
+/* CBS box — full width on mobile */
+.apr11-box{min-width:0;width:100%;}
+.a11-num{font-size:56px;}
+.apr11-body{padding:12px 14px 12px;}
+.a11-stats{gap:0;}
+.asl{font-size:8px;}
+.asv{font-size:14px;}
+
+/* Playability ring — hide on mobile to save space */
+.play-box{display:none!important;}
+
+/* Hole info */
+.hole-info{bottom:50px;right:14px;}
+.hi-name{font-size:18px;}
+.hi-label{font-size:9px;}
+.hi-stats{font-size:11px;}
+
+/* Slide dots */
+.slide-dots{bottom:14px;gap:5px;}
+.dot{width:4px;height:4px;}
+
+/* Strip */
+.apr11-strip{padding:10px 14px;flex-direction:column;gap:6px;}
+.a11-strip-date{font-size:15px;}
+.a11-strip-badge{margin-left:0;font-size:9px;}
+
+/* Countdown */
+.countdown-section{padding:18px 14px 16px;}
+.cd-num{font-size:36px;}
+.cd-block{min-width:42px;}
+.cd-sep{font-size:28px;}
+.cd-inner{gap:14px;flex-wrap:wrap;}
+.best-window{width:100%;}
+
+/* Hourly */
+.hourly-section{padding:18px 14px 16px;}
+.hr-card{flex:0 0 74px;}
+
+/* Wind + metrics */
+.wind-metrics{padding:0 14px 18px;gap:12px;}
+.wind-card{width:100%;justify-content:center;}
+.metrics-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+.mc-val{font-size:18px;}
+.mc-icon{font-size:18px;}
+
+/* Extra rows */
+.extra-row{grid-template-columns:repeat(2,1fr);gap:8px;padding:0 14px 18px;}
+
+/* Divider quote */
+.gdiv{padding:0 14px;flex-wrap:wrap;justify-content:center;}
+.gdq{font-size:10px;text-align:center;white-space:normal;}
+.gdl{display:none;}
+
+/* Tee times */
+.tee-section{padding:0 14px 20px;}
+.tee-header-row,.tee-row{grid-template-columns:80px 1fr 50px;}
+.tc-time{font-size:12px;}
+.tc-players{font-size:12px;}
+.tc-hole{font-size:11px;}
+
+/* Leaderboard */
+.lb-section{padding:0 14px 20px;}
+.sb-head{grid-template-columns:52px 1fr 48px 48px 38px 70px;padding:5px 10px;}
+.sb-row{grid-template-columns:52px 1fr 48px 48px 38px 70px;padding:7px 10px;}
+.sc{font-size:11px;}
+.bdg{font-size:10px;padding:2px 5px;}
+
+/* 10-day forecast */
+.fc-section{padding:0 14px 32px;}
+.fc-grid{grid-template-columns:repeat(5,1fr);gap:5px;}
+.fc-card{padding:8px 2px;}
+.fc-hi{font-size:14px;}
+.fc-em{font-size:16px;}
+.fc-dn{font-size:8px;}
+.fc-dt{font-size:8px;}
+
+/* Champions */
+.champions-section{padding:0 14px 28px;}
+.champ-grid{gap:12px;}
+.champ-card{flex:0 0 calc(50% - 6px);}
+.champ-name{font-size:14px;}
+.champ-subtitle{font-size:11px;padding:0 8px;}
+
+/* Footer */
+.bfoot{padding:12px 14px;flex-direction:column;gap:6px;text-align:center;}
+
+/* Lightning banner */
+.lightning-banner{padding:10px 14px;}
 }
 </style>
 
