@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -26,99 +25,101 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 
 /* HOLE INFO OVERLAY */
 .hole-info{
-position:absolute;bottom:90px;right:32px;z-index:50;
-text-align:right;pointer-events:none;
+  position:absolute;bottom:90px;right:32px;z-index:50;
+  text-align:right;pointer-events:none;
 }
-.hi-label{font-family:‘Playfair Display’,serif;font-size:11px;font-style:italic;color:rgba(245,240,232,.45);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;transition:opacity .8s;}
-.hi-name{font-family:‘Playfair Display’,serif;font-size:28px;font-weight:400;color:rgba(245,240,232,.88);letter-spacing:.03em;transition:opacity .8s;}
-.hi-stats{font-family:‘EB Garamond’,serif;font-size:13px;font-style:italic;color:rgba(201,168,76,.65);margin-top:3px;transition:opacity .8s;}
+.hi-label{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:rgba(245,240,232,.45);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;transition:opacity .8s;}
+.hi-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:rgba(245,240,232,.88);letter-spacing:.03em;transition:opacity .8s;}
+.hi-stats{font-family:'EB Garamond',serif;font-size:13px;font-style:italic;color:rgba(201,168,76,.65);margin-top:3px;transition:opacity .8s;}
 @media(max-width:600px){.hi-name{font-size:20px;}.hole-info{bottom:60px;right:16px;}}
 
 /* SLIDE DOTS */
 .slide-dots{
-position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
-z-index:50;display:flex;gap:6px;
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  z-index:50;display:flex;gap:6px;
 }
 .dot{width:5px;height:5px;border-radius:50%;background:rgba(201,168,76,.3);cursor:pointer;transition:background .3s,transform .3s;}
-.dot.active{background:var(–gold);transform:scale(1.3);}
+.dot.active{background:var(--gold);transform:scale(1.3);}
 
 /* BAR */
-.bar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,26,12,.93);border-bottom:1.5px solid var(–gold);padding:9px 40px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px);}
+.bar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,26,12,.93);border-bottom:1.5px solid var(--gold);padding:9px 40px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px);}
 .bar-left{display:flex;align-items:center;gap:14px;}
-.fpole{width:2px;height:20px;background:var(–gold);}
-.ftri{width:0;height:0;border-top:6px solid var(–gold);border-bottom:6px solid transparent;border-left:10px solid var(–gold);margin-bottom:8px;margin-left:-2px;}
-.bar-tag{font-family:‘Playfair Display’,serif;font-size:11px;font-style:italic;color:var(–goldl);letter-spacing:.18em;text-transform:uppercase;}
-.bar-title{font-family:‘Playfair Display’,serif;font-size:13px;font-weight:500;color:var(–cream);letter-spacing:.05em;}
+.fpole{width:2px;height:20px;background:var(--gold);}
+.ftri{width:0;height:0;border-top:6px solid var(--gold);border-bottom:6px solid transparent;border-left:10px solid var(--gold);margin-bottom:8px;margin-left:-2px;}
+.bar-tag{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--goldl);letter-spacing:.18em;text-transform:uppercase;}
+.bar-title{font-family:'Playfair Display',serif;font-size:13px;font-weight:500;color:var(--cream);letter-spacing:.05em;}
 .bar-right{display:flex;align-items:center;gap:20px;}
-.bar-date{font-family:‘Playfair Display’,serif;font-size:12px;font-style:italic;color:var(–gold);}
-.bar-loc{font-size:10px;color:var(–creamd);margin-top:2px;}
-.snd-btn{background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.4);border-radius:24px;padding:5px 16px;font-family:‘Playfair Display’,serif;font-size:11px;font-style:italic;color:var(–gold);cursor:pointer;letter-spacing:.07em;transition:background .2s;display:flex;align-items:center;gap:6px;}
+.bar-date{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--gold);}
+.bar-loc{font-size:10px;color:var(--creamd);margin-top:2px;}
+.snd-btn{background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.4);border-radius:24px;padding:5px 16px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);cursor:pointer;letter-spacing:.07em;transition:background .2s;display:flex;align-items:center;gap:6px;}
 .snd-btn:hover{background:rgba(201,168,76,.24);}
+
+
 
 /* MAIN */
 .main{position:relative;z-index:10;padding-top:72px;min-height:100vh;}
 .hero-section{min-height:calc(100vh - 72px);display:flex;align-items:flex-end;padding:0 48px 80px;gap:28px;position:relative;}
 
 /* APR 11 CBS BOX */
-.apr11-box{background:rgba(7,26,12,.93);border:1.5px solid var(–gold);border-radius:4px;overflow:hidden;min-width:310px;flex:0 0 auto;box-shadow:0 8px 40px rgba(0,0,0,.6);backdrop-filter:blur(8px);}
-.apr11-header{background:var(–gold);padding:7px 16px;display:flex;align-items:center;justify-content:space-between;}
-.a11-hl{font-family:‘Playfair Display’,serif;font-size:10px;font-weight:600;color:var(–gdeep);letter-spacing:.14em;text-transform:uppercase;}
-.a11-hr{font-family:‘Playfair Display’,serif;font-size:10px;font-style:italic;color:var(–gmid);}
+.apr11-box{background:rgba(7,26,12,.93);border:1.5px solid var(--gold);border-radius:4px;overflow:hidden;min-width:310px;flex:0 0 auto;box-shadow:0 8px 40px rgba(0,0,0,.6);backdrop-filter:blur(8px);}
+.apr11-header{background:var(--gold);padding:7px 16px;display:flex;align-items:center;justify-content:space-between;}
+.a11-hl{font-family:'Playfair Display',serif;font-size:10px;font-weight:600;color:var(--gdeep);letter-spacing:.14em;text-transform:uppercase;}
+.a11-hr{font-family:'Playfair Display',serif;font-size:10px;font-style:italic;color:var(--gmid);}
 .apr11-body{padding:18px 20px 16px;}
-.a11-date{font-family:‘Playfair Display’,serif;font-size:11px;font-style:italic;color:var(–azl);letter-spacing:.08em;margin-bottom:3px;}
-.a11-loc{font-family:‘Playfair Display’,serif;font-size:10px;font-style:italic;color:var(–goldl);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;opacity:.8;}
+.a11-date{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--azl);letter-spacing:.08em;margin-bottom:3px;}
+.a11-loc{font-family:'Playfair Display',serif;font-size:10px;font-style:italic;color:var(--goldl);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;opacity:.8;}
 .a11-temp-row{display:flex;align-items:flex-start;gap:0;margin-bottom:4px;}
-.a11-num{font-family:‘Playfair Display’,serif;font-size:76px;font-weight:400;color:var(–cream);line-height:1;letter-spacing:-3px;}
-.a11-unit{font-family:‘Playfair Display’,serif;font-size:24px;color:var(–gold);margin-top:10px;margin-left:2px;}
-.a11-cond{font-family:‘Playfair Display’,serif;font-size:14px;font-style:italic;color:var(–azl);margin-bottom:14px;}
+.a11-num{font-family:'Playfair Display',serif;font-size:76px;font-weight:400;color:var(--cream);line-height:1;letter-spacing:-3px;}
+.a11-unit{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);margin-top:10px;margin-left:2px;}
+.a11-cond{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--azl);margin-bottom:14px;}
 .a11-stats{display:flex;gap:0;border-top:1px solid rgba(201,168,76,.2);padding-top:12px;}
 .a11-stat{flex:1;text-align:center;border-right:1px solid rgba(201,168,76,.12);padding:0 8px;}
 .a11-stat:last-child{border-right:none;}
-.asl{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(–gold);opacity:.7;margin-bottom:3px;font-family:‘EB Garamond’,serif;}
-.asv{font-family:‘Playfair Display’,serif;font-size:16px;font-weight:500;color:var(–cream);}
-.asu{font-size:10px;color:var(–gold);}
-.a11-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:.5px solid;border-radius:20px;padding:4px 12px;font-family:‘Playfair Display’,serif;font-size:10px;font-style:italic;}
+.asl{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:3px;font-family:'EB Garamond',serif;}
+.asv{font-family:'Playfair Display',serif;font-size:16px;font-weight:500;color:var(--cream);}
+.asu{font-size:10px;color:var(--gold);}
+.a11-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:.5px solid;border-radius:20px;padding:4px 12px;font-family:'Playfair Display',serif;font-size:10px;font-style:italic;}
 
 /* PLAYABILITY */
 .play-box{background:rgba(7,26,12,.9);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:16px 18px;backdrop-filter:blur(8px);flex:0 0 auto;}
-.pb-title{font-family:‘Playfair Display’,serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(–gold);opacity:.7;margin-bottom:12px;}
+.pb-title{font-family:'Playfair Display',serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:12px;}
 .play-ring{position:relative;width:100px;height:100px;}
 .play-ring svg{width:100px;height:100px;transform:rotate(-90deg);}
 .prb{fill:none;stroke:rgba(201,168,76,.1);stroke-width:8;}
 .prf{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease;}
 .play-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
-.pln{font-family:‘Playfair Display’,serif;font-size:24px;font-weight:500;color:var(–cream);}
-.pls{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(–gold);opacity:.6;}
-.play-word{font-family:‘Playfair Display’,serif;font-size:13px;font-style:italic;margin-top:8px;}
-.play-reason{font-size:10px;color:var(–creamd);opacity:.5;font-style:italic;max-width:120px;margin-top:3px;}
+.pln{font-family:'Playfair Display',serif;font-size:24px;font-weight:500;color:var(--cream);}
+.pls{font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);opacity:.6;}
+.play-word{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;margin-top:8px;}
+.play-reason{font-size:10px;color:var(--creamd);opacity:.5;font-style:italic;max-width:120px;margin-top:3px;}
 
 /* CONTENT */
-.content{background:var(–gdeep);position:relative;z-index:10;border-top:2px solid var(–gold);}
+.content{background:var(--gdeep);position:relative;z-index:10;border-top:2px solid var(--gold);}
 .apr11-strip{background:linear-gradient(to right,rgba(201,168,76,.1),rgba(201,168,76,.05),transparent);border-bottom:.5px solid rgba(201,168,76,.15);padding:12px 48px;display:flex;align-items:center;gap:20px;}
-.a11-strip-date{font-family:‘Playfair Display’,serif;font-size:18px;font-style:italic;color:var(–goldl);}
-.a11-strip-sub{font-size:12px;color:var(–creamd);opacity:.5;}
-.a11-strip-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(212,84,126,.1);border:.5px solid rgba(212,84,126,.3);border-radius:20px;padding:4px 14px;font-family:‘Playfair Display’,serif;font-size:10px;font-style:italic;color:var(–azl);margin-left:auto;}
+.a11-strip-date{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--goldl);}
+.a11-strip-sub{font-size:12px;color:var(--creamd);opacity:.5;}
+.a11-strip-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(212,84,126,.1);border:.5px solid rgba(212,84,126,.3);border-radius:20px;padding:4px 14px;font-family:'Playfair Display',serif;font-size:10px;font-style:italic;color:var(--azl);margin-left:auto;}
 
 /* COUNTDOWN */
 .countdown-section{padding:24px 48px 20px;border-bottom:.5px solid rgba(201,168,76,.08);}
-.cd-label{font-family:‘Playfair Display’,serif;font-size:10px;font-style:italic;letter-spacing:.18em;text-transform:uppercase;color:var(–gold);opacity:.6;margin-bottom:10px;}
+.cd-label{font-family:'Playfair Display',serif;font-size:10px;font-style:italic;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-bottom:10px;}
 .cd-inner{display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
 .cd-timer{display:flex;align-items:baseline;gap:4px;}
 .cd-block{text-align:center;min-width:56px;}
-.cd-num{font-family:‘Playfair Display’,serif;font-size:46px;font-weight:400;color:var(–cream);line-height:1;}
-.cd-unit{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(–gold);opacity:.55;margin-top:3px;}
-.cd-sep{font-family:‘Playfair Display’,serif;font-size:38px;color:rgba(201,168,76,.25);margin-bottom:5px;}
-.cd-msg{font-family:‘Playfair Display’,serif;font-size:13px;font-style:italic;color:var(–azl);}
+.cd-num{font-family:'Playfair Display',serif;font-size:46px;font-weight:400;color:var(--cream);line-height:1;}
+.cd-unit{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.55;margin-top:3px;}
+.cd-sep{font-family:'Playfair Display',serif;font-size:38px;color:rgba(201,168,76,.25);margin-bottom:5px;}
+.cd-msg{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--azl);}
 .best-window{background:rgba(92,184,92,.07);border:.5px solid rgba(92,184,92,.28);border-radius:6px;padding:12px 16px;text-align:center;}
-.bw-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(–good);opacity:.8;margin-bottom:5px;font-family:‘EB Garamond’,serif;}
-.bw-time{font-family:‘Playfair Display’,serif;font-size:17px;color:var(–cream);}
-.bw-sub{font-size:10px;color:var(–creamd);opacity:.5;margin-top:3px;font-style:italic;}
+.bw-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--good);opacity:.8;margin-bottom:5px;font-family:'EB Garamond',serif;}
+.bw-time{font-family:'Playfair Display',serif;font-size:17px;color:var(--cream);}
+.bw-sub{font-size:10px;color:var(--creamd);opacity:.5;margin-top:3px;font-style:italic;}
 
 /* SEC HEADER */
 .sec-hd{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
-.sfp{width:1.5px;height:14px;background:var(–gold);opacity:.8;}
+.sfp{width:1.5px;height:14px;background:var(--gold);opacity:.8;}
 .sft{width:0;height:0;border-top:5px solid rgba(201,168,76,.8);border-bottom:5px solid transparent;border-left:8px solid rgba(201,168,76,.8);margin-bottom:5px;margin-left:-1.5px;}
-.sec-txt{font-family:‘Playfair Display’,serif;font-size:10px;font-style:italic;letter-spacing:.17em;text-transform:uppercase;color:var(–gold);opacity:.6;}
+.sec-txt{font-family:'Playfair Display',serif;font-size:10px;font-style:italic;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);opacity:.6;}
 .sec-rule{flex:1;height:1px;background:linear-gradient(to right,rgba(201,168,76,.28),transparent);}
 
 /* HOURLY */
@@ -129,11 +130,11 @@ z-index:50;display:flex;gap:6px;
 .hr-card.best-hr{border-color:rgba(92,184,92,.45);background:rgba(92,184,92,.05);}
 .hr-card.warn-hr{border-color:rgba(232,160,48,.35);background:rgba(232,160,48,.04);}
 .hr-card.bad-hr{border-color:rgba(224,80,80,.3);background:rgba(224,80,80,.04);}
-.hr-time{font-size:10px;color:var(–gold);opacity:.7;margin-bottom:4px;font-family:‘EB Garamond’,serif;}
+.hr-time{font-size:10px;color:var(--gold);opacity:.7;margin-bottom:4px;font-family:'EB Garamond',serif;}
 .hr-icon{font-size:18px;display:block;margin-bottom:4px;}
-.hr-temp{font-family:‘Playfair Display’,serif;font-size:16px;font-weight:500;color:var(–cream);}
-.hr-wind{font-size:10px;color:var(–sky);opacity:.75;margin-top:3px;}
-.hr-pop{font-size:10px;color:var(–azl);opacity:.75;margin-top:2px;}
+.hr-temp{font-family:'Playfair Display',serif;font-size:16px;font-weight:500;color:var(--cream);}
+.hr-wind{font-size:10px;color:var(--sky);opacity:.75;margin-top:3px;}
+.hr-pop{font-size:10px;color:var(--azl);opacity:.75;margin-top:2px;}
 .hr-uv{font-size:9px;margin-top:2px;}
 
 /* WIND + METRICS */
@@ -141,301 +142,301 @@ z-index:50;display:flex;gap:6px;
 .wind-card{background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.16);border-radius:10px;padding:18px;display:flex;align-items:center;gap:18px;flex:0 0 auto;}
 .compass{position:relative;width:84px;height:84px;}
 .compass svg{width:84px;height:84px;}
-.wi-speed{font-family:‘Playfair Display’,serif;font-size:30px;font-weight:400;color:var(–cream);line-height:1;}
-.wi-unit{font-size:11px;color:var(–gold);}
-.wi-dir{font-size:12px;color:var(–creamd);font-style:italic;}
-.wi-gust{font-size:11px;color:var(–warn);opacity:.8;}
-.wi-note{font-size:10px;color:var(–creamd);opacity:.45;font-style:italic;max-width:150px;margin-top:4px;}
+.wi-speed{font-family:'Playfair Display',serif;font-size:30px;font-weight:400;color:var(--cream);line-height:1;}
+.wi-unit{font-size:11px;color:var(--gold);}
+.wi-dir{font-size:12px;color:var(--creamd);font-style:italic;}
+.wi-gust{font-size:11px;color:var(--warn);opacity:.8;}
+.wi-note{font-size:10px;color:var(--creamd);opacity:.45;font-style:italic;max-width:150px;margin-top:4px;}
 .metrics-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
 .metric-card{background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.13);border-radius:10px;padding:14px 12px;text-align:center;}
 .mc-icon{font-size:20px;margin-bottom:6px;}
-.mc-val{font-family:‘Playfair Display’,serif;font-size:22px;font-weight:400;color:var(–cream);}
-.mc-unit{font-size:12px;color:var(–gold);}
-.mc-lbl{font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(–gold);opacity:.6;margin-top:5px;font-family:‘EB Garamond’,serif;}
-.mc-tip{font-size:10px;color:var(–creamd);opacity:.45;margin-top:3px;font-style:italic;}
+.mc-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;color:var(--cream);}
+.mc-unit{font-size:12px;color:var(--gold);}
+.mc-lbl{font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-top:5px;font-family:'EB Garamond',serif;}
+.mc-tip{font-size:10px;color:var(--creamd);opacity:.45;margin-top:3px;font-style:italic;}
 .extra-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 48px 28px;}
 
 /* DIVIDER */
 .gdiv{max-width:1100px;width:100%;margin:0 auto 22px;display:flex;align-items:center;gap:14px;padding:0 48px;}
 .gdl{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.28));}
 .gdl.r{background:linear-gradient(to left,transparent,rgba(201,168,76,.28));}
-.gdq{font-family:‘Playfair Display’,serif;font-size:11px;font-style:italic;color:var(–gold);opacity:.5;letter-spacing:.1em;white-space:nowrap;}
+.gdq{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);opacity:.5;letter-spacing:.1em;white-space:nowrap;}
 
 /* TEE TIMES */
 .tee-section{padding:0 48px 26px;}
-.tee-header-row{background:var(–gold);display:grid;grid-template-columns:110px 1fr 110px;padding:7px 20px;border-radius:4px 4px 0 0;}
-.thc{font-family:‘Playfair Display’,serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(–gdeep);}
+.tee-header-row{background:var(--gold);display:grid;grid-template-columns:110px 1fr 110px;padding:7px 20px;border-radius:4px 4px 0 0;}
+.thc{font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);}
 .thc:nth-child(2){text-align:center;}.thc:last-child{text-align:right;}
 .tee-date-row{background:rgba(201,168,76,.07);border:.5px solid rgba(201,168,76,.22);border-top:none;padding:8px 20px;}
-.tdr-l{font-family:‘Playfair Display’,serif;font-size:12px;font-style:italic;color:var(–goldl);}
-.tdr-s{font-size:11px;color:var(–creamd);opacity:.5;}
+.tdr-l{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--goldl);}
+.tdr-s{font-size:11px;color:var(--creamd);opacity:.5;}
 
 /* LEADERBOARD */
 .lb-section{padding:0 48px 26px;}
 .scoreboard{background:rgba(7,26,12,.95);border:1px solid rgba(201,168,76,.25);border-radius:6px;overflow:hidden;}
-.sb-head{background:var(–gold);display:grid;grid-template-columns:90px 1fr repeat(4,80px);padding:7px 16px;}
-.sb-hc{font-family:‘Playfair Display’,serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(–gdeep);text-align:center;}
+.sb-head{background:var(--gold);display:grid;grid-template-columns:90px 1fr repeat(4,80px);padding:7px 16px;}
+.sb-hc{font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;}
 .sb-hc:nth-child(2){text-align:left;}
 .sb-row{display:grid;grid-template-columns:90px 1fr repeat(4,80px);padding:8px 16px;border-bottom:.5px solid rgba(201,168,76,.06);align-items:center;transition:background .15s;}
 .sb-row:last-child{border-bottom:none;}
 .sb-row:hover{background:rgba(255,255,255,.025);}
-.sb-row.apr11-row{background:rgba(201,168,76,.1);border-left:3px solid var(–gold);}
-.sb-row.today-r{background:rgba(168,200,224,.05);border-left:2px solid var(–sky);}
-.sb-row.mday-r{border-left:2px solid var(–az);}
-.sc{font-family:‘Playfair Display’,serif;font-size:13px;color:var(–cream);text-align:center;}
-.sc:nth-child(2){text-align:left;font-style:italic;color:var(–goldl);}
-.bdg{display:inline-flex;align-items:center;padding:2px 8px;border-radius:3px;font-family:‘EB Garamond’,serif;font-size:11px;}
-.b-hot{background:rgba(212,84,126,.18);color:var(–azl);}
-.b-warm{background:rgba(201,168,76,.16);color:var(–goldl);}
-.b-cool{background:rgba(168,200,224,.12);color:var(–sky);}
+.sb-row.apr11-row{background:rgba(201,168,76,.1);border-left:3px solid var(--gold);}
+.sb-row.today-r{background:rgba(168,200,224,.05);border-left:2px solid var(--sky);}
+.sb-row.mday-r{border-left:2px solid var(--az);}
+.sc{font-family:'Playfair Display',serif;font-size:13px;color:var(--cream);text-align:center;}
+.sc:nth-child(2){text-align:left;font-style:italic;color:var(--goldl);}
+.bdg{display:inline-flex;align-items:center;padding:2px 8px;border-radius:3px;font-family:'EB Garamond',serif;font-size:11px;}
+.b-hot{background:rgba(212,84,126,.18);color:var(--azl);}
+.b-warm{background:rgba(201,168,76,.16);color:var(--goldl);}
+.b-cool{background:rgba(168,200,224,.12);color:var(--sky);}
 .b-storm{background:rgba(255,100,100,.12);color:#ffaaaa;}
 
 /* 10-DAY */
 .fc-section{padding:0 48px 44px;max-width:1300px;width:100%;margin:0 auto;}
-.fc-head{font-family:‘Playfair Display’,serif;font-size:10px;font-style:italic;letter-spacing:.2em;text-transform:uppercase;color:var(–gold);opacity:.48;text-align:center;margin-bottom:14px;}
+.fc-head{font-family:'Playfair Display',serif;font-size:10px;font-style:italic;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.48;text-align:center;margin-bottom:14px;}
 .fc-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;}
 .fc-card{background:rgba(255,255,255,.035);border:.5px solid rgba(201,168,76,.11);border-radius:8px;padding:12px 4px;text-align:center;transition:background .2s;}
 .fc-card:hover{background:rgba(255,255,255,.07);}
 .fc-card.apr11{border-color:rgba(201,168,76,.6);background:rgba(201,168,76,.1);box-shadow:0 0 0 1px rgba(201,168,76,.2);}
 .fc-card.today-fc{border-color:rgba(168,200,224,.35);background:rgba(168,200,224,.04);}
 .fc-card.mday{border-color:rgba(212,84,126,.3);background:rgba(212,84,126,.04);}
-.fc-dn{font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(–gold);opacity:.65;margin-bottom:3px;font-family:‘EB Garamond’,serif;}
-.fc-dt{font-size:9px;color:var(–creamd);opacity:.38;margin-bottom:6px;}
+.fc-dn{font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:3px;font-family:'EB Garamond',serif;}
+.fc-dt{font-size:9px;color:var(--creamd);opacity:.38;margin-bottom:6px;}
 .fc-em{font-size:20px;display:block;margin-bottom:6px;line-height:1;}
-.fc-hi{font-family:‘Playfair Display’,serif;font-size:18px;font-weight:500;color:var(–cream);}
-.fc-lo{font-size:11px;color:var(–creamd);opacity:.42;margin-top:2px;}
-.fc-pop{font-size:10px;color:var(–sky);opacity:.72;margin-top:4px;}
-.az-dot{width:5px;height:5px;border-radius:50%;background:var(–az);margin:4px auto 0;opacity:.65;}
+.fc-hi{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--cream);}
+.fc-lo{font-size:11px;color:var(--creamd);opacity:.42;margin-top:2px;}
+.fc-pop{font-size:10px;color:var(--sky);opacity:.72;margin-top:4px;}
+.az-dot{width:5px;height:5px;border-radius:50%;background:var(--az);margin:4px auto 0;opacity:.65;}
 
 /* ── CHAMPIONS ── */
 .champions-section{padding:0 48px 36px;}
-.champ-subtitle{font-family:‘Playfair Display’,serif;font-size:13px;font-style:italic;color:var(–gold);opacity:.55;text-align:center;margin-bottom:24px;letter-spacing:.08em;}
+.champ-subtitle{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--gold);opacity:.55;text-align:center;margin-bottom:24px;letter-spacing:.08em;}
 .champ-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
 .champ-card{
-flex:0 0 200px;
-background:rgba(7,26,12,.9);
-border:1px solid var(–gold);
-border-radius:8px;
-overflow:hidden;
-position:relative;
-box-shadow:0 8px 32px rgba(0,0,0,.4);
-transition:transform .25s, box-shadow .25s;
+  flex:0 0 200px;
+  background:rgba(7,26,12,.9);
+  border:1px solid var(--gold);
+  border-radius:8px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  transition:transform .25s, box-shadow .25s;
 }
 .champ-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.5);}
 .champ-card.champ-current{border-color:rgba(201,168,76,.35);opacity:.75;}
 .champ-jacket-top{
-height:6px;
-background:linear-gradient(to right, var(–gmid), var(–gold), var(–gmid));
+  height:6px;
+  background:linear-gradient(to right, var(--gmid), var(--gold), var(--gmid));
 }
 .champ-photo-wrap{
-width:100%;
-aspect-ratio:1;
-overflow:hidden;
-position:relative;
-background:var(–gdark);
+  width:100%;
+  aspect-ratio:1;
+  overflow:hidden;
+  position:relative;
+  background:var(--gdark);
 }
 .champ-photo-wrap img{
-width:100%;height:100%;
-object-fit:cover;object-position:center top;
-display:block;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  display:block;
 }
 .champ-photo-placeholder{
-width:100%;height:100%;
-display:flex;align-items:center;justify-content:center;
-background:rgba(255,255,255,.03);
-border-bottom:.5px solid rgba(201,168,76,.15);
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.03);
+  border-bottom:.5px solid rgba(201,168,76,.15);
 }
 .champ-silhouette{font-size:52px;opacity:.25;}
 .champ-body{
-padding:14px 16px 10px;
-position:relative;
+  padding:14px 16px 10px;
+  position:relative;
 }
 .champ-year{
-font-family:‘Playfair Display’,serif;
-font-size:11px;font-weight:500;
-color:var(–gold);
-letter-spacing:.14em;
-text-transform:uppercase;
-margin-bottom:4px;
+  font-family:'Playfair Display',serif;
+  font-size:11px;font-weight:500;
+  color:var(--gold);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin-bottom:4px;
 }
 .champ-name{
-font-family:‘Playfair Display’,serif;
-font-size:17px;font-weight:600;
-color:var(–cream);
-line-height:1.2;
-margin-bottom:5px;
+  font-family:'Playfair Display',serif;
+  font-size:17px;font-weight:600;
+  color:var(--cream);
+  line-height:1.2;
+  margin-bottom:5px;
 }
 .champ-detail{
-font-family:‘EB Garamond’,serif;
-font-size:11px;font-style:italic;
-color:var(–creamd);
-opacity:.5;
+  font-family:'EB Garamond',serif;
+  font-size:11px;font-style:italic;
+  color:var(--creamd);
+  opacity:.5;
 }
 .champ-trophy{
-position:absolute;
-bottom:12px;right:14px;
-font-size:16px;
-opacity:.5;
+  position:absolute;
+  bottom:12px;right:14px;
+  font-size:16px;
+  opacity:.5;
 }
 /* Green jacket accent on left edge */
 .champ-card::before{
-content:’’;
-position:absolute;
-top:6px;left:0;
-width:3px;
-height:calc(100% - 6px);
-background:linear-gradient(to bottom, var(–gold), var(–gmid));
-opacity:.6;
+  content:'';
+  position:absolute;
+  top:6px;left:0;
+  width:3px;
+  height:calc(100% - 6px);
+  background:linear-gradient(to bottom, var(--gold), var(--gmid));
+  opacity:.6;
 }
 .lightning-banner{background:rgba(224,80,80,.1);border:.5px solid rgba(224,80,80,.35);padding:10px 48px;display:none;align-items:center;gap:12px;position:relative;z-index:10;}
-.lb-text{font-family:‘Playfair Display’,serif;font-size:12px;font-style:italic;color:#ffaaaa;}
+.lb-text{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:#ffaaaa;}
 
 /* FOOTER */
-.bfoot{border-top:1px solid rgba(201,168,76,.1);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;background:var(–gdeep);}
-.bfoot-l{font-size:10px;color:var(–creamd);opacity:.3;font-style:italic;}
+.bfoot{border-top:1px solid rgba(201,168,76,.1);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;background:var(--gdeep);}
+.bfoot-l{font-size:10px;color:var(--creamd);opacity:.3;font-style:italic;}
 .bfoot-r{display:flex;align-items:center;gap:6px;}
 .ldot{width:6px;height:6px;border-radius:50%;background:#4CAF50;animation:pulse 2s ease-in-out infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.llbl{font-size:10px;color:var(–creamd);opacity:.42;letter-spacing:.1em;text-transform:uppercase;}
+.llbl{font-size:10px;color:var(--creamd);opacity:.42;letter-spacing:.1em;text-transform:uppercase;}
 .pdots{display:inline-flex;gap:2px;align-items:center;}
-.pdots span{width:3px;height:9px;border-radius:2px;background:var(–gold);animation:vb 1s ease-in-out infinite;}
+.pdots span{width:3px;height:9px;border-radius:2px;background:var(--gold);animation:vb 1s ease-in-out infinite;}
 .pdots span:nth-child(2){animation-delay:.15s;}
 .pdots span:nth-child(3){animation-delay:.3s;}
 @keyframes vb{0%,100%{transform:scaleY(.3);opacity:.3}50%{transform:scaleY(1);opacity:1}}
 
 /* ── TABLET ── */
 @media(max-width:1000px){
-.fc-grid{grid-template-columns:repeat(5,1fr);}
-.metrics-grid{grid-template-columns:repeat(2,1fr);}
-.extra-row{grid-template-columns:repeat(2,1fr);}
-.hero-section{padding:0 16px 80px;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:12px;}
-.bar{padding:9px 16px;}
-.bar-title{display:none;}
-.apr11-strip,.countdown-section,.hourly-section,.wind-metrics,.extra-row,.tee-section,.lb-section,.fc-section,.champions-section{padding-left:16px;padding-right:16px;}
-.gdiv{padding:0 16px;}
-.wind-metrics{flex-direction:column;}
-.sb-head,.sb-row{grid-template-columns:60px 1fr repeat(4,52px);}
+  .fc-grid{grid-template-columns:repeat(5,1fr);}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);}
+  .extra-row{grid-template-columns:repeat(2,1fr);}
+  .hero-section{padding:0 16px 80px;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:12px;}
+  .bar{padding:9px 16px;}
+  .bar-title{display:none;}
+  .apr11-strip,.countdown-section,.hourly-section,.wind-metrics,.extra-row,.tee-section,.lb-section,.fc-section,.champions-section{padding-left:16px;padding-right:16px;}
+  .gdiv{padding:0 16px;}
+  .wind-metrics{flex-direction:column;}
+  .sb-head,.sb-row{grid-template-columns:60px 1fr repeat(4,52px);}
 }
 
 /* ── MOBILE ── */
 @media(max-width:640px){
-/* Bar */
-.bar{padding:8px 14px;}
-.bar-tag{font-size:10px;letter-spacing:.1em;}
-.bar-title{display:none;}
-.bar-date{font-size:11px;}
-.bar-loc{display:none;}
-.snd-btn{padding:4px 12px;font-size:10px;}
+  /* Bar */
+  .bar{padding:8px 14px;}
+  .bar-tag{font-size:10px;letter-spacing:.1em;}
+  .bar-title{display:none;}
+  .bar-date{font-size:11px;}
+  .bar-loc{display:none;}
+  .snd-btn{padding:4px 12px;font-size:10px;}
 
-/* Hero */
-.hero-section{padding:0 14px 70px;gap:10px;}
-.hero-overlay{background:linear-gradient(to bottom,rgba(7,26,12,.8) 0%,rgba(7,26,12,.35) 30%,rgba(7,26,12,.75) 65%,rgba(7,26,12,.98) 100%);}
+  /* Hero */
+  .hero-section{padding:0 14px 70px;gap:10px;}
+  .hero-overlay{background:linear-gradient(to bottom,rgba(7,26,12,.8) 0%,rgba(7,26,12,.35) 30%,rgba(7,26,12,.75) 65%,rgba(7,26,12,.98) 100%);}
 
-/* CBS box — full width on mobile */
-.apr11-box{min-width:0;width:100%;}
-.a11-num{font-size:56px;}
-.apr11-body{padding:12px 14px 12px;}
-.a11-stats{gap:0;}
-.asl{font-size:8px;}
-.asv{font-size:14px;}
+  /* CBS box — full width on mobile */
+  .apr11-box{min-width:0;width:100%;}
+  .a11-num{font-size:56px;}
+  .apr11-body{padding:12px 14px 12px;}
+  .a11-stats{gap:0;}
+  .asl{font-size:8px;}
+  .asv{font-size:14px;}
 
-/* Playability ring — hide on mobile to save space */
-.play-box{display:none!important;}
+  /* Playability ring — hide on mobile to save space */
+  .play-box{display:none!important;}
 
-/* Hole info */
-.hole-info{bottom:50px;right:14px;}
-.hi-name{font-size:18px;}
-.hi-label{font-size:9px;}
-.hi-stats{font-size:11px;}
+  /* Hole info */
+  .hole-info{bottom:50px;right:14px;}
+  .hi-name{font-size:18px;}
+  .hi-label{font-size:9px;}
+  .hi-stats{font-size:11px;}
 
-/* Slide dots */
-.slide-dots{bottom:14px;gap:5px;}
-.dot{width:4px;height:4px;}
+  /* Slide dots */
+  .slide-dots{bottom:14px;gap:5px;}
+  .dot{width:4px;height:4px;}
 
-/* Strip */
-.apr11-strip{padding:10px 14px;flex-direction:column;gap:6px;}
-.a11-strip-date{font-size:15px;}
-.a11-strip-badge{margin-left:0;font-size:9px;}
+  /* Strip */
+  .apr11-strip{padding:10px 14px;flex-direction:column;gap:6px;}
+  .a11-strip-date{font-size:15px;}
+  .a11-strip-badge{margin-left:0;font-size:9px;}
 
-/* Countdown */
-.countdown-section{padding:18px 14px 16px;}
-.cd-num{font-size:36px;}
-.cd-block{min-width:42px;}
-.cd-sep{font-size:28px;}
-.cd-inner{gap:14px;flex-wrap:wrap;}
-.best-window{width:100%;}
+  /* Countdown */
+  .countdown-section{padding:18px 14px 16px;}
+  .cd-num{font-size:36px;}
+  .cd-block{min-width:42px;}
+  .cd-sep{font-size:28px;}
+  .cd-inner{gap:14px;flex-wrap:wrap;}
+  .best-window{width:100%;}
 
-/* Hourly */
-.hourly-section{padding:18px 14px 16px;}
-.hr-card{flex:0 0 74px;}
+  /* Hourly */
+  .hourly-section{padding:18px 14px 16px;}
+  .hr-card{flex:0 0 74px;}
 
-/* Wind + metrics */
-.wind-metrics{padding:0 14px 18px;gap:12px;}
-.wind-card{width:100%;justify-content:center;}
-.metrics-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
-.mc-val{font-size:18px;}
-.mc-icon{font-size:18px;}
+  /* Wind + metrics */
+  .wind-metrics{padding:0 14px 18px;gap:12px;}
+  .wind-card{width:100%;justify-content:center;}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .mc-val{font-size:18px;}
+  .mc-icon{font-size:18px;}
 
-/* Extra rows */
-.extra-row{grid-template-columns:repeat(2,1fr);gap:8px;padding:0 14px 18px;}
+  /* Extra rows */
+  .extra-row{grid-template-columns:repeat(2,1fr);gap:8px;padding:0 14px 18px;}
 
-/* Divider quote */
-.gdiv{padding:0 14px;flex-wrap:wrap;justify-content:center;}
-.gdq{font-size:10px;text-align:center;white-space:normal;}
-.gdl{display:none;}
+  /* Divider quote */
+  .gdiv{padding:0 14px;flex-wrap:wrap;justify-content:center;}
+  .gdq{font-size:10px;text-align:center;white-space:normal;}
+  .gdl{display:none;}
 
-/* Tee times */
-.tee-section{padding:0 14px 20px;}
-.tee-header-row,.tee-row{grid-template-columns:80px 1fr 50px;}
-.tc-time{font-size:12px;}
-.tc-players{font-size:12px;}
-.tc-hole{font-size:11px;}
+  /* Tee times */
+  .tee-section{padding:0 14px 20px;}
+  .tee-header-row,.tee-row{grid-template-columns:80px 1fr 50px;}
+  .tc-time{font-size:12px;}
+  .tc-players{font-size:12px;}
+  .tc-hole{font-size:11px;}
 
-/* Leaderboard */
-.lb-section{padding:0 14px 20px;}
-.sb-head{grid-template-columns:52px 1fr 48px 48px 38px 70px;padding:5px 10px;}
-.sb-row{grid-template-columns:52px 1fr 48px 48px 38px 70px;padding:7px 10px;}
-.sc{font-size:11px;}
-.bdg{font-size:10px;padding:2px 5px;}
+  /* Leaderboard */
+  .lb-section{padding:0 14px 20px;}
+  .sb-head{grid-template-columns:52px 1fr 48px 48px 38px 70px;padding:5px 10px;}
+  .sb-row{grid-template-columns:52px 1fr 48px 48px 38px 70px;padding:7px 10px;}
+  .sc{font-size:11px;}
+  .bdg{font-size:10px;padding:2px 5px;}
 
-/* 10-day forecast */
-.fc-section{padding:0 14px 32px;}
-.fc-grid{grid-template-columns:repeat(5,1fr);gap:5px;}
-.fc-card{padding:8px 2px;}
-.fc-hi{font-size:14px;}
-.fc-em{font-size:16px;}
-.fc-dn{font-size:8px;}
-.fc-dt{font-size:8px;}
+  /* 10-day forecast */
+  .fc-section{padding:0 14px 32px;}
+  .fc-grid{grid-template-columns:repeat(5,1fr);gap:5px;}
+  .fc-card{padding:8px 2px;}
+  .fc-hi{font-size:14px;}
+  .fc-em{font-size:16px;}
+  .fc-dn{font-size:8px;}
+  .fc-dt{font-size:8px;}
 
-/* Champions */
-.champions-section{padding:0 14px 28px;}
-.champ-grid{gap:12px;}
-.champ-card{flex:0 0 calc(50% - 6px);}
-.champ-name{font-size:14px;}
-.champ-subtitle{font-size:11px;padding:0 8px;}
+  /* Champions */
+  .champions-section{padding:0 14px 28px;}
+  .champ-grid{gap:12px;}
+  .champ-card{flex:0 0 calc(50% - 6px);}
+  .champ-name{font-size:14px;}
+  .champ-subtitle{font-size:11px;padding:0 8px;}
 
-/* Footer */
-.bfoot{padding:12px 14px;flex-direction:column;gap:6px;text-align:center;}
+  /* Footer */
+  .bfoot{padding:12px 14px;flex-direction:column;gap:6px;text-align:center;}
 
-/* Lightning banner */
-.lightning-banner{padding:10px 14px;}
+  /* Lightning banner */
+  .lightning-banner{padding:10px 14px;}
 }
 </style>
-
 </head>
 <body>
 
 <!-- SLIDESHOW BACKGROUND -->
-
 <div class="slide-bg" id="slide-bg"></div>
 <div class="hero-overlay"></div>
 
-<!-- YOUTUBE -->
 
+
+<!-- YOUTUBE -->
 <div id="yt-player" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;"></div>
 
-<!-- BROADCAST BAR -->
 
+
+<!-- BROADCAST BAR -->
 <header class="bar">
   <div class="bar-left">
     <div style="display:flex;align-items:flex-end;gap:0;"><div class="fpole"></div><div class="ftri"></div></div>
@@ -501,279 +502,276 @@ opacity:.6;
       <div class="a11-strip-badge">⛳ Masters Round 3 · Moving Day</div>
     </div>
 
-```
-<div class="countdown-section">
-  <div class="cd-label">Countdown to First Tee · 9:00 AM CT</div>
-  <div class="cd-inner">
-    <div class="cd-timer">
-      <div class="cd-block"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">Days</div></div>
-      <div class="cd-sep">:</div>
-      <div class="cd-block"><div class="cd-num" id="cd-h">--</div><div class="cd-unit">Hours</div></div>
-      <div class="cd-sep">:</div>
-      <div class="cd-block"><div class="cd-num" id="cd-m">--</div><div class="cd-unit">Min</div></div>
-      <div class="cd-sep">:</div>
-      <div class="cd-block"><div class="cd-num" id="cd-s">--</div><div class="cd-unit">Sec</div></div>
-    </div>
-    <div class="cd-msg" id="cd-msg"></div>
-    <div id="best-window-wrap" style="display:none;">
-      <div class="best-window">
-        <div class="bw-label">⛳ Best Golf Window · Apr 11</div>
-        <div class="bw-time" id="bw-time">—</div>
-        <div class="bw-sub" id="bw-sub">—</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="hourly-section">
-  <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Hourly Forecast · April 11 · 6 AM – 8 PM</span><div class="sec-rule"></div></div>
-  <div class="hourly-scroll" id="hourly-scroll"><div style="color:var(--creamd);opacity:.35;font-style:italic;padding:20px 0;">Loading April 11 hourly…</div></div>
-</div>
-
-<div class="wind-metrics">
-  <div class="wind-card">
-    <div class="compass">
-      <svg viewBox="0 0 84 84">
-        <circle cx="42" cy="42" r="39" fill="rgba(255,255,255,.03)" stroke="rgba(201,168,76,.18)" stroke-width="1"/>
-        <text x="42" y="13" text-anchor="middle" fill="rgba(201,168,76,.55)" font-size="8" font-family="EB Garamond">N</text>
-        <text x="42" y="77" text-anchor="middle" fill="rgba(201,168,76,.35)" font-size="8" font-family="EB Garamond">S</text>
-        <text x="10" y="46" text-anchor="middle" fill="rgba(201,168,76,.35)" font-size="8" font-family="EB Garamond">W</text>
-        <text x="74" y="46" text-anchor="middle" fill="rgba(201,168,76,.35)" font-size="8" font-family="EB Garamond">E</text>
-        <g id="compass-needle" transform="rotate(0,42,42)">
-          <polygon points="42,16 45,44 42,49 39,44" fill="var(--gold)" opacity="0.9"/>
-          <polygon points="42,68 45,44 42,49 39,44" fill="rgba(201,168,76,.25)"/>
-        </g>
-        <circle cx="42" cy="42" r="3.5" fill="var(--gold)" opacity="0.8"/>
-      </svg>
-    </div>
-    <div>
-      <div><span class="wi-speed" id="wind-speed">—</span><span class="wi-unit"> mph</span></div>
-      <div class="wi-dir" id="wind-dir">—</div>
-      <div class="wi-gust" id="wind-gust"></div>
-      <div class="wi-note" id="wind-note"></div>
-    </div>
-  </div>
-  <div class="metrics-grid">
-    <div class="metric-card"><div class="mc-icon">🌅</div><div class="mc-val" id="sunrise-val">—</div><div class="mc-lbl">Sunrise</div><div class="mc-tip">First light Apr 11</div></div>
-    <div class="metric-card"><div class="mc-icon">🌇</div><div class="mc-val" id="sunset-val">—</div><div class="mc-lbl">Sunset</div><div class="mc-tip">Last light Apr 11</div></div>
-    <div class="metric-card"><div class="mc-icon">💧</div><div class="mc-val"><span id="humidity-val">—</span><span class="mc-unit">%</span></div><div class="mc-lbl">Humidity</div><div class="mc-tip" id="humidity-tip">—</div></div>
-    <div class="metric-card"><div class="mc-icon">🌡</div><div class="mc-val"><span id="dew-val">—</span><span class="mc-unit">°F</span></div><div class="mc-lbl">Dew Point</div><div class="mc-tip" id="dew-tip">—</div></div>
-  </div>
-</div>
-
-<div class="extra-row">
-  <div class="metric-card"><div class="mc-icon">☀️</div><div class="mc-val" id="uv-val">—</div><div class="mc-lbl">UV Index · Apr 11</div><div class="mc-tip" id="uv-tip">—</div></div>
-  <div class="metric-card"><div class="mc-icon">🌊</div><div class="mc-val"><span id="precip-val">—</span><span class="mc-unit">"</span></div><div class="mc-lbl">Expected Precip</div><div class="mc-tip" id="precip-tip">—</div></div>
-  <div class="metric-card"><div class="mc-icon">👁</div><div class="mc-val"><span id="vis-val">—</span><span class="mc-unit"> mi</span></div><div class="mc-lbl">Visibility</div><div class="mc-tip" id="vis-tip">—</div></div>
-  <div class="metric-card"><div class="mc-icon">🏌️</div><div class="mc-val" id="carry-val">—</div><div class="mc-lbl">Carry Effect</div><div class="mc-tip" id="carry-tip">vs standard</div></div>
-</div>
-
-<!-- NEW GOLF METRICS ROW -->
-<div class="extra-row" style="padding-top:0;">
-  <!-- Green Speed -->
-  <div class="metric-card">
-    <div class="mc-icon">⛳</div>
-    <div class="mc-val" id="green-val" style="font-size:18px;">—</div>
-    <div class="mc-lbl">Green Speed</div>
-    <div class="mc-tip" id="green-tip">—</div>
-  </div>
-  <!-- Wet Bulb / Heat Warning -->
-  <div class="metric-card" id="wetbulb-card">
-    <div class="mc-icon">🌡</div>
-    <div class="mc-val"><span id="wetbulb-val">—</span><span class="mc-unit">°F</span></div>
-    <div class="mc-lbl">Wet Bulb Temp</div>
-    <div class="mc-tip" id="wetbulb-tip">—</div>
-  </div>
-  <!-- Dew Burn-Off -->
-  <div class="metric-card">
-    <div class="mc-icon">🌤</div>
-    <div class="mc-val" id="dew-burnoff-val" style="font-size:18px;">—</div>
-    <div class="mc-lbl">Dew Burn-Off</div>
-    <div class="mc-tip" id="dew-burnoff-tip">—</div>
-  </div>
-  <!-- Feels Like High -->
-  <div class="metric-card">
-    <div class="mc-icon">🧍</div>
-    <div class="mc-val"><span id="feels-hi-val">—</span><span class="mc-unit">°F</span></div>
-    <div class="mc-lbl">Feels Like High</div>
-    <div class="mc-tip" id="feels-hi-tip">Peak apparent temp</div>
-  </div>
-</div>
-
-<div class="gdiv"><div class="gdl"></div><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><div class="gdq">"Your dogwoods and pines play on my mind like a song"</div><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><div class="gdl r"></div></div>
-
-<!-- ── CHAMPIONS SECTION ── -->
-<div class="champions-section">
-  <div class="sec-hd">
-    <div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div>
-    <span class="sec-txt">Past Champions · Stone Creek Invitational</span>
-    <div class="sec-rule"></div>
-  </div>
-  <div class="champ-subtitle">The green jacket of Makanda, Illinois &nbsp;·&nbsp; Est. 2019 &nbsp;·&nbsp; Jared Sheffer 3-peat champion 2019–2021</div>
-  <div class="champ-grid" id="champ-grid">
-
-    <!-- ── ADD YOUR CHAMPIONS HERE ──
-         Replace the placeholder cards below with real data.
-         For each champion:
-           - Set the year
-           - Set the champion's name
-           - Set the img src to their photo filename (upload to GitHub alongside index.html)
-           - Add any subtitle (score, notes, etc.)
-         To add more champions, copy a .champ-card block and paste it.
-    ── -->
-
-    <!-- 2019 -->
-    <div class="champ-card">
-      <div class="champ-jacket-top"></div>
-      <div class="champ-photo-wrap">
-        <div class="champ-photo-placeholder" id="photo-2019">
-          <div class="champ-silhouette">👤</div>
+    <div class="countdown-section">
+      <div class="cd-label">Countdown to First Tee · 9:00 AM CT</div>
+      <div class="cd-inner">
+        <div class="cd-timer">
+          <div class="cd-block"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">Days</div></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-block"><div class="cd-num" id="cd-h">--</div><div class="cd-unit">Hours</div></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-block"><div class="cd-num" id="cd-m">--</div><div class="cd-unit">Min</div></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-block"><div class="cd-num" id="cd-s">--</div><div class="cd-unit">Sec</div></div>
+        </div>
+        <div class="cd-msg" id="cd-msg"></div>
+        <div id="best-window-wrap" style="display:none;">
+          <div class="best-window">
+            <div class="bw-label">⛳ Best Golf Window · Apr 11</div>
+            <div class="bw-time" id="bw-time">—</div>
+            <div class="bw-sub" id="bw-sub">—</div>
+          </div>
         </div>
       </div>
-      <div class="champ-body">
-        <div class="champ-year">2019</div>
-        <div class="champ-name">Jared Sheffer</div>
-
-    <div class="champ-card">
-      <div class="champ-jacket-top"></div>
-      <div class="champ-photo-wrap">
-        <div class="champ-photo-placeholder" id="photo-2020">
-          <div class="champ-silhouette">👤</div>
-        </div>
-      </div>
-      <div class="champ-body">
-        <div class="champ-year">2020</div>
-        <div class="champ-name">Jared Sheffer</div>
-
-      </div>
-      <div class="champ-trophy">🏆</div>
     </div>
 
-    <!-- 2021 -->
-    <div class="champ-card">
-      <div class="champ-jacket-top"></div>
-      <div class="champ-photo-wrap">
-        <div class="champ-photo-placeholder" id="photo-2021">
-          <div class="champ-silhouette">👤</div>
-        </div>
-      </div>
-      <div class="champ-body">
-        <div class="champ-year">2021</div>
-        <div class="champ-name">Jared Sheffer</div>
-
-      </div>
-      <div class="champ-trophy">🏆</div>
+    <div class="hourly-section">
+      <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Hourly Forecast · April 11 · 6 AM – 8 PM</span><div class="sec-rule"></div></div>
+      <div class="hourly-scroll" id="hourly-scroll"><div style="color:var(--creamd);opacity:.35;font-style:italic;padding:20px 0;">Loading April 11 hourly…</div></div>
     </div>
 
-    <!-- 2022 -->
-    <div class="champ-card">
-      <div class="champ-jacket-top"></div>
-      <div class="champ-photo-wrap">
-        <div class="champ-photo-placeholder" id="photo-2022">
-          <div class="champ-silhouette">👤</div>
+    <div class="wind-metrics">
+      <div class="wind-card">
+        <div class="compass">
+          <svg viewBox="0 0 84 84">
+            <circle cx="42" cy="42" r="39" fill="rgba(255,255,255,.03)" stroke="rgba(201,168,76,.18)" stroke-width="1"/>
+            <text x="42" y="13" text-anchor="middle" fill="rgba(201,168,76,.55)" font-size="8" font-family="EB Garamond">N</text>
+            <text x="42" y="77" text-anchor="middle" fill="rgba(201,168,76,.35)" font-size="8" font-family="EB Garamond">S</text>
+            <text x="10" y="46" text-anchor="middle" fill="rgba(201,168,76,.35)" font-size="8" font-family="EB Garamond">W</text>
+            <text x="74" y="46" text-anchor="middle" fill="rgba(201,168,76,.35)" font-size="8" font-family="EB Garamond">E</text>
+            <g id="compass-needle" transform="rotate(0,42,42)">
+              <polygon points="42,16 45,44 42,49 39,44" fill="var(--gold)" opacity="0.9"/>
+              <polygon points="42,68 45,44 42,49 39,44" fill="rgba(201,168,76,.25)"/>
+            </g>
+            <circle cx="42" cy="42" r="3.5" fill="var(--gold)" opacity="0.8"/>
+          </svg>
+        </div>
+        <div>
+          <div><span class="wi-speed" id="wind-speed">—</span><span class="wi-unit"> mph</span></div>
+          <div class="wi-dir" id="wind-dir">—</div>
+          <div class="wi-gust" id="wind-gust"></div>
+          <div class="wi-note" id="wind-note"></div>
         </div>
       </div>
-      <div class="champ-body">
-        <div class="champ-year">2022</div>
-        <div class="champ-name">Patrick Brewster</div>
-
+      <div class="metrics-grid">
+        <div class="metric-card"><div class="mc-icon">🌅</div><div class="mc-val" id="sunrise-val">—</div><div class="mc-lbl">Sunrise</div><div class="mc-tip">First light Apr 11</div></div>
+        <div class="metric-card"><div class="mc-icon">🌇</div><div class="mc-val" id="sunset-val">—</div><div class="mc-lbl">Sunset</div><div class="mc-tip">Last light Apr 11</div></div>
+        <div class="metric-card"><div class="mc-icon">💧</div><div class="mc-val"><span id="humidity-val">—</span><span class="mc-unit">%</span></div><div class="mc-lbl">Humidity</div><div class="mc-tip" id="humidity-tip">—</div></div>
+        <div class="metric-card"><div class="mc-icon">🌡</div><div class="mc-val"><span id="dew-val">—</span><span class="mc-unit">°F</span></div><div class="mc-lbl">Dew Point</div><div class="mc-tip" id="dew-tip">—</div></div>
       </div>
-      <div class="champ-trophy">🏆</div>
     </div>
 
-    <!-- 2023 -->
-    <div class="champ-card">
-      <div class="champ-jacket-top"></div>
-      <div class="champ-photo-wrap">
-        <div class="champ-photo-placeholder" id="photo-2023">
-          <div class="champ-silhouette">👤</div>
+    <div class="extra-row">
+      <div class="metric-card"><div class="mc-icon">☀️</div><div class="mc-val" id="uv-val">—</div><div class="mc-lbl">UV Index · Apr 11</div><div class="mc-tip" id="uv-tip">—</div></div>
+      <div class="metric-card"><div class="mc-icon">🌊</div><div class="mc-val"><span id="precip-val">—</span><span class="mc-unit">"</span></div><div class="mc-lbl">Expected Precip</div><div class="mc-tip" id="precip-tip">—</div></div>
+      <div class="metric-card"><div class="mc-icon">👁</div><div class="mc-val"><span id="vis-val">—</span><span class="mc-unit"> mi</span></div><div class="mc-lbl">Visibility</div><div class="mc-tip" id="vis-tip">—</div></div>
+      <div class="metric-card"><div class="mc-icon">🏌️</div><div class="mc-val" id="carry-val">—</div><div class="mc-lbl">Carry Effect</div><div class="mc-tip" id="carry-tip">vs standard</div></div>
+    </div>
+
+    <!-- NEW GOLF METRICS ROW -->
+    <div class="extra-row" style="padding-top:0;">
+      <!-- Green Speed -->
+      <div class="metric-card">
+        <div class="mc-icon">⛳</div>
+        <div class="mc-val" id="green-val" style="font-size:18px;">—</div>
+        <div class="mc-lbl">Green Speed</div>
+        <div class="mc-tip" id="green-tip">—</div>
+      </div>
+      <!-- Wet Bulb / Heat Warning -->
+      <div class="metric-card" id="wetbulb-card">
+        <div class="mc-icon">🌡</div>
+        <div class="mc-val"><span id="wetbulb-val">—</span><span class="mc-unit">°F</span></div>
+        <div class="mc-lbl">Wet Bulb Temp</div>
+        <div class="mc-tip" id="wetbulb-tip">—</div>
+      </div>
+      <!-- Dew Burn-Off -->
+      <div class="metric-card">
+        <div class="mc-icon">🌤</div>
+        <div class="mc-val" id="dew-burnoff-val" style="font-size:18px;">—</div>
+        <div class="mc-lbl">Dew Burn-Off</div>
+        <div class="mc-tip" id="dew-burnoff-tip">—</div>
+      </div>
+      <!-- Feels Like High -->
+      <div class="metric-card">
+        <div class="mc-icon">🧍</div>
+        <div class="mc-val"><span id="feels-hi-val">—</span><span class="mc-unit">°F</span></div>
+        <div class="mc-lbl">Feels Like High</div>
+        <div class="mc-tip" id="feels-hi-tip">Peak apparent temp</div>
+      </div>
+    </div>
+
+    <div class="gdiv"><div class="gdl"></div><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><div class="gdq">"Your dogwoods and pines play on my mind like a song"</div><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><div class="gdl r"></div></div>
+
+    <!-- ── CHAMPIONS SECTION ── -->
+    <div class="champions-section">
+      <div class="sec-hd">
+        <div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div>
+        <span class="sec-txt">Past Champions · Stone Creek Invitational</span>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="champ-subtitle">The green jacket of Makanda, Illinois &nbsp;·&nbsp; Est. 2019 &nbsp;·&nbsp; Jared Sheffer 3-peat champion 2019–2021</div>
+      <div class="champ-grid" id="champ-grid">
+
+        <!-- ── ADD YOUR CHAMPIONS HERE ──
+             Replace the placeholder cards below with real data.
+             For each champion:
+               - Set the year
+               - Set the champion's name
+               - Set the img src to their photo filename (upload to GitHub alongside index.html)
+               - Add any subtitle (score, notes, etc.)
+             To add more champions, copy a .champ-card block and paste it.
+        ── -->
+
+        <!-- 2019 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2019">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2019</div>
+            <div class="champ-name">Jared Sheffer</div>
+
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2020">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2020</div>
+            <div class="champ-name">Jared Sheffer</div>
+
+          </div>
+          <div class="champ-trophy">🏆</div>
         </div>
-      </div>
-      <div class="champ-body">
-        <div class="champ-year">2023</div>
-        <div class="champ-name">Luke Palmer</div>
 
-      </div>
-      <div class="champ-trophy">🏆</div>
-    </div>
+        <!-- 2021 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2021">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2021</div>
+            <div class="champ-name">Jared Sheffer</div>
 
-    <!-- 2024 -->
-    <div class="champ-card">
-      <div class="champ-jacket-top"></div>
-      <div class="champ-photo-wrap">
-        <div class="champ-photo-placeholder" id="photo-2024">
-          <div class="champ-silhouette">👤</div>
+          </div>
+          <div class="champ-trophy">🏆</div>
         </div>
-      </div>
-      <div class="champ-body">
-        <div class="champ-year">2024</div>
-        <div class="champ-name">Ross Grey</div>
 
-      </div>
-      <div class="champ-trophy">🏆</div>
-    </div>
+        <!-- 2022 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2022">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2022</div>
+            <div class="champ-name">Patrick Brewster</div>
 
-    <!-- 2025 -->
-    <div class="champ-card">
-      <div class="champ-jacket-top"></div>
-      <div class="champ-photo-wrap">
-        <div class="champ-photo-placeholder" id="photo-2025">
-          <div class="champ-silhouette">👤</div>
+          </div>
+          <div class="champ-trophy">🏆</div>
         </div>
-      </div>
-      <div class="champ-body">
-        <div class="champ-year">2025</div>
-        <div class="champ-name">Max Schloeman</div>
 
-      </div>
-      <div class="champ-trophy">🏆</div>
-    </div>
+        <!-- 2023 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2023">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2023</div>
+            <div class="champ-name">Luke Palmer</div>
 
-    <!-- 2026 — TBD -->
-    <div class="champ-card champ-current">
-      <div class="champ-jacket-top"></div>
-      <div class="champ-photo-wrap">
-        <div class="champ-photo-placeholder" style="background:rgba(201,168,76,.08);">
-          <div style="font-size:32px;">⛳</div>
+          </div>
+          <div class="champ-trophy">🏆</div>
         </div>
+
+        <!-- 2024 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2024">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2024</div>
+            <div class="champ-name">Ross Grey</div>
+
+          </div>
+          <div class="champ-trophy">🏆</div>
+        </div>
+
+        <!-- 2025 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2025">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2025</div>
+            <div class="champ-name">Max Schloeman</div>
+
+          </div>
+          <div class="champ-trophy">🏆</div>
+        </div>
+
+        <!-- 2026 — TBD -->
+        <div class="champ-card champ-current">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" style="background:rgba(201,168,76,.08);">
+              <div style="font-size:32px;">⛳</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year" style="color:var(--goldl);">2026</div>
+            <div class="champ-name" style="font-style:italic;opacity:.6;">To be crowned</div>
+            <div class="champ-detail">April 11 · Moving Day</div>
+          </div>
+          <div class="champ-trophy" style="opacity:.35;">🏆</div>
+        </div>
+
       </div>
-      <div class="champ-body">
-        <div class="champ-year" style="color:var(--goldl);">2026</div>
-        <div class="champ-name" style="font-style:italic;opacity:.6;">To be crowned</div>
-        <div class="champ-detail">April 11 · Moving Day</div>
-      </div>
-      <div class="champ-trophy" style="opacity:.35;">🏆</div>
     </div>
 
-  </div>
-</div>
+    <div class="tee-section">
+      <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Tee Times · Saturday, April 11, 2026 · Masters Round 3</span><div class="sec-rule"></div></div>
+      <div class="tee-header-row"><div class="thc">Time</div><div class="thc">Grouping</div><div class="thc" style="text-align:right;">Hole</div></div>
+      <div class="tee-date-row"><div class="tdr-l">Saturday, April 11, 2026 &nbsp;·&nbsp; Round 3 — Moving Day</div><div class="tdr-s">Groups every 11 min from 9:00 AM CT · Augusta National Golf Club</div></div>
+      <div style="border:.5px solid rgba(201,168,76,.16);border-top:none;border-radius:0 0 4px 4px;padding:32px 24px;text-align:center;">
+        <div style="font-size:26px;margin-bottom:12px;">⛳</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--goldl);margin-bottom:8px;">Pairings to be announced</div>
+        <div style="font-size:13px;color:var(--creamd);opacity:.5;margin-bottom:18px;max-width:420px;margin-left:auto;margin-right:auto;">The Masters field and Round 3 groupings will be released closer to tournament week. Check back April 9–10 for the full tee sheet.</div>
+        <a href="https://www.masters.com" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.38);border-radius:24px;padding:7px 18px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);text-decoration:none;letter-spacing:.07em;">masters.com &nbsp;↗</a>
+      </div>
+    </div>
 
-<div class="tee-section">
-  <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Tee Times · Saturday, April 11, 2026 · Masters Round 3</span><div class="sec-rule"></div></div>
-  <div class="tee-header-row"><div class="thc">Time</div><div class="thc">Grouping</div><div class="thc" style="text-align:right;">Hole</div></div>
-  <div class="tee-date-row"><div class="tdr-l">Saturday, April 11, 2026 &nbsp;·&nbsp; Round 3 — Moving Day</div><div class="tdr-s">Groups every 11 min from 9:00 AM CT · Augusta National Golf Club</div></div>
-  <div style="border:.5px solid rgba(201,168,76,.16);border-top:none;border-radius:0 0 4px 4px;padding:32px 24px;text-align:center;">
-    <div style="font-size:26px;margin-bottom:12px;">⛳</div>
-    <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--goldl);margin-bottom:8px;">Pairings to be announced</div>
-    <div style="font-size:13px;color:var(--creamd);opacity:.5;margin-bottom:18px;max-width:420px;margin-left:auto;margin-right:auto;">The Masters field and Round 3 groupings will be released closer to tournament week. Check back April 9–10 for the full tee sheet.</div>
-    <a href="https://www.masters.com" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.38);border-radius:24px;padding:7px 18px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);text-decoration:none;letter-spacing:.07em;">masters.com &nbsp;↗</a>
-  </div>
-</div>
+    <div class="lb-section">
+      <div class="sec-hd"><div style="width:5px;height:5px;border-radius:50%;background:var(--az);flex-shrink:0;"></div><span class="sec-txt">10-Day Leaderboard · Gold = Apr 11 · Blue = Today</span><div class="sec-rule"></div></div>
+      <div class="scoreboard">
+        <div class="sb-head"><div class="sb-hc">Date</div><div class="sb-hc" style="text-align:left;">Day</div><div class="sb-hc">High</div><div class="sb-hc">Low</div><div class="sb-hc">Rain</div><div class="sb-hc">Conditions</div></div>
+        <div id="sb-body"></div>
+      </div>
+    </div>
 
-<div class="lb-section">
-  <div class="sec-hd"><div style="width:5px;height:5px;border-radius:50%;background:var(--az);flex-shrink:0;"></div><span class="sec-txt">10-Day Leaderboard · Gold = Apr 11 · Blue = Today</span><div class="sec-rule"></div></div>
-  <div class="scoreboard">
-    <div class="sb-head"><div class="sb-hc">Date</div><div class="sb-hc" style="text-align:left;">Day</div><div class="sb-hc">High</div><div class="sb-hc">Low</div><div class="sb-hc">Rain</div><div class="sb-hc">Conditions</div></div>
-    <div id="sb-body"></div>
-  </div>
-</div>
-
-<section class="fc-section">
-  <div class="fc-head">10-Day Forecast · Gold = April 11</div>
-  <div class="fc-grid" id="fc-grid"></div>
-</section>
-```
-
+    <section class="fc-section">
+      <div class="fc-head">10-Day Forecast · Gold = April 11</div>
+      <div class="fc-grid" id="fc-grid"></div>
+    </section>
   </div>
 </main>
 
@@ -783,7 +781,6 @@ opacity:.6;
 </footer>
 
 <script src="https://www.youtube.com/iframe_api"></script>
-
 <script>
 // ── AUGUSTA HOLES ─────────────────────────────────────────
 // Using publicly available Augusta National hole images from masters.com CDN
@@ -1167,6 +1164,5 @@ const n=new Date();
 document.getElementById('cur-date').textContent=DS[n.getDay()]+', '+MS[n.getMonth()]+' '+n.getDate()+' · '+n.getFullYear();
 loadWeather();
 </script>
-
 </body>
 </html>
