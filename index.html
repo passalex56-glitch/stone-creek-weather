@@ -54,22 +54,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .snd-btn{background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.4);border-radius:24px;padding:5px 16px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);cursor:pointer;letter-spacing:.07em;transition:background .2s;display:flex;align-items:center;gap:6px;}
 .snd-btn:hover{background:rgba(201,168,76,.24);}
 
-/* TODAY CORNER WIDGET */
-.today-widget{position:fixed;bottom:24px;left:24px;z-index:200;background:rgba(7,26,12,.95);border:1px solid var(--gold);border-radius:10px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.6);backdrop-filter:blur(10px);min-width:190px;}
-.tw-header{background:var(--gold);padding:5px 12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
-.tw-hl{font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);}
-.tw-toggle{font-size:10px;color:var(--gdeep);opacity:.7;}
-.tw-body{padding:12px 14px;}
-.tw-loc{font-family:'Playfair Display',serif;font-size:9px;font-style:italic;color:var(--goldl);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
-.tw-temp-row{display:flex;align-items:baseline;gap:3px;margin-bottom:3px;}
-.tw-temp{font-family:'Playfair Display',serif;font-size:38px;font-weight:400;color:var(--cream);line-height:1;letter-spacing:-1px;}
-.tw-unit{font-family:'Playfair Display',serif;font-size:14px;color:var(--gold);}
-.tw-cond{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--azl);margin-bottom:10px;}
-.tw-stats{display:flex;gap:0;border-top:.5px solid rgba(201,168,76,.2);padding-top:8px;}
-.tw-stat{flex:1;text-align:center;}
-.tw-sl{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:2px;font-family:'EB Garamond',serif;}
-.tw-sv{font-family:'Playfair Display',serif;font-size:13px;color:var(--cream);}
-.tw-su{font-size:9px;color:var(--gold);}
+
 
 /* MAIN */
 .main{position:relative;z-index:10;padding-top:72px;min-height:100vh;}
@@ -223,7 +208,86 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .fc-pop{font-size:10px;color:var(--sky);opacity:.72;margin-top:4px;}
 .az-dot{width:5px;height:5px;border-radius:50%;background:var(--az);margin:4px auto 0;opacity:.65;}
 
-/* LIGHTNING */
+/* ── CHAMPIONS ── */
+.champions-section{padding:0 48px 36px;}
+.champ-subtitle{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--gold);opacity:.55;text-align:center;margin-bottom:24px;letter-spacing:.08em;}
+.champ-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+.champ-card{
+  flex:0 0 200px;
+  background:rgba(7,26,12,.9);
+  border:1px solid var(--gold);
+  border-radius:8px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  transition:transform .25s, box-shadow .25s;
+}
+.champ-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.5);}
+.champ-card.champ-current{border-color:rgba(201,168,76,.35);opacity:.75;}
+.champ-jacket-top{
+  height:6px;
+  background:linear-gradient(to right, var(--gmid), var(--gold), var(--gmid));
+}
+.champ-photo-wrap{
+  width:100%;
+  aspect-ratio:1;
+  overflow:hidden;
+  position:relative;
+  background:var(--gdark);
+}
+.champ-photo-wrap img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  display:block;
+}
+.champ-photo-placeholder{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.03);
+  border-bottom:.5px solid rgba(201,168,76,.15);
+}
+.champ-silhouette{font-size:52px;opacity:.25;}
+.champ-body{
+  padding:14px 16px 10px;
+  position:relative;
+}
+.champ-year{
+  font-family:'Playfair Display',serif;
+  font-size:11px;font-weight:500;
+  color:var(--gold);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.champ-name{
+  font-family:'Playfair Display',serif;
+  font-size:17px;font-weight:600;
+  color:var(--cream);
+  line-height:1.2;
+  margin-bottom:5px;
+}
+.champ-detail{
+  font-family:'EB Garamond',serif;
+  font-size:11px;font-style:italic;
+  color:var(--creamd);
+  opacity:.5;
+}
+.champ-trophy{
+  position:absolute;
+  bottom:12px;right:14px;
+  font-size:16px;
+  opacity:.5;
+}
+/* Green jacket accent on left edge */
+.champ-card::before{
+  content:'';
+  position:absolute;
+  top:6px;left:0;
+  width:3px;
+  height:calc(100% - 6px);
+  background:linear-gradient(to bottom, var(--gold), var(--gmid));
+  opacity:.6;
+}
 .lightning-banner{background:rgba(224,80,80,.1);border:.5px solid rgba(224,80,80,.35);padding:10px 48px;display:none;align-items:center;gap:12px;position:relative;z-index:10;}
 .lb-text{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:#ffaaaa;}
 
@@ -274,23 +338,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 <!-- YOUTUBE -->
 <div id="yt-player" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;"></div>
 
-<!-- TODAY CORNER WIDGET -->
-<div class="today-widget" id="today-widget">
-  <div class="tw-header" onclick="toggleWidget()">
-    <span class="tw-hl">Today · Live</span>
-    <span class="tw-toggle" id="tw-arrow">▼</span>
-  </div>
-  <div class="tw-body" id="tw-body">
-    <div class="tw-loc">Makanda, IL</div>
-    <div class="tw-temp-row"><div class="tw-temp" id="tw-temp">—</div><div class="tw-unit">°F</div></div>
-    <div class="tw-cond" id="tw-cond">Loading…</div>
-    <div class="tw-stats">
-      <div class="tw-stat"><div class="tw-sl">High</div><div class="tw-sv"><span id="tw-hi">—</span><span class="tw-su">°</span></div></div>
-      <div class="tw-stat"><div class="tw-sl">Rain</div><div class="tw-sv"><span id="tw-pop">—</span><span class="tw-su">%</span></div></div>
-      <div class="tw-stat"><div class="tw-sl">Wind</div><div class="tw-sv"><span id="tw-wind">—</span><span class="tw-su">mph</span></div></div>
-    </div>
-  </div>
-</div>
+
 
 <!-- BROADCAST BAR -->
 <header class="bar">
@@ -418,7 +466,185 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
       <div class="metric-card"><div class="mc-icon">🏌️</div><div class="mc-val" id="carry-val">—</div><div class="mc-lbl">Carry Effect</div><div class="mc-tip" id="carry-tip">vs standard</div></div>
     </div>
 
+    <!-- NEW GOLF METRICS ROW -->
+    <div class="extra-row" style="padding-top:0;">
+      <!-- Green Speed -->
+      <div class="metric-card">
+        <div class="mc-icon">⛳</div>
+        <div class="mc-val" id="green-val" style="font-size:18px;">—</div>
+        <div class="mc-lbl">Green Speed</div>
+        <div class="mc-tip" id="green-tip">—</div>
+      </div>
+      <!-- Wet Bulb / Heat Warning -->
+      <div class="metric-card" id="wetbulb-card">
+        <div class="mc-icon">🌡</div>
+        <div class="mc-val"><span id="wetbulb-val">—</span><span class="mc-unit">°F</span></div>
+        <div class="mc-lbl">Wet Bulb Temp</div>
+        <div class="mc-tip" id="wetbulb-tip">—</div>
+      </div>
+      <!-- Dew Burn-Off -->
+      <div class="metric-card">
+        <div class="mc-icon">🌤</div>
+        <div class="mc-val" id="dew-burnoff-val" style="font-size:18px;">—</div>
+        <div class="mc-lbl">Dew Burn-Off</div>
+        <div class="mc-tip" id="dew-burnoff-tip">—</div>
+      </div>
+      <!-- Feels Like High -->
+      <div class="metric-card">
+        <div class="mc-icon">🧍</div>
+        <div class="mc-val"><span id="feels-hi-val">—</span><span class="mc-unit">°F</span></div>
+        <div class="mc-lbl">Feels Like High</div>
+        <div class="mc-tip" id="feels-hi-tip">Peak apparent temp</div>
+      </div>
+    </div>
+
     <div class="gdiv"><div class="gdl"></div><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><div class="gdq">"Your dogwoods and pines play on my mind like a song"</div><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><div class="gdl r"></div></div>
+
+    <!-- ── CHAMPIONS SECTION ── -->
+    <div class="champions-section">
+      <div class="sec-hd">
+        <div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div>
+        <span class="sec-txt">Past Champions · Stone Creek Invitational</span>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="champ-subtitle">The green jacket of Makanda, Illinois &nbsp;·&nbsp; Est. 2019 &nbsp;·&nbsp; Jared Sheffer 3-peat champion 2019–2021</div>
+      <div class="champ-grid" id="champ-grid">
+
+        <!-- ── ADD YOUR CHAMPIONS HERE ──
+             Replace the placeholder cards below with real data.
+             For each champion:
+               - Set the year
+               - Set the champion's name
+               - Set the img src to their photo filename (upload to GitHub alongside index.html)
+               - Add any subtitle (score, notes, etc.)
+             To add more champions, copy a .champ-card block and paste it.
+        ── -->
+
+        <!-- 2019 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2019">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2019</div>
+            <div class="champ-name">Jared Sheffer</div>
+
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2020">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2020</div>
+            <div class="champ-name">Jared Sheffer</div>
+
+          </div>
+          <div class="champ-trophy">🏆</div>
+        </div>
+
+        <!-- 2021 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2021">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2021</div>
+            <div class="champ-name">Jared Sheffer</div>
+
+          </div>
+          <div class="champ-trophy">🏆</div>
+        </div>
+
+        <!-- 2022 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2022">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2022</div>
+            <div class="champ-name">Patrick Brewster</div>
+
+          </div>
+          <div class="champ-trophy">🏆</div>
+        </div>
+
+        <!-- 2023 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2023">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2023</div>
+            <div class="champ-name">Luke Palmer</div>
+
+          </div>
+          <div class="champ-trophy">🏆</div>
+        </div>
+
+        <!-- 2024 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2024">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2024</div>
+            <div class="champ-name">Ross Grey</div>
+
+          </div>
+          <div class="champ-trophy">🏆</div>
+        </div>
+
+        <!-- 2025 -->
+        <div class="champ-card">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" id="photo-2025">
+              <div class="champ-silhouette">👤</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year">2025</div>
+            <div class="champ-name">Max Schloeman</div>
+
+          </div>
+          <div class="champ-trophy">🏆</div>
+        </div>
+
+        <!-- 2026 — TBD -->
+        <div class="champ-card champ-current">
+          <div class="champ-jacket-top"></div>
+          <div class="champ-photo-wrap">
+            <div class="champ-photo-placeholder" style="background:rgba(201,168,76,.08);">
+              <div style="font-size:32px;">⛳</div>
+            </div>
+          </div>
+          <div class="champ-body">
+            <div class="champ-year" style="color:var(--goldl);">2026</div>
+            <div class="champ-name" style="font-style:italic;opacity:.6;">To be crowned</div>
+            <div class="champ-detail">April 11 · Moving Day</div>
+          </div>
+          <div class="champ-trophy" style="opacity:.35;">🏆</div>
+        </div>
+
+      </div>
+    </div>
 
     <div class="tee-section">
       <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Tee Times · Saturday, April 11, 2026 · Masters Round 3</span><div class="sec-rule"></div></div>
@@ -587,13 +813,7 @@ function updateCountdown(){
 }
 setInterval(updateCountdown,1000);updateCountdown();
 
-// Widget toggle
-let widgetOpen=true;
-function toggleWidget(){
-  widgetOpen=!widgetOpen;
-  document.getElementById('tw-body').style.display=widgetOpen?'block':'none';
-  document.getElementById('tw-arrow').textContent=widgetOpen?'▼':'▲';
-}
+
 
 async function loadWeather(){
   const url=`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}`+
@@ -611,77 +831,161 @@ function render(data){
   document.getElementById('cur-date').textContent=DS[now.getDay()]+', '+MS[now.getMonth()]+' '+now.getDate()+' · '+now.getFullYear();
 
   // Today widget
-  document.getElementById('tw-temp').textContent=Math.round(cur.temperature_2m);
-  document.getElementById('tw-cond').textContent=WMO[cur.weathercode]||'Fair';
-  document.getElementById('tw-wind').textContent=Math.round(cur.wind_speed_10m);
   const ti=daily.time.indexOf(todayStr);
-  if(ti>=0){document.getElementById('tw-hi').textContent=Math.round(daily.temperature_2m_max[ti]);document.getElementById('tw-pop').textContent=daily.precipitation_probability_max[ti];}
 
-  // Apr 11
+  // ── Determine data source: April 11 if available, else today as fallback ──
   const ai=daily.time.indexOf(APR11);
-  if(ai<0){document.getElementById('a11-cond').textContent='Available within 10 days of April 11';document.getElementById('a11-hi').textContent='--';return;}
+  const usingApr11=ai>=0;
+  const di=usingApr11?ai:ti; // data index — Apr 11 or today
 
-  const a11Hi=Math.round(daily.temperature_2m_max[ai]),a11Lo=Math.round(daily.temperature_2m_min[ai]);
-  const a11Pop=daily.precipitation_probability_max[ai],a11Code=daily.weathercode[ai];
-  const a11Wind=Math.round(daily.wind_speed_10m_max[ai]),a11Gust=Math.round(daily.wind_gusts_10m_max[ai]);
-  const a11UV=Math.round(daily.uv_index_max[ai]),a11Precip=daily.precipitation_sum[ai]||0;
+  // For anything sourced from today as fallback, note it
+  const fallbackNote=usingApr11?'':'Today\'s data · Apr 11 forecast available within 10 days';
+  if(!usingApr11){
+    // Update strip and header to clarify we're showing today
+    const strip=document.getElementById('a11-cond');
+    if(strip) strip.style.fontSize='12px';
+  }
 
-  document.getElementById('a11-hi').textContent=a11Hi;
-  document.getElementById('a11-lo').textContent=a11Lo;
-  document.getElementById('a11-pop').textContent=a11Pop;
-  document.getElementById('a11-wind').textContent=a11Wind;
-  document.getElementById('a11-uv').textContent=a11UV;
-  document.getElementById('a11-cond').textContent=WMO[a11Code]||'Fair';
-  if(a11Code>=95)document.getElementById('lightning-banner').style.display='flex';
+  // Core daily values — Apr 11 if available, else today
+  const srcHi  = di>=0 ? Math.round(daily.temperature_2m_max[di])           : Math.round(cur.temperature_2m);
+  const srcLo  = di>=0 ? Math.round(daily.temperature_2m_min[di])           : Math.round(cur.apparent_temperature);
+  const srcPop = di>=0 ? daily.precipitation_probability_max[di]            : 0;
+  const srcCode= di>=0 ? daily.weathercode[di]                              : cur.weathercode;
+  const srcWind= di>=0 ? Math.round(daily.wind_speed_10m_max[di])           : Math.round(cur.wind_speed_10m);
+  const srcGust= di>=0 ? Math.round(daily.wind_gusts_10m_max[di])           : Math.round(cur.wind_speed_10m)+5;
+  const srcUV  = di>=0 ? Math.round(daily.uv_index_max[di])                 : 5;
+  const srcPrecip = di>=0 ? (daily.precipitation_sum[di]||0)                : 0;
 
-  const score=golfScore(a11Hi,a11Wind,a11Pop,a11Code,a11UV);
+  document.getElementById('a11-hi').textContent=srcHi;
+  document.getElementById('a11-lo').textContent=srcLo;
+  document.getElementById('a11-pop').textContent=srcPop;
+  document.getElementById('a11-wind').textContent=srcWind;
+  document.getElementById('a11-uv').textContent=srcUV;
+  document.getElementById('a11-cond').textContent=(WMO[srcCode]||'Fair')+(usingApr11?'':' · Today\'s data');
+  if(srcCode>=95) document.getElementById('lightning-banner').style.display='flex';
+
+  // Playability score
+  const score=golfScore(srcHi,srcWind,srcPop,srcCode,srcUV);
   const [word,reason]=golfWord(score);
   const clr=scoreColor(score);
   const prf=document.getElementById('prf');
   prf.style.stroke=clr;setTimeout(()=>{prf.style.strokeDashoffset=276.5*(1-score/100);},200);
   document.getElementById('play-num').textContent=score;
   const pw=document.getElementById('play-word');pw.textContent=word;pw.style.color=clr;
-  document.getElementById('play-reason').textContent=reason;
+  document.getElementById('play-reason').textContent=usingApr11?reason:reason+' (today)';
   document.getElementById('play-box').style.display='block';
-
   const b11=document.getElementById('a11-play-badge');
   b11.style.display='inline-flex';b11.style.color=clr;
   b11.style.borderColor=score>=70?'rgba(92,184,92,.3)':score>=45?'rgba(232,160,48,.3)':'rgba(224,80,80,.3)';
   b11.style.background=score>=70?'rgba(92,184,92,.1)':score>=45?'rgba(232,160,48,.1)':'rgba(224,80,80,.1)';
   b11.textContent=`⛳ ${score}/100 — ${word}`;
 
-  const a11NoonIdx=hourly.time.findIndex(t=>t===APR11+'T12:00');
-  const a11WindDir=a11NoonIdx>=0?hourly.wind_direction_10m[a11NoonIdx]:180;
-  document.getElementById('wind-speed').textContent=a11Wind;
-  document.getElementById('wind-dir').textContent=degToDir(a11WindDir)+' wind';
-  document.getElementById('wind-gust').textContent=`Gusts to ${a11Gust} mph`;
-  document.getElementById('compass-needle').setAttribute('transform',`rotate(${a11WindDir},42,42)`);
-  document.getElementById('wind-note').textContent=a11Wind<8?'Calm — perfect scoring conditions':a11Wind<15?'Moderate — club up on approach':a11Wind<22?'Gusty — play for wind drift':'Strong — major factor all day';
+  // Wind — prefer Apr 11 noon hour, fall back to current
+  const targetDate=usingApr11?APR11:todayStr;
+  const noonIdx=hourly.time.findIndex(t=>t===targetDate+'T12:00');
+  const windDir=noonIdx>=0?hourly.wind_direction_10m[noonIdx]:cur.wind_direction_10m;
+  document.getElementById('wind-speed').textContent=srcWind;
+  document.getElementById('wind-dir').textContent=degToDir(windDir)+' wind'+(usingApr11?'':' · live');
+  document.getElementById('wind-gust').textContent=`Gusts to ${srcGust} mph`;
+  document.getElementById('compass-needle').setAttribute('transform',`rotate(${windDir},42,42)`);
+  document.getElementById('wind-note').textContent=srcWind<8?'Calm — perfect scoring conditions':srcWind<15?'Moderate — club up on approach':srcWind<22?'Gusty — play for wind drift':'Strong — major factor all day';
 
-  if(daily.sunrise&&daily.sunrise[ai])document.getElementById('sunrise-val').textContent=fmtTime(daily.sunrise[ai]);
-  if(daily.sunset&&daily.sunset[ai])document.getElementById('sunset-val').textContent=fmtTime(daily.sunset[ai]);
+  // Sunrise / Sunset
+  if(di>=0&&daily.sunrise&&daily.sunrise[di]) document.getElementById('sunrise-val').textContent=fmtTime(daily.sunrise[di]);
+  if(di>=0&&daily.sunset&&daily.sunset[di])   document.getElementById('sunset-val').textContent=fmtTime(daily.sunset[di]);
 
-  const a11Hum=Math.round(hourly.relative_humidity_2m[a11NoonIdx>=0?a11NoonIdx:0]||60);
-  const a11Dew=Math.round(hourly.dew_point_2m[a11NoonIdx>=0?a11NoonIdx:0]||55);
-  document.getElementById('humidity-val').textContent=a11Hum;
-  document.getElementById('humidity-tip').textContent=a11Hum<40?'Low — ball flies farther':a11Hum<65?'Comfortable round':a11Hum<80?'Muggy on back nine':'Very humid';
-  document.getElementById('dew-val').textContent=a11Dew;
-  document.getElementById('dew-tip').textContent=a11Dew<55?'Comfortable':a11Dew<65?'Noticeable humidity':'Oppressive feel';
-  document.getElementById('uv-val').textContent=a11UV;
-  document.getElementById('uv-tip').textContent=a11UV<=2?'Low':a11UV<=5?'Moderate — sunscreen advised':a11UV<=7?'High — SPF 30+':a11UV<=10?'Very High — SPF 50+':'Extreme';
-  document.getElementById('precip-val').textContent=a11Precip.toFixed(2);
-  document.getElementById('precip-tip').textContent=a11Precip<0.1?'Dry — firm fast greens':a11Precip<0.5?'Light — greens holding':'Heavy — soft course';
-  const vis=a11Code<=1?10:a11Code<=2?8:a11Code<=3?5:a11Code<=48?1:3;
+  // Humidity / Dew — prefer target noon hour, fall back to current
+  const humIdx=noonIdx>=0?noonIdx:0;
+  const srcHum=Math.round(hourly.relative_humidity_2m[humIdx]||cur.relative_humidity_2m||60);
+  const srcDew=Math.round(hourly.dew_point_2m[humIdx]||55);
+  document.getElementById('humidity-val').textContent=srcHum;
+  document.getElementById('humidity-tip').textContent=srcHum<40?'Low — ball flies farther':srcHum<65?'Comfortable round':srcHum<80?'Muggy on back nine':'Very humid';
+  document.getElementById('dew-val').textContent=srcDew;
+  document.getElementById('dew-tip').textContent=srcDew<55?'Comfortable':srcDew<65?'Noticeable humidity':'Oppressive feel';
+  document.getElementById('uv-val').textContent=srcUV;
+  document.getElementById('uv-tip').textContent=srcUV<=2?'Low':srcUV<=5?'Moderate — sunscreen advised':srcUV<=7?'High — SPF 30+':srcUV<=10?'Very High — SPF 50+':'Extreme';
+  document.getElementById('precip-val').textContent=srcPrecip.toFixed(2);
+  document.getElementById('precip-tip').textContent=srcPrecip<0.1?'Dry — firm fast greens':srcPrecip<0.5?'Light — greens holding':'Heavy — soft course';
+  const vis=srcCode<=1?10:srcCode<=2?8:srcCode<=3?5:srcCode<=48?1:3;
   document.getElementById('vis-val').textContent=vis;
   document.getElementById('vis-tip').textContent=vis>=8?'Excellent — see every flag':'Reduced visibility';
-  const carry=carryEffect(a11Hi,a11Hum);
+  const carry=carryEffect(srcHi,srcHum);
   document.getElementById('carry-val').textContent=carry.total;
   document.getElementById('carry-tip').textContent=carry.tip;
 
-  // Hourly Apr 11
-  const hourlyHTML=[];let bestScore=-1,bestHrLabel='';
+  // ── GREEN SPEED ──
+  // Based on precip in last few days (today's precip) + humidity
+  // Soft: >0.5" or humidity >80 | Medium: 0.1-0.5" or humidity 65-80 | Firm: <0.1" and humidity <65
+  function greenSpeed(precip, hum){
+    if(precip>0.5||hum>80) return{label:'Soft',color:'var(--sky)',tip:'Ball marks likely · putts slow · pitches check up'};
+    if(precip>0.1||hum>65) return{label:'Medium',color:'var(--goldl)',tip:'Standard speed · normal break reads'};
+    return{label:'Firm',color:'var(--good)',tip:'Fast & true · balls release on landing · allow for run-out'};
+  }
+  const gs=greenSpeed(srcPrecip, srcHum);
+  const gv=document.getElementById('green-val');
+  gv.textContent=gs.label; gv.style.color=gs.color;
+  document.getElementById('green-tip').textContent=gs.tip;
+
+  // ── WET BULB TEMPERATURE ──
+  // Stull formula: WB = T * atan(0.151977 * (RH+8.313659)^0.5) + atan(T+RH) - atan(RH-1.676331) + 0.00391838*(RH^1.5)*atan(0.023101*RH) - 4.686035
+  // Simplified Rothfusz: WB ≈ T - (0.55 - 0.0055*RH)*(T - 58) for F
+  function wetBulbF(tempF, rh){
+    const t=tempF, r=rh;
+    const wb = t - (0.55 - 0.0055*r)*(t - 58);
+    return Math.round(wb);
+  }
+  const wb=wetBulbF(srcHi, srcHum);
+  const wbEl=document.getElementById('wetbulb-val');
+  wbEl.textContent=wb;
+  let wbTip, wbColor;
+  if(wb>=88){wbTip='Dangerous — heat illness risk · hydrate constantly';wbColor='var(--bad)';}
+  else if(wb>=82){wbTip='High risk — take breaks in shade · drink water';wbColor='var(--warn)';}
+  else if(wb>=76){wbTip='Caution — strenuous play can cause fatigue';wbColor='var(--goldl)';}
+  else{wbTip='Safe — comfortable exertion level';wbColor='var(--good)';}
+  wbEl.style.color=wbColor;
+  document.getElementById('wetbulb-tip').textContent=wbTip;
+  document.getElementById('wetbulb-card').style.borderColor=wb>=82?'rgba(224,80,80,.35)':wb>=76?'rgba(232,160,48,.3)':'rgba(201,168,76,.13)';
+
+  // ── DEW BURN-OFF TIME ──
+  // Dew forms when temp drops to dew point. Burns off when temp rises ~5°F above dew point AND solar radiation picks up.
+  // Estimate: sunrise + (dew_point - lo_temp) / avg_warming_rate
+  // Avg warming rate on clear day ~3°F/hr, cloudy ~1.5°F/hr
+  function dewBurnOff(sunriseStr, loTemp, dewPt, code){
+    if(!sunriseStr) return{time:'—',tip:'Sunrise data unavailable'};
+    const sr=new Date(sunriseStr);
+    const gap=dewPt-loTemp; // how far dew point is above overnight low
+    if(gap<=0) return{time:'No dew expected',tip:'Overnight low stays above dew point'};
+    const rate=code<=1?3:code<=2?2.5:2; // °F/hr warming rate by cloud cover
+    const hoursToMelt=Math.max(0,(gap+5)/rate); // need to rise 5°F above dew point
+    const burnOff=new Date(sr.getTime()+hoursToMelt*3600000);
+    let h=burnOff.getHours(),m=burnOff.getMinutes(),ap=h>=12?'PM':'AM';
+    h=h%12||12;
+    const timeStr=h+':'+(m<10?'0':'')+m+' '+ap;
+    return{time:timeStr,tip:`~${Math.round(hoursToMelt*10)/10}hr after sunrise · fairways wet until then`};
+  }
+  const sunriseStr=di>=0&&daily.sunrise?daily.sunrise[di]:null;
+  const dbo=dewBurnOff(sunriseStr, srcLo, srcDew, srcCode);
+  document.getElementById('dew-burnoff-val').textContent=dbo.time;
+  document.getElementById('dew-burnoff-tip').textContent=dbo.tip;
+
+  // ── FEELS LIKE HIGH ──
+  // Find peak apparent temp across target day hourly
+  let peakFeels=srcHi;
   for(let i=0;i<hourly.time.length;i++){
-    if(!hourly.time[i].startsWith(APR11))continue;
+    if(!hourly.time[i].startsWith(targetDate))continue;
+    const hf=Math.round(hourly.apparent_temperature[i]);
+    if(hf>peakFeels)peakFeels=hf;
+  }
+  const flEl=document.getElementById('feels-hi-val');
+  flEl.textContent=peakFeels;
+  const flDiff=peakFeels-srcHi;
+  document.getElementById('feels-hi-tip').textContent=flDiff>3?`+${flDiff}° warmer than air temp — heat/humidity factor`:flDiff<-3?`${flDiff}° cooler than air temp — wind chill factor`:'Matches air temp closely';
+
+  // ── Hourly — April 11 if available, else today ──
+  const hourlyHTML=[];let bestScore=-1,bestHrLabel='';
+  const nowHour=new Date().getHours();
+  for(let i=0;i<hourly.time.length;i++){
+    if(!hourly.time[i].startsWith(targetDate))continue;
     const hHour=parseInt(hourly.time[i].split('T')[1]);
     if(hHour<6||hHour>20)continue;
     const ht=Math.round(hourly.temperature_2m[i]),hw=Math.round(hourly.wind_speed_10m[i]);
@@ -690,14 +994,24 @@ function render(data){
     const hs=golfScore(ht,hw,hpop,hcode,huv);
     if(hs>bestScore){bestScore=hs;bestHrLabel=`${hHour%12||12}${hHour<12?'AM':'PM'}–${(hHour+2)%12||12}${(hHour+2)<12?'AM':'PM'}`;}
     const uvClr=huv<=2?'var(--good)':huv<=5?'var(--goldl)':huv<=7?'var(--warn)':'var(--bad)';
+    const isPast=!usingApr11&&hHour<nowHour;
     let cls='hr-card';
     if(hpop>=60||hcode>=80)cls+=' bad-hr';
     else if(hpop>=35||hcode>=60)cls+=' warn-hr';
     else if(hs>=75)cls+=' best-hr';
-    hourlyHTML.push(`<div class="${cls}"><div class="hr-time">${hHour%12||12}${hHour<12?'AM':'PM'}</div><span class="hr-icon">${ICON[hcode]||'🌡'}</span><div class="hr-temp">${ht}°</div><div class="hr-wind">${hw}mph ${hdir}</div><div class="hr-pop">${hpop}% 💧</div><div class="hr-uv" style="color:${uvClr}">UV ${huv}</div></div>`);
+    hourlyHTML.push(`<div class="${cls}" style="${isPast?'opacity:.35':''}"><div class="hr-time">${hHour%12||12}${hHour<12?'AM':'PM'}</div><span class="hr-icon">${ICON[hcode]||'🌡'}</span><div class="hr-temp">${ht}°</div><div style="font-size:9px;color:var(--azl);opacity:.8;margin-top:1px;">feels ${Math.round(hourly.apparent_temperature[i])}°</div><div class="hr-wind">${hw}mph ${hdir}</div><div class="hr-pop">${hpop}% 💧</div><div class="hr-uv" style="color:${uvClr}">UV ${huv}</div></div>`);
   }
-  document.getElementById('hourly-scroll').innerHTML=hourlyHTML.length?hourlyHTML.join(''):'<div style="color:var(--creamd);opacity:.35;font-style:italic;padding:16px 0;">April 11 hourly available closer to the date</div>';
-  if(bestHrLabel){document.getElementById('bw-time').textContent=bestHrLabel;document.getElementById('bw-sub').textContent=`Score ${bestScore}/100 on Apr 11`;document.getElementById('best-window-wrap').style.display='block';}
+
+  // Update hourly section label
+  const hrLabel=document.querySelector('.hourly-section .sec-txt');
+  if(hrLabel) hrLabel.textContent=usingApr11?'Hourly Forecast · April 11 · 6 AM – 8 PM':'Hourly Forecast · Today · 6 AM – 8 PM (Apr 11 available within 10 days)';
+
+  document.getElementById('hourly-scroll').innerHTML=hourlyHTML.length?hourlyHTML.join(''):'<div style="color:var(--creamd);opacity:.35;font-style:italic;padding:16px 0;">No hourly data available</div>';
+  if(bestHrLabel){
+    document.getElementById('bw-time').textContent=bestHrLabel;
+    document.getElementById('bw-sub').textContent=`Score ${bestScore}/100${usingApr11?' on Apr 11':' today'}`;
+    document.getElementById('best-window-wrap').style.display='block';
+  }
 
   // Scoreboard
   document.getElementById('sb-body').innerHTML=daily.time.map((date,i)=>{
