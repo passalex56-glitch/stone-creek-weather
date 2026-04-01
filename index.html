@@ -5,271 +5,383 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stone Creek Dr · Weather</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --mg:#1a4a2e;--mgm:#2d6b44;--mgl:#4a8c5c;
-  --gold:#c9a84c;--goldl:#e8c97a;
+  --green-deep:#0a1f10;--green-dark:#0f2d16;--green-mid:#1a4a2e;
+  --green-bright:#2d6b44;--green-light:#4a8c5c;
+  --gold:#c9a84c;--gold-light:#e8c97a;--gold-pale:#f5e8b8;
   --az:#d4547e;--azl:#f0b8cc;
-  --cream:#f5f0e8;--creamd:#e8e0d0;
-  --sky:#b8d4e8;--pine:#0f2d1a;
+  --cream:#f5f0e8;--cream-dim:#c8bfa8;--sky:#a8c8e0;
 }
-html,body{min-height:100vh;background:#0a1f10;display:flex;align-items:center;justify-content:center;font-family:'EB Garamond',Georgia,serif;padding:20px}
-.outer{width:100%;max-width:520px}
-.card{background:var(--mg);border-radius:20px;overflow:hidden;position:relative;box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px rgba(201,168,76,.15)}
-.pine-bg{position:absolute;top:0;left:0;right:0;bottom:0;opacity:.07;pointer-events:none;width:100%;height:100%}
-.header{background:var(--pine);padding:18px 26px 14px;border-bottom:2px solid var(--gold);display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
-.header h1{font-family:'Playfair Display',serif;font-size:11px;font-weight:400;font-style:italic;color:var(--goldl);letter-spacing:.14em;text-transform:uppercase}
-.header h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--cream);margin-top:2px}
-.header-right{text-align:right}
-.header-right .date{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--gold);letter-spacing:.05em}
-.header-right .loc{font-size:11px;color:var(--creamd);opacity:.6;margin-top:3px}
-.sound-btn{position:absolute;bottom:14px;right:26px;background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.4);border-radius:20px;padding:5px 14px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);cursor:pointer;letter-spacing:.06em;transition:background .2s;display:flex;align-items:center;gap:5px;z-index:10}
-.sound-btn:hover{background:rgba(201,168,76,.22)}
-.main{padding:20px 26px 18px;position:relative;z-index:1}
-.masters-tag{display:flex;justify-content:center;margin-bottom:14px}
-.masters-tag span{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.13);border:.5px solid rgba(201,168,76,.38);border-radius:20px;padding:3px 14px;font-size:10px;font-style:italic;font-family:'Playfair Display',serif;color:var(--gold);letter-spacing:.07em}
-.temp-row{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin-bottom:4px}
-.temp-main{font-family:'Playfair Display',serif;font-size:80px;font-weight:400;color:var(--cream);line-height:1;letter-spacing:-2px}
-.temp-unit{font-family:'EB Garamond',serif;font-size:28px;color:var(--gold);margin-bottom:13px}
-.cond-badge{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
-.cond-dot{width:5px;height:5px;border-radius:50%;background:var(--az)}
-.cond-text{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--azl)}
-.divider{height:1px;background:linear-gradient(to right,transparent,var(--gold) 20%,var(--gold) 80%,transparent);opacity:.3;margin:0 0 16px}
-.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
-.stat-box{background:rgba(255,255,255,.06);border:.5px solid rgba(201,168,76,.2);border-radius:10px;padding:10px 8px;text-align:center}
-.stat-label{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);opacity:.8;margin-bottom:5px;font-family:'EB Garamond',serif}
-.stat-value{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--cream)}
-.stat-sub{font-size:10px;color:var(--creamd);opacity:.5;margin-top:2px;font-style:italic}
-.tradition{font-family:'Playfair Display',serif;font-size:10px;font-style:italic;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.65;text-align:center;margin-bottom:14px}
-.fc-label{font-size:10px;font-style:italic;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.6;text-align:center;margin-bottom:8px;font-family:'Playfair Display',serif}
-.fc-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
-.fc-scroll::-webkit-scrollbar{display:none}
-.fc-day{flex:0 0 68px;background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.14);border-radius:8px;padding:8px 4px;text-align:center}
-.fc-day.today{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.08)}
-.fc-day.masters{border-color:rgba(201,168,76,.36)}
-.fc-dn{font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);opacity:.72;margin-bottom:4px;font-family:'EB Garamond',serif}
-.fc-icon{font-size:15px;display:block;margin-bottom:4px}
-.fc-hi{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--cream)}
-.fc-lo{font-size:11px;color:var(--creamd);opacity:.5;margin-top:1px}
-.fc-pop{font-size:10px;color:var(--sky);opacity:.75;margin-top:2px}
-.updated-tag{text-align:center;font-size:10px;color:var(--creamd);opacity:.35;margin-top:10px;font-style:italic;font-family:'EB Garamond',serif}
-.flag-strip{height:3px;background:linear-gradient(to right,var(--gold) 33%,var(--az) 33%,var(--az) 66%,var(--mgl) 66%);opacity:.55}
-.loading{display:flex;align-items:center;justify-content:center;height:220px;font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:15px;opacity:.7}
-.playing-dots{display:inline-flex;gap:2px;align-items:center}
-.playing-dots span{width:3px;height:8px;border-radius:2px;background:var(--gold);animation:bounce 1s ease-in-out infinite}
-.playing-dots span:nth-child(2){animation-delay:.15s}
-.playing-dots span:nth-child(3){animation-delay:.3s}
-@keyframes bounce{0%,100%{transform:scaleY(.5);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+html,body{width:100%;min-height:100vh;background:var(--green-deep);font-family:'EB Garamond',Georgia,serif;overflow-x:hidden;}
+
+.bg-scene{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:radial-gradient(ellipse at 50% 0%,#1a4a2e 0%,#0a1f10 60%);}
+.bg-pines{position:fixed;bottom:0;left:0;width:100%;height:55vh;z-index:1;pointer-events:none;}
+
+/* YouTube player — hidden but active */
+#yt-player{position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;pointer-events:none;opacity:0;}
+
+/* BROADCAST BAR */
+.broadcast-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,31,16,0.94);border-bottom:1.5px solid var(--gold);padding:10px 48px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(8px);}
+.broadcast-left{display:flex;align-items:center;gap:16px;}
+.flag-icon{display:flex;align-items:flex-end;gap:0;}
+.flag-pole{width:2px;height:22px;background:var(--gold);border-radius:1px;}
+.flag-tri{width:0;height:0;border-top:7px solid var(--gold);border-bottom:7px solid transparent;border-left:11px solid var(--gold);margin-bottom:8px;margin-left:-2px;}
+.masters-text{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold-light);letter-spacing:.18em;text-transform:uppercase;}
+.broadcast-title{font-family:'Playfair Display',serif;font-size:13px;font-weight:500;color:var(--cream);letter-spacing:.06em;}
+.broadcast-right{display:flex;align-items:center;gap:24px;}
+.broadcast-date{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--gold);letter-spacing:.05em;}
+.broadcast-loc{font-size:11px;color:var(--cream-dim);margin-top:2px;letter-spacing:.04em;}
+
+.sound-btn{background:rgba(201,168,76,.14);border:.5px solid rgba(201,168,76,.45);border-radius:24px;padding:6px 18px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);cursor:pointer;letter-spacing:.07em;transition:background .25s;display:flex;align-items:center;gap:7px;}
+.sound-btn:hover{background:rgba(201,168,76,.26);}
+
+/* MASTERS BANNER */
+.masters-banner{text-align:center;padding:10px;background:rgba(201,168,76,.08);border-top:.5px solid rgba(201,168,76,.2);border-bottom:.5px solid rgba(201,168,76,.2);font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--gold);letter-spacing:.1em;position:relative;z-index:10;}
+
+/* MAIN */
+.main{position:relative;z-index:10;padding-top:80px;min-height:100vh;display:flex;flex-direction:column;}
+
+/* HERO */
+.hero{display:flex;align-items:center;justify-content:center;flex-direction:column;padding:60px 48px 40px;text-align:center;position:relative;}
+.tradition-tag{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;opacity:.75;margin-bottom:24px;}
+.temp-display{display:flex;align-items:flex-start;justify-content:center;gap:4px;margin-bottom:8px;}
+.temp-big{font-family:'Playfair Display',serif;font-size:140px;font-weight:400;color:var(--cream);line-height:1;letter-spacing:-6px;text-shadow:0 0 80px rgba(201,168,76,.15);}
+.temp-deg{font-family:'Playfair Display',serif;font-size:48px;color:var(--gold);margin-top:18px;}
+.condition-line{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:48px;}
+.cond-rule{width:60px;height:1px;background:var(--gold);opacity:.3;}
+.cond-word{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--azl);letter-spacing:.08em;}
+
+/* STATS */
+.stats-trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;max-width:700px;width:100%;margin:0 auto 60px;border:1px solid rgba(201,168,76,.2);border-radius:12px;overflow:hidden;}
+.stat-cell{background:rgba(255,255,255,.04);padding:24px 20px;text-align:center;border-right:1px solid rgba(201,168,76,.12);}
+.stat-cell:last-child{border-right:none;}
+.sc-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);opacity:.72;margin-bottom:10px;font-family:'EB Garamond',serif;}
+.sc-value{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--cream);line-height:1;}
+.sc-unit{font-size:20px;color:var(--gold);}
+.sc-sub{font-size:11px;color:var(--cream-dim);opacity:.55;margin-top:6px;font-style:italic;}
+
+/* DIVIDER */
+.gold-divider{max-width:900px;width:100%;margin:0 auto 48px;display:flex;align-items:center;gap:16px;padding:0 48px;}
+.gd-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold));opacity:.3;}
+.gd-line.right{background:linear-gradient(to left,transparent,var(--gold));}
+.gd-flag{display:flex;align-items:flex-end;gap:0;}
+.gd-pole{width:1.5px;height:16px;background:var(--gold);opacity:.7;}
+.gd-tri{width:0;height:0;border-top:5px solid rgba(201,168,76,.7);border-bottom:5px solid transparent;border-left:8px solid rgba(201,168,76,.7);margin-bottom:6px;margin-left:-1.5px;}
+.gd-quote{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);opacity:.65;letter-spacing:.1em;white-space:nowrap;}
+
+/* FORECAST */
+.forecast-section{padding:0 48px 60px;max-width:1200px;width:100%;margin:0 auto;}
+.fc-heading{font-family:'Playfair Display',serif;font-size:10px;font-style:italic;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.6;text-align:center;margin-bottom:20px;}
+.fc-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;}
+.fc-card{background:rgba(255,255,255,.04);border:.5px solid rgba(201,168,76,.14);border-radius:10px;padding:14px 6px;text-align:center;transition:background .2s;}
+.fc-card:hover{background:rgba(255,255,255,.08);}
+.fc-card.today{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.08);}
+.fc-card.masters-day{border-color:rgba(201,168,76,.32);}
+.fc-day-name{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:6px;font-family:'EB Garamond',serif;}
+.fc-date-num{font-size:9px;color:var(--cream-dim);opacity:.45;margin-bottom:8px;}
+.fc-emoji{font-size:22px;display:block;margin-bottom:8px;line-height:1;}
+.fc-hi{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:var(--cream);}
+.fc-lo{font-size:12px;color:var(--cream-dim);opacity:.5;margin-top:2px;}
+.fc-pop{font-size:10px;color:var(--sky);opacity:.8;margin-top:5px;}
+.masters-pip{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.6;margin:6px auto 0;}
+
+/* FOOTER */
+.broadcast-footer{border-top:1px solid rgba(201,168,76,.15);padding:16px 48px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:10;}
+.footer-left{font-size:10px;color:var(--cream-dim);opacity:.4;font-style:italic;}
+.footer-right{display:flex;align-items:center;gap:6px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4CAF50;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.live-label{font-size:10px;color:var(--cream-dim);opacity:.5;letter-spacing:.1em;text-transform:uppercase;}
+
+/* PLAYING DOTS */
+.playing-dots{display:inline-flex;gap:2px;align-items:center;}
+.playing-dots span{width:3px;height:10px;border-radius:2px;background:var(--gold);animation:vbar 1s ease-in-out infinite;}
+.playing-dots span:nth-child(2){animation-delay:.15s;}
+.playing-dots span:nth-child(3){animation-delay:.3s;}
+@keyframes vbar{0%,100%{transform:scaleY(.3);opacity:.3}50%{transform:scaleY(1);opacity:1}}
+
+@media(max-width:900px){
+  .fc-grid{grid-template-columns:repeat(5,1fr);}
+  .temp-big{font-size:100px;}
+  .broadcast-bar{padding:10px 20px;}
+  .hero{padding:50px 20px 30px;}
+  .forecast-section{padding:0 20px 40px;}
+  .gold-divider{padding:0 20px;}
+  .stats-trio{max-width:100%;margin:0 20px 40px;}
+  .broadcast-title{display:none;}
+}
+@media(max-width:560px){
+  .fc-grid{grid-template-columns:repeat(5,1fr);}
+  .temp-big{font-size:80px;letter-spacing:-4px;}
+  .sc-value{font-size:32px;}
+}
 </style>
 </head>
 <body>
-<div class="outer">
-  <div class="card">
-    <svg class="pine-bg" viewBox="0 0 520 640" xmlns="http://www.w3.org/2000/svg">
-      <g fill="#4a8c5c">
-        <polygon points="40,640 65,450 90,640"/><polygon points="52,520 77,330 102,520"/><polygon points="64,420 89,230 114,420"/>
-        <polygon points="270,640 293,460 316,640"/><polygon points="279,530 302,350 325,530"/><polygon points="288,440 311,260 334,440"/>
-        <polygon points="420,640 438,500 456,640"/><polygon points="427,555 445,415 463,555"/>
-        <polygon points="145,640 160,530 175,640"/><polygon points="150,565 165,455 180,565"/>
-        <polygon points="355,640 368,540 381,640"/>
-      </g>
-    </svg>
 
-    <div class="header">
-      <div>
-        <h1>Live weather</h1>
-        <h2>503 Stone Creek Dr</h2>
-      </div>
-      <div class="header-right">
-        <div class="date" id="cur-date">—</div>
-        <div class="loc">Makanda, Illinois</div>
-      </div>
-      <button class="sound-btn" id="sound-btn" onclick="toggleSound()">
-        <span id="sound-icon">♪</span>
-        <span id="sound-label">Play Augusta</span>
-      </button>
-    </div>
+<div class="bg-scene"></div>
+<svg class="bg-pines" viewBox="0 0 1440 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+  <g fill="#0f2d16">
+    <polygon points="0,400 40,220 80,400"/><polygon points="20,370 55,200 90,370"/><polygon points="10,320 45,140 80,320"/>
+    <polygon points="60,400 95,250 130,400"/><polygon points="80,380 112,230 144,380"/><polygon points="100,350 130,180 160,350"/>
+    <polygon points="200,400 240,240 280,400"/><polygon points="220,375 258,215 296,375"/><polygon points="240,345 275,175 310,345"/>
+    <polygon points="380,400 415,255 450,400"/><polygon points="400,380 432,230 464,380"/>
+    <polygon points="580,400 620,230 660,400"/><polygon points="600,370 638,205 676,370"/><polygon points="620,340 655,165 690,340"/>
+    <polygon points="780,400 818,250 856,400"/><polygon points="800,375 836,220 872,375"/>
+    <polygon points="980,400 1015,245 1050,400"/><polygon points="1000,372 1033,215 1066,372"/><polygon points="1020,342 1050,172 1080,342"/>
+    <polygon points="1160,400 1198,230 1236,400"/><polygon points="1180,375 1215,208 1250,375"/><polygon points="1200,345 1232,165 1264,345"/>
+    <polygon points="1280,400 1310,255 1340,400"/><polygon points="1300,380 1328,232 1356,380"/>
+    <polygon points="1360,400 1390,260 1420,400"/><polygon points="1380,370 1408,220 1436,370"/>
+  </g>
+  <g fill="#1a4a2e" opacity="0.5">
+    <polygon points="140,400 170,280 200,400"/><polygon points="320,400 348,275 376,400"/>
+    <polygon points="480,400 505,290 530,400"/><polygon points="700,400 728,270 756,400"/>
+    <polygon points="900,400 925,285 950,400"/><polygon points="1100,400 1128,272 1156,400"/>
+  </g>
+</svg>
 
-    <div class="main" id="main-content">
-      <div class="loading">Walking Magnolia Lane…</div>
+<!-- Hidden YouTube player -->
+<div id="yt-player"></div>
+
+<!-- BROADCAST BAR -->
+<header class="broadcast-bar">
+  <div class="broadcast-left">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="flag-icon"><div class="flag-pole"></div><div class="flag-tri"></div></div>
+      <span class="masters-text">Augusta National</span>
     </div>
-    <div class="flag-strip"></div>
+    <span style="color:rgba(201,168,76,.3);font-size:16px;">|</span>
+    <span class="broadcast-title">503 Stone Creek Dr · Makanda, IL</span>
   </div>
+  <div class="broadcast-right">
+    <div style="text-align:right;">
+      <div class="broadcast-date" id="cur-date">—</div>
+      <div class="broadcast-loc">Jackson County, Illinois</div>
+    </div>
+    <button class="sound-btn" id="sound-btn" onclick="toggleSound()">
+      <span id="sound-icon">♪</span>
+      <span id="sound-label">Play Augusta</span>
+    </button>
+  </div>
+</header>
+
+<div class="masters-banner" id="masters-banner" style="display:none;">
+  ⛳ &nbsp; A Tradition Unlike Any Other &nbsp;·&nbsp; Masters Tournament Week 2026 &nbsp; ⛳
 </div>
 
+<main class="main">
+  <section class="hero">
+    <div class="tradition-tag">Live Weather · Open-Meteo</div>
+    <div class="temp-display">
+      <div class="temp-big" id="temp-val">—</div>
+      <div class="temp-deg">°F</div>
+    </div>
+    <div class="condition-line">
+      <div class="cond-rule"></div>
+      <div class="cond-word" id="cond-text">Loading…</div>
+      <div class="cond-rule"></div>
+    </div>
+    <div class="stats-trio">
+      <div class="stat-cell">
+        <div class="sc-label">Today's High</div>
+        <div class="sc-value"><span id="hi-val">—</span><span class="sc-unit">°</span></div>
+        <div class="sc-sub">afternoon peak</div>
+      </div>
+      <div class="stat-cell">
+        <div class="sc-label">Rain Chance</div>
+        <div class="sc-value"><span id="pop-val">—</span><span class="sc-unit">%</span></div>
+        <div class="sc-sub">today</div>
+      </div>
+      <div class="stat-cell">
+        <div class="sc-label">Feels Like</div>
+        <div class="sc-value"><span id="feels-val">—</span><span class="sc-unit">°</span></div>
+        <div class="sc-sub">apparent temp</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gold-divider">
+    <div class="gd-line"></div>
+    <div class="gd-flag"><div class="gd-pole"></div><div class="gd-tri"></div></div>
+    <div class="gd-quote">"Your dogwoods and pines play on my mind like a song"</div>
+    <div class="gd-flag"><div class="gd-pole"></div><div class="gd-tri"></div></div>
+    <div class="gd-line right"></div>
+  </div>
+
+  <section class="forecast-section">
+    <div class="fc-heading">10-Day Forecast</div>
+    <div class="fc-grid" id="fc-grid"></div>
+  </section>
+</main>
+
+<footer class="broadcast-footer">
+  <div class="footer-left">Data: Open-Meteo · Refreshes on every page load · Makanda, IL 37.5981°N 89.2118°W</div>
+  <div class="footer-right">
+    <div class="live-dot"></div>
+    <div class="live-label">Live</div>
+  </div>
+</footer>
+
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 <script>
+// ── WEATHER ───────────────────────────────────────────────
 const LAT=37.5981,LON=-89.2118;
-const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const WMO={0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Icy fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Rain showers',81:'Rain showers',82:'Violent showers',85:'Snow showers',86:'Heavy snow showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
+const DAYS_S=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS_S=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const WMO={0:'Clear Sky',1:'Mainly Clear',2:'Partly Cloudy',3:'Overcast',45:'Fog',48:'Icy Fog',51:'Light Drizzle',53:'Drizzle',55:'Heavy Drizzle',61:'Light Rain',63:'Rain',65:'Heavy Rain',71:'Light Snow',73:'Snow',75:'Heavy Snow',80:'Rain Showers',81:'Rain Showers',82:'Violent Showers',85:'Snow Showers',86:'Heavy Snow Showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
 const ICON={0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌧',61:'🌦',63:'🌧',65:'🌧',71:'🌨',73:'❄️',75:'❄️',80:'🌦',81:'🌧',82:'⛈',85:'🌨',86:'❄️',95:'⛈',96:'⛈',99:'⛈'};
 
-function isMasters(s){const d=new Date(s+'T12:00:00');return d.getFullYear()===2026&&d.getMonth()===3&&d.getDate()>=9&&d.getDate()<=13}
+function isMasters(s){const d=new Date(s+'T12:00:00');return d.getFullYear()===2026&&d.getMonth()===3&&d.getDate()>=9&&d.getDate()<=13;}
 
 async function loadWeather(){
-  const url=`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weathercode,apparent_temperature&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&forecast_days=10&timezone=America%2FChicago`;
   try{
-    const r=await fetch(url);
-    const d=await r.json();
-    renderWeather(d);
-  }catch(e){
-    document.getElementById('main-content').innerHTML='<p style="color:var(--azl);text-align:center;padding:40px;font-style:italic">Unable to load weather. Check connection.</p>';
-  }
+    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weathercode,apparent_temperature&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=fahrenheit&forecast_days=10&timezone=America%2FChicago`);
+    const d=await r.json();render(d);
+  }catch(e){document.getElementById('cond-text').textContent='Unable to load weather';}
 }
 
-function renderWeather(data){
+function render(data){
   const cur=data.current,daily=data.daily;
   const now=new Date(),todayStr=now.toISOString().split('T')[0];
-  document.getElementById('cur-date').textContent=DAYS[now.getDay()]+', '+MONTHS[now.getMonth()]+' '+now.getDate()+' · '+now.getFullYear();
-  const code=cur.weathercode,temp=Math.round(cur.temperature_2m),feels=Math.round(cur.apparent_temperature);
+  document.getElementById('cur-date').textContent=DAYS_S[now.getDay()]+', '+MONTHS_S[now.getMonth()]+' '+now.getDate()+' · '+now.getFullYear();
+  document.getElementById('temp-val').textContent=Math.round(cur.temperature_2m);
+  document.getElementById('cond-text').textContent=WMO[cur.weathercode]||'Fair';
+  document.getElementById('feels-val').textContent=Math.round(cur.apparent_temperature);
   const ti=daily.time.indexOf(todayStr);
-  const hi=ti>=0?Math.round(daily.temperature_2m_max[ti]):'—';
-  const pop=ti>=0?daily.precipitation_probability_max[ti]:'—';
-  const mastersTag=isMasters(todayStr)?`<div class="masters-tag"><span>⛳ Masters Week 2026</span></div>`:'';
-  const fcHTML=daily.time.map((date,i)=>{
-    const d2=new Date(date+'T12:00:00');
-    const isToday=date===todayStr;
-    const c2=daily.weathercode[i];
-    const h2=Math.round(daily.temperature_2m_max[i]);
-    const l2=Math.round(daily.temperature_2m_min[i]);
-    const p2=daily.precipitation_probability_max[i];
-    const cls=isToday?'today':(isMasters(date)?'masters':'');
-    return `<div class="fc-day ${cls}"><div class="fc-dn">${isToday?'Today':DAYS[d2.getDay()]}</div><span class="fc-icon">${ICON[c2]||'🌡'}</span><div class="fc-hi">${h2}°</div><div class="fc-lo">${l2}°</div><div class="fc-pop">${p2}%</div></div>`;
+  if(ti>=0){
+    document.getElementById('hi-val').textContent=Math.round(daily.temperature_2m_max[ti]);
+    document.getElementById('pop-val').textContent=daily.precipitation_probability_max[ti];
+  }
+  if(isMasters(todayStr))document.getElementById('masters-banner').style.display='block';
+  document.getElementById('fc-grid').innerHTML=daily.time.map((date,i)=>{
+    const d2=new Date(date+'T12:00:00'),isToday=date===todayStr,mday=isMasters(date);
+    const code=daily.weathercode[i],hi=Math.round(daily.temperature_2m_max[i]),lo=Math.round(daily.temperature_2m_min[i]),pop=daily.precipitation_probability_max[i];
+    return `<div class="fc-card ${isToday?'today':mday?'masters-day':''}">
+      <div class="fc-day-name">${isToday?'Today':DAYS_S[d2.getDay()]}</div>
+      <div class="fc-date-num">${MONTHS_S[d2.getMonth()]} ${d2.getDate()}</div>
+      <span class="fc-emoji">${ICON[code]||'🌡'}</span>
+      <div class="fc-hi">${hi}°</div><div class="fc-lo">${lo}°</div>
+      <div class="fc-pop">${pop}%</div>
+      ${mday?'<div class="masters-pip"></div>':''}
+    </div>`;
   }).join('');
-  document.getElementById('main-content').innerHTML=`
-    ${mastersTag}
-    <div class="temp-row"><div class="temp-main">${temp}</div><div class="temp-unit">°F</div></div>
-    <div class="cond-badge"><div class="cond-dot"></div><div class="cond-text">${WMO[code]||'Fair conditions'}</div><div class="cond-dot"></div></div>
-    <div class="divider"></div>
-    <div class="stats-row">
-      <div class="stat-box"><div class="stat-label">Today's high</div><div class="stat-value">${hi}°</div><div class="stat-sub">afternoon peak</div></div>
-      <div class="stat-box"><div class="stat-label">Rain chance</div><div class="stat-value">${pop}%</div><div class="stat-sub">today</div></div>
-      <div class="stat-box"><div class="stat-label">Feels like</div><div class="stat-value">${feels}°</div><div class="stat-sub">apparent</div></div>
-    </div>
-    <div class="tradition">"Your dogwoods and pines play on my mind like a song"</div>
-    <div class="fc-label">10-day forecast · Makanda, IL</div>
-    <div class="fc-scroll">${fcHTML}</div>
-    <div class="updated-tag">Live via Open-Meteo · refreshes on every page load</div>`;
 }
 
-// ── SOUND ──────────────────────────────────────────────────
-let audioReady=false,isPlaying=false;
-let masterGain,birdLoop,melodyPart,chordSeq;
+// ── YOUTUBE + BIRDS ───────────────────────────────────────
+let ytPlayer=null,ytReady=false,isPlaying=false;
+let birdLoop=null,birdReady=false;
 
-// Augusta main motif in G major (simplified faithful recreation)
-const MELODY_NOTES=[
-  {time:0,    note:'G4', dur:'4n'},
-  {time:0.55, note:'B4', dur:'4n'},
-  {time:1.1,  note:'D5', dur:'4n'},
-  {time:1.65, note:'G5', dur:'2n'},
-  {time:2.75, note:'F#5',dur:'4n'},
-  {time:3.3,  note:'E5', dur:'4n'},
-  {time:3.85, note:'D5', dur:'2n.'},
-  {time:5.2,  note:'B4', dur:'4n'},
-  {time:5.75, note:'G4', dur:'4n'},
-  {time:6.3,  note:'A4', dur:'4n'},
-  {time:6.85, note:'B4', dur:'4n'},
-  {time:7.4,  note:'D5', dur:'2n'},
-  {time:8.5,  note:'E5', dur:'4n'},
-  {time:9.05, note:'D5', dur:'4n'},
-  {time:9.6,  note:'B4', dur:'2n'},
-  {time:10.7, note:'G4', dur:'1n'},
-];
-
-const CHORDS=[
-  ['G2','D3','G3','B3'],
-  ['C3','E3','G3','C4'],
-  ['D3','F#3','A3','D4'],
-  ['G2','D3','G3','B3'],
-];
-
-function buildAudio(){
-  if(audioReady)return;
-  audioReady=true;
-
-  masterGain=new Tone.Gain(0).toDestination();
-
-  // Birds — FM chirps with random timing
-  const birdFM=new Tone.FMSynth({
-    harmonicity:12,modulationIndex:4,
-    envelope:{attack:0.005,decay:0.06,sustain:0,release:0.04},
-    modulationEnvelope:{attack:0.005,decay:0.04,sustain:0,release:0.02},
-    volume:-16
-  }).connect(masterGain);
-
-  const birdNotes2=['D6','E6','F#6','G6','A6','B6','C7'];
-  birdLoop=new Tone.Loop(time=>{
-    const n=birdNotes2[Math.floor(Math.random()*birdNotes2.length)];
-    const chirps=2+Math.floor(Math.random()*3);
-    for(let i=0;i<chirps;i++) birdFM.triggerAttackRelease(n,'32n',time+i*0.075);
-  },'0:1:1');
-
-  // Piano — triangle for soft warmth
-  const reverb=new Tone.Reverb({decay:3.5,wet:0.4}).connect(masterGain);
-  const piano=new Tone.PolySynth(Tone.Synth,{
-    oscillator:{type:'triangle'},
-    envelope:{attack:0.05,decay:0.4,sustain:0.25,release:1.5},
-    volume:-8
+// YouTube IFrame API callback — fires when API script loads
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('yt-player',{
+    videoId:'G97AdMLbfr4',
+    playerVars:{
+      autoplay:0,
+      controls:0,
+      disablekb:1,
+      fs:0,
+      loop:1,
+      playlist:'G97AdMLbfr4', // needed for loop
+      modestbranding:1,
+      rel:0,
+      iv_load_policy:3,
+    },
+    events:{
+      onReady:()=>{
+        ytReady=true;
+        ytPlayer.setVolume(0); // start silent, fade in
+      },
+      onStateChange:(e)=>{
+        // If ended (shouldn't with loop) restart
+        if(e.data===YT.PlayerState.ENDED) ytPlayer.playVideo();
+      }
+    }
   });
-  piano.connect(reverb);
-  piano.connect(masterGain);
+}
 
-  // Strings pad
-  const strFilter=new Tone.Filter(700,'lowpass').connect(masterGain);
-  const strings=new Tone.PolySynth(Tone.Synth,{
-    oscillator:{type:'sawtooth'},
-    envelope:{attack:0.8,decay:0.3,sustain:0.7,release:2.5},
-    volume:-22
-  }).connect(strFilter);
+// Bird synth via Tone.js
+function buildBirds(){
+  if(birdReady)return;
+  birdReady=true;
+  const birdVerb=new Tone.Reverb({decay:2.5,wet:0.55}).toDestination();
+  const bird=new Tone.FMSynth({
+    harmonicity:14,modulationIndex:5,
+    envelope:{attack:0.004,decay:0.055,sustain:0,release:0.03},
+    modulationEnvelope:{attack:0.004,decay:0.04,sustain:0,release:0.02},
+    volume:-12
+  }).connect(birdVerb);
+  const pitches=['E6','F#6','G#6','A6','B6','C#7','D7','E7'];
+  birdLoop=new Tone.Loop(time=>{
+    const n=pitches[Math.floor(Math.random()*pitches.length)];
+    const count=2+Math.floor(Math.random()*4);
+    for(let i=0;i<count;i++) bird.triggerAttackRelease(n,'32n',time+i*(0.055+Math.random()*0.035));
+    if(Math.random()>.5){
+      const n2=pitches[Math.floor(Math.random()*pitches.length)];
+      const off=0.4+Math.random()*0.6;
+      for(let i=0;i<3;i++) bird.triggerAttackRelease(n2,'32n',time+off+i*0.065);
+    }
+  },'0:2:0');
+}
 
-  melodyPart=new Tone.Part((time,ev)=>{
-    piano.triggerAttackRelease(ev.note,ev.dur,time);
-  },MELODY_NOTES.map(e=>[e.time,e]));
-  melodyPart.loop=true;
-  melodyPart.loopEnd=13;
-
-  chordSeq=new Tone.Sequence((time,chord)=>{
-    strings.triggerAttackRelease(chord,'1n',time);
-  },CHORDS,'1n');
-  chordSeq.loop=true;
+// Smooth volume fade for YouTube player
+function fadeYT(targetVol, durationMs){
+  const steps=40,interval=durationMs/steps;
+  const startVol=ytPlayer.getVolume();
+  const delta=(targetVol-startVol)/steps;
+  let step=0;
+  const timer=setInterval(()=>{
+    step++;
+    const v=Math.max(0,Math.min(100,Math.round(startVol+delta*step)));
+    ytPlayer.setVolume(v);
+    if(step>=steps)clearInterval(timer);
+  },interval);
 }
 
 async function toggleSound(){
   const icon=document.getElementById('sound-icon');
   const label=document.getElementById('sound-label');
-  buildAudio();
-  await Tone.start();
 
   if(!isPlaying){
-    Tone.getTransport().bpm.value=66;
-    masterGain.gain.rampTo(0.9,2.5);
+    // Start birds first
+    await Tone.start();
+    buildBirds();
     birdLoop.start(0);
-    chordSeq.start(0);
-    melodyPart.start('+1');
     Tone.getTransport().start();
+
+    // Start YouTube after 1.5s (birds come first like CBS)
+    if(ytReady){
+      ytPlayer.setVolume(0);
+      ytPlayer.playVideo();
+      setTimeout(()=>fadeYT(85,4000),1500); // fade in over 4s
+    }
+
     isPlaying=true;
     icon.innerHTML='<span class="playing-dots"><span></span><span></span><span></span></span>';
     label.textContent='Mute';
   } else {
-    masterGain.gain.rampTo(0,1.8);
-    setTimeout(()=>{
-      Tone.getTransport().stop();
-      Tone.getTransport().cancel();
-      birdLoop.stop();melodyPart.stop();chordSeq.stop();
-      audioReady=false;
-    },2000);
+    // Fade out YouTube
+    if(ytReady) fadeYT(0,2000);
+    setTimeout(()=>{ if(ytReady) ytPlayer.pauseVideo(); },2200);
+
+    // Stop birds
+    Tone.getTransport().stop();
+    if(birdLoop) birdLoop.stop();
+    birdReady=false;
+
     isPlaying=false;
     icon.textContent='♪';
     label.textContent='Play Augusta';
   }
 }
 
-// Init
-const n=new Date();
-document.getElementById('cur-date').textContent=DAYS[n.getDay()]+', '+MONTHS[n.getMonth()]+' '+n.getDate()+' · '+n.getFullYear();
+// ── INIT ──────────────────────────────────────────────────
+const now=new Date();
+document.getElementById('cur-date').textContent=DAYS_S[now.getDay()]+', '+MONTHS_S[now.getMonth()]+' '+now.getDate()+' · '+now.getFullYear();
 loadWeather();
 </script>
 </body>
