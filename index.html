@@ -214,6 +214,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .champ-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
 .champ-card{
   flex:0 0 200px;
+  max-width:200px;
   background:rgba(7,26,12,.9);
   border:1px solid var(--gold);
   border-radius:8px;
@@ -388,11 +389,11 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 
   /* Hourly — bigger temp */
   .hourly-section{padding:20px 14px 16px;}
-  .hr-card{flex:0 0 78px;padding:10px 4px;}
-  .hr-temp{font-size:18px;}
-  .hr-time{font-size:10px;}
-  .hr-wind{font-size:10px;}
-  .hr-pop{font-size:10px;}
+  .hr-card{flex:0 0 78px;padding:10px 4px;background:rgba(255,255,255,.09);border-color:rgba(201,168,76,.25);}
+  .hr-temp{font-size:18px;color:#fff;}
+  .hr-time{font-size:10px;color:var(--goldl);opacity:1;}
+  .hr-wind{font-size:10px;color:var(--sky);opacity:1;}
+  .hr-pop{font-size:10px;color:var(--azl);opacity:1;}
 
   /* Wind card */
   .wind-metrics{padding:0 14px 18px;gap:12px;}
@@ -404,11 +405,11 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 
   /* Metrics grid — bigger values, more contrast on cards */
   .metrics-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
-  .metric-card{padding:16px 12px;background:rgba(255,255,255,.06);border-color:rgba(201,168,76,.2);}
-  .mc-val{font-size:24px;}
-  .mc-unit{font-size:14px;}
-  .mc-lbl{font-size:10px;opacity:.8;}
-  .mc-tip{font-size:11px;opacity:.6;}
+  .metric-card{padding:16px 12px;background:rgba(255,255,255,.09);border-color:rgba(201,168,76,.28);}
+  .mc-val{font-size:24px;color:#fff;}
+  .mc-unit{font-size:14px;color:var(--goldl);}
+  .mc-lbl{font-size:10px;opacity:1;color:var(--goldl);}
+  .mc-tip{font-size:11px;opacity:.75;color:var(--creamd);}
   .mc-icon{font-size:22px;margin-bottom:8px;}
 
   /* Extra rows */
@@ -431,39 +432,34 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   .tdr-l{font-size:13px;}
   .tdr-s{font-size:11px;}
 
-  /* Leaderboard — simplify columns on mobile */
+  /* Leaderboard — compact but readable */
   .lb-section{padding:0 14px 22px;}
-  .sb-head{display:none;}
-  .sb-row{
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:auto auto;
-    padding:10px 12px;gap:2px 0;
-  }
-  .sb-row .sc:nth-child(1){font-size:11px;color:var(--creamd);opacity:.6;grid-column:1;}
-  .sb-row .sc:nth-child(2){font-size:13px;grid-column:2;text-align:right;}
-  .sb-row .sc:nth-child(3){font-size:14px;color:var(--goldl);grid-column:1;}
-  .sb-row .sc:nth-child(4){display:none;}
-  .sb-row .sc:nth-child(5){font-size:12px;color:var(--sky);grid-column:1;opacity:.8;}
-  .sb-row .sc:nth-child(6){grid-column:2;text-align:right;grid-row:2;}
-  .bdg{font-size:10px;padding:2px 6px;}
+  .sb-head{display:grid;grid-template-columns:50px 1fr 44px 36px 60px;padding:5px 10px;}
+  .sb-hc{font-size:8px;letter-spacing:.1em;}
+  .sb-row{grid-template-columns:50px 1fr 44px 36px 60px;padding:7px 10px;}
+  .sc{font-size:12px;color:#fff;}
+  .bdg{font-size:9px;padding:2px 5px;}
 
   /* 10-day forecast */
   .fc-section{padding:0 14px 32px;}
-  .fc-head{font-size:11px;margin-bottom:12px;}
+  .fc-head{font-size:11px;margin-bottom:12px;opacity:.85;}
   .fc-grid{grid-template-columns:repeat(5,1fr);gap:5px;}
-  .fc-card{padding:9px 3px;background:rgba(255,255,255,.055);border-color:rgba(201,168,76,.18);}
-  .fc-hi{font-size:15px;}
-  .fc-lo{font-size:10px;}
+  .fc-card{padding:9px 3px;background:rgba(255,255,255,.10);border-color:rgba(201,168,76,.35);}
+  .fc-card.apr11{background:rgba(201,168,76,.18);border-color:rgba(201,168,76,.7);}
+  .fc-card.today-fc{background:rgba(168,200,224,.1);border-color:rgba(168,200,224,.45);}
+  .fc-hi{font-size:15px;color:#fff;}
+  .fc-lo{font-size:10px;color:var(--creamd);opacity:.8;}
   .fc-em{font-size:17px;}
-  .fc-dn{font-size:8px;}
-  .fc-dt{font-size:8px;margin-bottom:5px;}
-  .fc-pop{font-size:9px;}
+  .fc-dn{font-size:8px;opacity:.9;color:var(--goldl);}
+  .fc-dt{font-size:8px;margin-bottom:5px;opacity:.6;}
+  .fc-pop{font-size:9px;color:var(--sky);opacity:.9;}
 
   /* Champions — 2 per row, taller photo */
   .champions-section{padding:0 14px 28px;}
   .champ-subtitle{font-size:11px;padding:0 4px;margin-bottom:18px;}
   .champ-grid{gap:12px;justify-content:flex-start;}
-  .champ-card{flex:0 0 calc(50% - 6px);background:rgba(15,45,22,.95);border-color:rgba(201,168,76,.45);}
+  .champ-card{flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);background:rgba(15,45,22,.95);border-color:rgba(201,168,76,.45);}
+  .champ-photo-wrap{aspect-ratio:4/5;}
   .champ-photo-wrap{aspect-ratio:4/5;}
   .champ-name{font-size:15px;}
   .champ-year{font-size:11px;letter-spacing:.12em;}
@@ -498,7 +494,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
     <div style="display:flex;align-items:flex-end;gap:0;"><div class="fpole"></div><div class="ftri"></div></div>
     <span class="bar-tag">Augusta National</span>
     <span style="color:rgba(201,168,76,.28);font-size:14px;">|</span>
-    <span class="bar-title">503 Stone Creek Dr · Makanda, IL · Masters Round 3</span>
+    <span class="bar-title">503 Stone Creek Dr · Makanda, IL · The Masters</span>
   </div>
   <div class="bar-right">
     <div style="text-align:right;">
@@ -519,9 +515,9 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 <main class="main">
   <div class="hero-section">
     <div class="apr11-box">
-      <div class="apr11-header"><span class="a11-hl">Saturday, April 11 Forecast</span><span class="a11-hr">Masters Round 3</span></div>
+      <div class="apr11-header"><span class="a11-hl" id="cbs-header-left">Saturday, April 11 Forecast</span><span class="a11-hr" id="cbs-header-right">The Masters</span></div>
       <div class="apr11-body">
-        <div class="a11-date">Moving Day · Makanda, Illinois</div>
+        <div class="a11-date">The Masters · Makanda, Illinois</div>
         <div class="a11-loc">503 Stone Creek Dr · Tee time 9:00 AM CT</div>
         <div class="a11-temp-row"><div class="a11-num" id="a11-hi">—</div><div class="a11-unit">°F</div></div>
         <div class="a11-cond" id="a11-cond">Loading…</div>
@@ -555,11 +551,11 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   </div>
     <div class="apr11-strip">
       <div><div class="a11-strip-date">Saturday, April 11, 2026</div><div class="a11-strip-sub">All weather data below is for April 11 · Makanda, IL</div></div>
-      <div class="a11-strip-badge">⛳ Masters Round 3 · Moving Day</div>
+      <div class="a11-strip-badge">⛳ The Masters · April 11</div>
     </div>
 
     <div class="countdown-section">
-      <div class="cd-label">Countdown to First Tee · 9:00 AM CT</div>
+      <div class="cd-label">Countdown to First Tee · The Masters · 9:00 AM CT</div>
       <div class="cd-inner">
         <div class="cd-timer">
           <div class="cd-block"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">Days</div></div>
@@ -662,7 +658,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
     <div class="champions-section">
       <div class="sec-hd">
         <div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div>
-        <span class="sec-txt">Past Champions · Stone Creek Invitational</span>
+        <span class="sec-txt">Past Champions · The Masters</span>
         <div class="sec-rule"></div>
       </div>
       <div class="champ-subtitle">The green jacket of Makanda, Illinois &nbsp;·&nbsp; Est. 2019 &nbsp;·&nbsp; Jared Sheffer 3-peat champion 2019–2021</div>
@@ -787,7 +783,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
           <div class="champ-body">
             <div class="champ-year" style="color:var(--goldl);">2026</div>
             <div class="champ-name" style="font-style:italic;opacity:.6;">To be crowned</div>
-            <div class="champ-detail">April 11 · Moving Day</div>
+            <div class="champ-detail">April 11 · The Masters</div>
           </div>
           <div class="champ-trophy" style="opacity:.35;">🏆</div>
         </div>
@@ -796,9 +792,9 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
     </div>
 
     <div class="tee-section">
-      <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Tee Times · Saturday, April 11, 2026 · Masters Round 3</span><div class="sec-rule"></div></div>
+      <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Tee Times · Saturday, April 11, 2026 · The Masters</span><div class="sec-rule"></div></div>
       <div class="tee-header-row"><div class="thc">Time</div><div class="thc">Grouping</div><div class="thc" style="text-align:right;">Hole</div></div>
-      <div class="tee-date-row"><div class="tdr-l">Saturday, April 11, 2026 &nbsp;·&nbsp; Round 3 — Moving Day</div><div class="tdr-s">Groups every 11 min from 9:00 AM CT · Augusta National Golf Club</div></div>
+      <div class="tee-date-row"><div class="tdr-l">Saturday, April 11, 2026 &nbsp;·&nbsp; The Masters</div><div class="tdr-s">Groups every 11 min from 9:00 AM CT · Augusta National Golf Club</div></div>
       <div style="border:.5px solid rgba(201,168,76,.16);border-top:none;border-radius:0 0 4px 4px;padding:32px 24px;text-align:center;">
         <div style="font-size:26px;margin-bottom:12px;">⛳</div>
         <div style="font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--goldl);margin-bottom:8px;">Pairings to be announced</div>
@@ -952,7 +948,7 @@ function carryEffect(temp,hum){
 const TEE=new Date('2026-04-11T09:00:00-05:00');
 function updateCountdown(){
   const diff=TEE-new Date();
-  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');document.getElementById('cd-msg').textContent='⛳ Round 3 is underway!';return;}
+  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');document.getElementById('cd-msg').textContent="⛳ It's tee time — The Masters is on!";return;}
   const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
   document.getElementById('cd-d').textContent=String(d).padStart(2,'0');
   document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
@@ -990,22 +986,22 @@ function render(data){
   // For anything sourced from today as fallback, note it
   const fallbackNote=usingApr11?'':'Today\'s data · Apr 11 forecast available within 10 days';
   if(!usingApr11){
-    // Update strip and header to clarify we're showing today
-    const strip=document.getElementById('a11-cond');
-    if(strip) strip.style.fontSize='12px';
+    document.getElementById('cbs-header-left').textContent='Current Conditions';
+    document.getElementById('cbs-header-right').textContent='Live · Makanda IL';
   }
 
   // Core daily values — Apr 11 if available, else today
-  const srcHi  = di>=0 ? Math.round(daily.temperature_2m_max[di])           : Math.round(cur.temperature_2m);
+  const srcHi  = di>=0 ? Math.round(daily.temperature_2m_max[di]) : Math.round(daily.temperature_2m_max[ti]||cur.temperature_2m);
+  const srcCur = usingApr11 ? srcHi : Math.round(cur.temperature_2m); // show live temp now, forecast hi on Apr 11
   const srcLo  = di>=0 ? Math.round(daily.temperature_2m_min[di])           : Math.round(cur.apparent_temperature);
-  const srcPop = di>=0 ? daily.precipitation_probability_max[di]            : 0;
+  const srcPop = di>=0 ? daily.precipitation_probability_max[di]            : (ti>=0?daily.precipitation_probability_max[ti]:0);
   const srcCode= di>=0 ? daily.weathercode[di]                              : cur.weathercode;
   const srcWind= di>=0 ? Math.round(daily.wind_speed_10m_max[di])           : Math.round(cur.wind_speed_10m);
   const srcGust= di>=0 ? Math.round(daily.wind_gusts_10m_max[di])           : Math.round(cur.wind_speed_10m)+5;
   const srcUV  = di>=0 ? Math.round(daily.uv_index_max[di])                 : 5;
   const srcPrecip = di>=0 ? (daily.precipitation_sum[di]||0)                : 0;
 
-  document.getElementById('a11-hi').textContent=srcHi;
+  document.getElementById('a11-hi').textContent=srcCur; // big number = current temp or Apr 11 forecast hi
   document.getElementById('a11-lo').textContent=srcLo;
   document.getElementById('a11-pop').textContent=srcPop;
   document.getElementById('a11-wind').textContent=srcWind;
