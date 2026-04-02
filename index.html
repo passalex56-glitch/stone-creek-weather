@@ -330,17 +330,21 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 
   /* Hero */
   .hero-section{padding:0 14px 70px;gap:10px;}
-  .hero-overlay{background:linear-gradient(to bottom,rgba(7,26,12,.8) 0%,rgba(7,26,12,.35) 30%,rgba(7,26,12,.75) 65%,rgba(7,26,12,.98) 100%);}
+  .hero-overlay{background:linear-gradient(to bottom,rgba(7,26,12,.8) 0%,rgba(7,26,12,.32) 28%,rgba(7,26,12,.72) 62%,rgba(7,26,12,.98) 100%);}
 
-  /* CBS box — full width on mobile */
+  /* CBS box */
   .apr11-box{min-width:0;width:100%;}
-  .a11-num{font-size:56px;}
-  .apr11-body{padding:12px 14px 12px;}
-  .a11-stats{gap:0;}
-  .asl{font-size:8px;}
-  .asv{font-size:14px;}
+  .a11-num{font-size:60px;}
+  .apr11-body{padding:14px 16px;}
+  .a11-date{font-size:12px;}
+  .a11-loc{font-size:10px;}
+  .a11-cond{font-size:15px;margin-bottom:12px;}
+  .asl{font-size:9px;letter-spacing:.1em;}
+  .asv{font-size:16px;}
+  .asu{font-size:11px;}
+  .a11-badge{font-size:11px;padding:5px 14px;}
 
-  /* Playability ring — hide on mobile to save space */
+  /* Playability ring — hide on mobile */
   .play-box{display:none!important;}
 
   /* Hole info */
@@ -353,70 +357,122 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   .slide-dots{bottom:14px;gap:5px;}
   .dot{width:4px;height:4px;}
 
-  /* Strip */
-  .apr11-strip{padding:10px 14px;flex-direction:column;gap:6px;}
-  .a11-strip-date{font-size:15px;}
-  .a11-strip-badge{margin-left:0;font-size:9px;}
+  /* ── CONTENT — section contrast ── */
+  /* Each section gets a subtle top border to visually separate */
+  .countdown-section{border-top:1px solid rgba(201,168,76,.18);}
+  .hourly-section{border-top:1px solid rgba(201,168,76,.12);}
+  .wind-metrics{border-top:1px solid rgba(201,168,76,.12);}
+  .extra-row{border-top:1px solid rgba(201,168,76,.12);padding-top:16px;}
+  .champions-section{border-top:1px solid rgba(201,168,76,.18);}
+  .tee-section{border-top:1px solid rgba(201,168,76,.12);}
+  .lb-section{border-top:1px solid rgba(201,168,76,.12);}
+  .fc-section{border-top:1px solid rgba(201,168,76,.12);}
 
-  /* Countdown */
-  .countdown-section{padding:18px 14px 16px;}
-  .cd-num{font-size:36px;}
-  .cd-block{min-width:42px;}
-  .cd-sep{font-size:28px;}
-  .cd-inner{gap:14px;flex-wrap:wrap;}
-  .best-window{width:100%;}
+  /* Apr 11 strip */
+  .apr11-strip{padding:12px 14px;flex-direction:column;gap:5px;background:rgba(201,168,76,.08);}
+  .a11-strip-date{font-size:17px;}
+  .a11-strip-sub{font-size:12px;}
+  .a11-strip-badge{margin-left:0;font-size:10px;}
 
-  /* Hourly */
-  .hourly-section{padding:18px 14px 16px;}
-  .hr-card{flex:0 0 74px;}
+  /* Countdown — bigger numbers */
+  .countdown-section{padding:20px 14px 18px;}
+  .cd-label{font-size:11px;margin-bottom:14px;}
+  .cd-num{font-size:42px;color:var(--goldl);}
+  .cd-unit{font-size:10px;}
+  .cd-block{min-width:48px;}
+  .cd-sep{font-size:32px;}
+  .cd-inner{gap:16px;flex-wrap:wrap;}
+  .best-window{width:100%;margin-top:4px;}
+  .bw-time{font-size:20px;}
+  .bw-label{font-size:10px;}
 
-  /* Wind + metrics */
+  /* Hourly — bigger temp */
+  .hourly-section{padding:20px 14px 16px;}
+  .hr-card{flex:0 0 78px;padding:10px 4px;}
+  .hr-temp{font-size:18px;}
+  .hr-time{font-size:10px;}
+  .hr-wind{font-size:10px;}
+  .hr-pop{font-size:10px;}
+
+  /* Wind card */
   .wind-metrics{padding:0 14px 18px;gap:12px;}
-  .wind-card{width:100%;justify-content:center;}
-  .metrics-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .mc-val{font-size:18px;}
-  .mc-icon{font-size:18px;}
+  .wind-card{width:100%;justify-content:flex-start;gap:24px;}
+  .wi-speed{font-size:36px;}
+  .wi-dir{font-size:14px;}
+  .wi-gust{font-size:12px;}
+  .wi-note{font-size:12px;max-width:none;}
+
+  /* Metrics grid — bigger values, more contrast on cards */
+  .metrics-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .metric-card{padding:16px 12px;background:rgba(255,255,255,.06);border-color:rgba(201,168,76,.2);}
+  .mc-val{font-size:24px;}
+  .mc-unit{font-size:14px;}
+  .mc-lbl{font-size:10px;opacity:.8;}
+  .mc-tip{font-size:11px;opacity:.6;}
+  .mc-icon{font-size:22px;margin-bottom:8px;}
 
   /* Extra rows */
-  .extra-row{grid-template-columns:repeat(2,1fr);gap:8px;padding:0 14px 18px;}
+  .extra-row{grid-template-columns:repeat(2,1fr);gap:10px;padding:16px 14px 18px;}
+
+  /* Sec headers */
+  .sec-txt{font-size:11px;opacity:.8;}
 
   /* Divider quote */
-  .gdiv{padding:0 14px;flex-wrap:wrap;justify-content:center;}
-  .gdq{font-size:10px;text-align:center;white-space:normal;}
+  .gdiv{padding:16px 14px;flex-wrap:wrap;justify-content:center;}
+  .gdq{font-size:11px;text-align:center;white-space:normal;opacity:.7;}
   .gdl{display:none;}
 
   /* Tee times */
-  .tee-section{padding:0 14px 20px;}
+  .tee-section{padding:0 14px 22px;}
   .tee-header-row,.tee-row{grid-template-columns:80px 1fr 50px;}
-  .tc-time{font-size:12px;}
+  .tc-time{font-size:13px;}
   .tc-players{font-size:12px;}
   .tc-hole{font-size:11px;}
+  .tdr-l{font-size:13px;}
+  .tdr-s{font-size:11px;}
 
-  /* Leaderboard */
-  .lb-section{padding:0 14px 20px;}
-  .sb-head{grid-template-columns:52px 1fr 48px 48px 38px 70px;padding:5px 10px;}
-  .sb-row{grid-template-columns:52px 1fr 48px 48px 38px 70px;padding:7px 10px;}
-  .sc{font-size:11px;}
-  .bdg{font-size:10px;padding:2px 5px;}
+  /* Leaderboard — simplify columns on mobile */
+  .lb-section{padding:0 14px 22px;}
+  .sb-head{display:none;}
+  .sb-row{
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:auto auto;
+    padding:10px 12px;gap:2px 0;
+  }
+  .sb-row .sc:nth-child(1){font-size:11px;color:var(--creamd);opacity:.6;grid-column:1;}
+  .sb-row .sc:nth-child(2){font-size:13px;grid-column:2;text-align:right;}
+  .sb-row .sc:nth-child(3){font-size:14px;color:var(--goldl);grid-column:1;}
+  .sb-row .sc:nth-child(4){display:none;}
+  .sb-row .sc:nth-child(5){font-size:12px;color:var(--sky);grid-column:1;opacity:.8;}
+  .sb-row .sc:nth-child(6){grid-column:2;text-align:right;grid-row:2;}
+  .bdg{font-size:10px;padding:2px 6px;}
 
   /* 10-day forecast */
   .fc-section{padding:0 14px 32px;}
+  .fc-head{font-size:11px;margin-bottom:12px;}
   .fc-grid{grid-template-columns:repeat(5,1fr);gap:5px;}
-  .fc-card{padding:8px 2px;}
-  .fc-hi{font-size:14px;}
-  .fc-em{font-size:16px;}
+  .fc-card{padding:9px 3px;background:rgba(255,255,255,.055);border-color:rgba(201,168,76,.18);}
+  .fc-hi{font-size:15px;}
+  .fc-lo{font-size:10px;}
+  .fc-em{font-size:17px;}
   .fc-dn{font-size:8px;}
-  .fc-dt{font-size:8px;}
+  .fc-dt{font-size:8px;margin-bottom:5px;}
+  .fc-pop{font-size:9px;}
 
-  /* Champions */
+  /* Champions — 2 per row, taller photo */
   .champions-section{padding:0 14px 28px;}
-  .champ-grid{gap:12px;}
-  .champ-card{flex:0 0 calc(50% - 6px);}
-  .champ-name{font-size:14px;}
-  .champ-subtitle{font-size:11px;padding:0 8px;}
+  .champ-subtitle{font-size:11px;padding:0 4px;margin-bottom:18px;}
+  .champ-grid{gap:12px;justify-content:flex-start;}
+  .champ-card{flex:0 0 calc(50% - 6px);background:rgba(15,45,22,.95);border-color:rgba(201,168,76,.45);}
+  .champ-photo-wrap{aspect-ratio:4/5;}
+  .champ-name{font-size:15px;}
+  .champ-year{font-size:11px;letter-spacing:.12em;}
+  .champ-body{padding:12px 12px 8px;}
+  .champ-trophy{font-size:14px;bottom:10px;right:10px;}
 
   /* Footer */
   .bfoot{padding:12px 14px;flex-direction:column;gap:6px;text-align:center;}
+  .bfoot-l{font-size:9px;}
 
   /* Lightning banner */
   .lightning-banner{padding:10px 14px;}
@@ -626,9 +682,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
         <div class="champ-card">
           <div class="champ-jacket-top"></div>
           <div class="champ-photo-wrap">
-            <div class="champ-photo-placeholder" id="photo-2019">
-              <div class="champ-silhouette">👤</div>
-            </div>
+            <img src="champ_2019.png" alt="Jared Sheffer 2019">
           </div>
           <div class="champ-body">
             <div class="champ-year">2019</div>
@@ -637,9 +691,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
         <div class="champ-card">
           <div class="champ-jacket-top"></div>
           <div class="champ-photo-wrap">
-            <div class="champ-photo-placeholder" id="photo-2020">
-              <div class="champ-silhouette">👤</div>
-            </div>
+            <img src="champ_2020.jpg" alt="Jared Sheffer 2020">
           </div>
           <div class="champ-body">
             <div class="champ-year">2020</div>
@@ -653,8 +705,11 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
         <div class="champ-card">
           <div class="champ-jacket-top"></div>
           <div class="champ-photo-wrap">
-            <div class="champ-photo-placeholder" id="photo-2021">
-              <div class="champ-silhouette">👤</div>
+            <div style="position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;">
+              <img src="champ_2020.jpg" alt="Jared Sheffer 2021" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+              <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(201,168,76,.95),rgba(201,168,76,.7));padding:7px 10px;text-align:center;">
+                <div style="font-family:'Playfair Display',serif;font-size:11px;font-weight:600;color:#071a0c;letter-spacing:.12em;text-transform:uppercase;">👑 3-Peat Champion</div>
+              </div>
             </div>
           </div>
           <div class="champ-body">
@@ -669,9 +724,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
         <div class="champ-card">
           <div class="champ-jacket-top"></div>
           <div class="champ-photo-wrap">
-            <div class="champ-photo-placeholder" id="photo-2022">
-              <div class="champ-silhouette">👤</div>
-            </div>
+            <img src="champ_2022.jpg" alt="Patrick Brewster 2022">
           </div>
           <div class="champ-body">
             <div class="champ-year">2022</div>
@@ -685,9 +738,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
         <div class="champ-card">
           <div class="champ-jacket-top"></div>
           <div class="champ-photo-wrap">
-            <div class="champ-photo-placeholder" id="photo-2023">
-              <div class="champ-silhouette">👤</div>
-            </div>
+            <img src="champ_2023.jpg" alt="Luke Palmer 2023">
           </div>
           <div class="champ-body">
             <div class="champ-year">2023</div>
@@ -701,9 +752,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
         <div class="champ-card">
           <div class="champ-jacket-top"></div>
           <div class="champ-photo-wrap">
-            <div class="champ-photo-placeholder" id="photo-2024">
-              <div class="champ-silhouette">👤</div>
-            </div>
+            <img src="champ_2025.jpg" alt="Ross Grey 2024">
           </div>
           <div class="champ-body">
             <div class="champ-year">2024</div>
@@ -717,9 +766,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
         <div class="champ-card">
           <div class="champ-jacket-top"></div>
           <div class="champ-photo-wrap">
-            <div class="champ-photo-placeholder" id="photo-2025">
-              <div class="champ-silhouette">👤</div>
-            </div>
+            <img src="champ_2024.jpg" alt="Max Schloeman 2025">
           </div>
           <div class="champ-body">
             <div class="champ-year">2025</div>
