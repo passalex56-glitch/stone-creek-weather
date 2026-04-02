@@ -211,10 +211,10 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 /* ── CHAMPIONS ── */
 .champions-section{padding:0 48px 36px;}
 .champ-subtitle{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--gold);opacity:.55;text-align:center;margin-bottom:24px;letter-spacing:.08em;}
-.champ-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;justify-content:center;}
+.champ-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
 .champ-card{
-  width:100%;
-  max-width:none;
+  flex:0 0 180px;
+  max-width:180px;
   background:rgba(7,26,12,.9);
   border:1px solid var(--gold);
   border-radius:8px;
@@ -454,16 +454,16 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   .fc-dt{font-size:8px;margin-bottom:5px;opacity:.6;}
   .fc-pop{font-size:9px;color:var(--sky);opacity:.9;}
 
-  /* Champions — 2 per row, taller photo */
+  /* Champions — 2 per row */
   .champions-section{padding:0 14px 28px;}
   .champ-subtitle{font-size:11px;padding:0 4px;margin-bottom:18px;}
-  .champ-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-  .champ-card{width:100%;max-width:none;background:rgba(15,45,22,.98);border-color:rgba(201,168,76,.45);}
-  .champ-photo-wrap{aspect-ratio:4/5;}
-  .champ-name{font-size:15px;}
-  .champ-year{font-size:11px;letter-spacing:.12em;}
-  .champ-body{padding:12px 12px 8px;}
-  .champ-trophy{font-size:14px;bottom:10px;right:10px;}
+  .champ-grid{gap:10px;}
+  .champ-card{flex:0 0 calc(50% - 5px);max-width:calc(50% - 5px);min-width:0;background:rgba(15,45,22,.98);border-color:rgba(201,168,76,.45);}
+  .champ-photo-wrap{aspect-ratio:1;}
+  .champ-name{font-size:13px;word-break:break-word;}
+  .champ-year{font-size:10px;}
+  .champ-body{padding:10px 10px 8px;}
+  .champ-trophy{font-size:13px;bottom:8px;right:8px;}
 
   /* Footer */
   .bfoot{padding:12px 14px;flex-direction:column;gap:6px;text-align:center;}
