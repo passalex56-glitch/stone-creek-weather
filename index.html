@@ -68,7 +68,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .asl{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:3px;font-family:'EB Garamond',serif;}
 .asv{font-family:'Playfair Display',serif;font-size:16px;font-weight:500;color:var(--cream);}
 .asu{font-size:10px;color:var(--gold);}
-.a11-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:.5px solid;border-radius:20px;padding:4px 12px;font-family:'Playfair Display',serif;font-size:10px;font-style:italic;}
+.a11-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:.5px solid;border-radius:20px;padding:5px 14px;font-family:'Playfair Display',serif;font-size:12px;font-style:italic;font-weight:500;}
 
 /* PLAYABILITY */
 .play-box{background:rgba(7,26,12,.9);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:16px 18px;backdrop-filter:blur(8px);flex:0 0 auto;}
@@ -266,10 +266,10 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   .asv{font-size:16px;}
   .a11-badge{font-size:11px;padding:5px 14px;}
   .play-box{display:none!important;}
-  .hole-info{bottom:50px;right:14px;}
-  .hi-name{font-size:18px;}
-  .hi-label{font-size:9px;}
-  .hi-stats{font-size:11px;}
+  .hole-info{bottom:42px;right:14px;max-width:55%;}
+  .hi-name{font-size:16px;}
+  .hi-label{font-size:8px;}
+  .hi-stats{font-size:10px;}
   .slide-dots{bottom:14px;gap:5px;}
   .dot{width:4px;height:4px;}
   .countdown-section{border-top:1px solid rgba(201,168,76,.18);padding:20px 14px 18px;}
@@ -314,10 +314,10 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   .tee-header-row,.tee-row{grid-template-columns:80px 1fr 50px;}
   .tdr-l{font-size:13px;}
   .tdr-s{font-size:11px;}
-  .sb-head{display:grid;grid-template-columns:50px 1fr 44px 36px 60px;padding:5px 10px;}
-  .sb-hc{font-size:8px;letter-spacing:.1em;}
-  .sb-row{grid-template-columns:50px 1fr 44px 36px 60px;padding:7px 10px;}
-  .sc{font-size:12px;color:#fff;}
+  .sb-head{display:grid;grid-template-columns:46px 1fr 40px 40px 36px 62px;padding:5px 10px;}
+  .sb-hc{font-size:8px;letter-spacing:.08em;}
+  .sb-row{grid-template-columns:46px 1fr 40px 40px 36px 62px;padding:7px 10px;}
+  .sc{font-size:11px;color:#fff;}
   .bdg{font-size:9px;padding:2px 5px;}
   .fc-head{font-size:11px;margin-bottom:12px;opacity:.85;}
   .fc-grid{grid-template-columns:repeat(5,1fr);gap:5px;}
@@ -392,6 +392,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
             <div class="a11-stat"><div class="asl">UV Max</div><div class="asv"><span id="a11-uv">—</span></div></div>
           </div>
           <div class="a11-badge" id="a11-play-badge" style="display:none;"></div>
+        <div style="margin-top:8px;font-size:9px;color:var(--creamd);opacity:.4;font-style:italic;font-family:'EB Garamond',serif;" id="last-updated"></div>
         </div>
       </div>
       <div class="play-box" id="play-box" style="display:none;">
@@ -671,7 +672,16 @@ const ICON={0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦'
 const WDIR=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
 function isMasters(s){const d=new Date(s+'T12:00:00');return d.getFullYear()===2026&&d.getMonth()===3&&d.getDate()>=9&&d.getDate()<=13;}
 function degToDir(d){return WDIR[Math.round(d/22.5)%16];}
-function fmtTime(iso){const d=new Date(iso);let h=d.getHours(),m=d.getMinutes(),ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+(m<10?'0':'')+m+' '+ap;}
+function fmtTime(iso){
+  // Open-Meteo returns "2026-04-11T06:40" — parse manually for reliability
+  if(!iso)return'—';
+  const parts=iso.split('T');
+  if(parts.length<2)return'—';
+  const[hStr,mStr]=parts[1].split(':');
+  let h=parseInt(hStr),m=parseInt(mStr),ap=h>=12?'PM':'AM';
+  h=h%12||12;
+  return h+':'+(m<10?'0':'')+m+' '+ap;
+}
 function badge(code,pop){if(code>=95)return['b-storm','⛈ Storm'];if(code>=80||pop>=70)return['b-hot','🌧 Rainy'];if(code>=60||pop>=40)return['b-cool','🌦 Showers'];if(code>=2)return['b-cool','⛅ Cloudy'];return['b-warm','☀️ Clear'];}
 function golfScore(temp,wind,pop,code,uv){let s=100;if(temp<50)s-=30;else if(temp<60)s-=15;else if(temp<65)s-=5;if(temp>90)s-=25;else if(temp>85)s-=12;else if(temp>80)s-=4;if(wind>25)s-=35;else if(wind>18)s-=20;else if(wind>12)s-=10;else if(wind>8)s-=4;if(pop>80)s-=30;else if(pop>60)s-=20;else if(pop>40)s-=12;else if(pop>20)s-=5;if(code>=95)s-=40;if(uv>9)s-=5;return Math.max(0,Math.min(100,Math.round(s)));}
 function golfWord(s){if(s>=85)return['Perfect','Ideal conditions — go play'];if(s>=70)return['Great','Good day on the course'];if(s>=55)return['Good','Playable with minor inconvenience'];if(s>=40)return['Fair','Manageable but not ideal'];if(s>=25)return['Poor','Tough conditions'];return['Avoid','Stay in the clubhouse'];}
@@ -701,6 +711,11 @@ function render(data){
   const cur=data.current,daily=data.daily,hourly=data.hourly;
   const now=new Date(),todayStr=now.toISOString().split('T')[0];
   document.getElementById('cur-date').textContent=DS[now.getDay()]+', '+MS[now.getMonth()]+' '+now.getDate()+' · '+now.getFullYear();
+  // Last updated
+  const lu=document.getElementById('last-updated');
+  if(lu){const t=new Date();let h=t.getHours(),m=t.getMinutes(),ap=h>=12?'PM':'AM';h=h%12||12;lu.textContent=`Updated ${h}:${m<10?'0':''}${m} ${ap}`;}
+
+  // Today widget
   const ti=daily.time.indexOf(todayStr);
   const ai=daily.time.indexOf(APR11);
   const usingApr11=ai>=0;
@@ -720,7 +735,7 @@ function render(data){
   document.getElementById('a11-pop').textContent=srcPop;
   document.getElementById('a11-wind').textContent=srcWind;
   document.getElementById('a11-uv').textContent=srcUV;
-  document.getElementById('a11-cond').textContent=(WMO[srcCode]||'Fair')+(usingApr11?'':' · Today\'s data');
+  document.getElementById('a11-cond').textContent=(WMO[srcCode]||'Fair')+(usingApr11?'':' · Live now');
   if(srcCode>=95)document.getElementById('lightning-banner').style.display='flex';
   const score=golfScore(srcHi,srcWind,srcPop,srcCode,srcUV);
   const[word,reason]=golfWord(score);
@@ -743,7 +758,8 @@ function render(data){
   document.getElementById('wind-dir').textContent=degToDir(windDir)+' wind'+(usingApr11?'':' · live');
   document.getElementById('wind-gust').textContent=`Gusts to ${srcGust} mph`;
   document.getElementById('compass-needle').setAttribute('transform',`rotate(${windDir},42,42)`);
-  document.getElementById('wind-note').textContent=srcWind<8?'Calm — perfect scoring conditions':srcWind<15?'Moderate — club up on approach':srcWind<22?'Gusty — play for wind drift':'Strong — major factor all day';
+  const wSpd=srcWind;
+  document.getElementById('wind-note').textContent=wSpd<8?'Calm — perfect scoring conditions':wSpd<15?'Moderate — club up on approach shots':wSpd<22?'Gusty — play for wind drift on full shots':'Strong wind — major factor on every shot';
   if(di>=0&&daily.sunrise&&daily.sunrise[di])document.getElementById('sunrise-val').textContent=fmtTime(daily.sunrise[di]);
   if(di>=0&&daily.sunset&&daily.sunset[di])document.getElementById('sunset-val').textContent=fmtTime(daily.sunset[di]);
   const humIdx=noonIdx>=0?noonIdx:0;
