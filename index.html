@@ -18,18 +18,24 @@
 html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Garamond',Georgia,serif;overflow-x:hidden;}
 
 /* HERO */
-.hero-wrap{position:relative;min-height:100vh;overflow:hidden;}
+.hero-wrap{position:relative;height:100vh;overflow:hidden;}
 .slide-bg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;}
 .slide{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;opacity:0;transition:opacity 1.8s ease-in-out;}
 .slide.active{opacity:1;}
-.hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;background:linear-gradient(to bottom,rgba(7,26,12,.75) 0%,rgba(7,26,12,.38) 35%,rgba(7,26,12,.80) 70%,rgba(7,26,12,.98) 100%);}
+.hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;background:linear-gradient(to bottom,rgba(7,26,12,.55) 0%,rgba(7,26,12,.1) 30%,rgba(7,26,12,.1) 60%,rgba(7,26,12,.55) 100%);}
 
-.hole-info{position:absolute;top:24px;right:24px;z-index:50;text-align:right;pointer-events:none;max-width:45%;}
-.hi-label{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:rgba(245,240,232,.45);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;transition:opacity .8s;}
-.hi-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:rgba(245,240,232,.88);letter-spacing:.03em;transition:opacity .8s;}
-.hi-stats{font-family:'EB Garamond',serif;font-size:13px;font-style:italic;color:rgba(201,168,76,.65);margin-top:3px;transition:opacity .8s;}
+.hole-info{position:absolute;top:90px;right:24px;z-index:50;text-align:right;pointer-events:none;max-width:55%;}
+.hi-label{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:rgba(245,240,232,.55);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;transition:opacity .8s;}
+.hi-name{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:rgba(245,240,232,.95);letter-spacing:.03em;transition:opacity .8s;text-shadow:0 2px 12px rgba(0,0,0,.6);}
+.hi-stats{font-family:'EB Garamond',serif;font-size:14px;font-style:italic;color:rgba(201,168,76,.8);margin-top:4px;transition:opacity .8s;}
 
-.slide-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:6px;}
+/* Scroll hint arrow */
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:50;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;animation:bounce 2s ease-in-out infinite;}
+.scroll-hint-line{width:.5px;height:32px;background:linear-gradient(to bottom,rgba(201,168,76,.6),transparent);}
+.scroll-hint-dot{width:6px;height:6px;border-radius:50%;background:rgba(201,168,76,.6);}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);opacity:.7;}50%{transform:translateX(-50%) translateY(6px);opacity:1;}}
+
+.slide-dots{position:absolute;bottom:72px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:6px;}
 .dot{width:5px;height:5px;border-radius:50%;background:rgba(201,168,76,.3);cursor:pointer;transition:background .3s,transform .3s;}
 .dot.active{background:var(--gold);transform:scale(1.3);}
 
@@ -49,8 +55,8 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 /* MAIN */
 .main{position:relative;z-index:10;padding-top:72px;}
 
-/* CBS BOX */
-.hero-section{min-height:calc(100vh - 72px);display:flex;align-items:flex-end;padding:0 48px 80px;gap:28px;position:relative;z-index:2;}
+/* CBS BOX — now lives below hero in content */
+.hero-section{height:100vh;position:relative;z-index:2;}
 .apr11-box{background:rgba(7,26,12,.93);border:1.5px solid var(--gold);border-radius:4px;overflow:hidden;min-width:310px;flex:0 0 auto;box-shadow:0 8px 40px rgba(0,0,0,.6);backdrop-filter:blur(8px);}
 .apr11-header{background:var(--gold);padding:7px 16px;display:flex;align-items:center;justify-content:space-between;}
 .a11-hl{font-family:'Playfair Display',serif;font-size:10px;font-weight:600;color:var(--gdeep);letter-spacing:.14em;text-transform:uppercase;}
@@ -256,8 +262,14 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   .bar-date{font-size:11px;}
   .bar-loc{display:none;}
   .snd-btn{padding:4px 12px;font-size:10px;}
-  .hero-section{padding:0 14px 70px;gap:10px;}
-  .hero-overlay{background:linear-gradient(to bottom,rgba(7,26,12,.8) 0%,rgba(7,26,12,.32) 28%,rgba(7,26,12,.72) 62%,rgba(7,26,12,.98) 100%);}
+  .hero-section{height:100vh;}
+  .hero-overlay{background:linear-gradient(to bottom,rgba(7,26,12,.55) 0%,rgba(7,26,12,.08) 25%,rgba(7,26,12,.08) 70%,rgba(7,26,12,.45) 100%);}
+  .hole-info{top:68px;right:14px;max-width:60%;}
+  .hi-name{font-size:22px;line-height:1.15;}
+  .hi-label{font-size:9px;}
+  .hi-stats{font-size:11px;}
+  .slide-dots{bottom:80px;gap:5px;}
+  .dot{width:4px;height:4px;}
   .apr11-box{min-width:0;width:100%;}
   .a11-num{font-size:60px;}
   .apr11-body{padding:14px 16px;}
@@ -265,13 +277,6 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   .asl{font-size:9px;}
   .asv{font-size:16px;}
   .a11-badge{font-size:11px;padding:5px 14px;}
-  .play-box{display:none!important;}
-  .hole-info{top:16px;right:12px;bottom:auto;max-width:42%;}
-  .hi-name{font-size:15px;line-height:1.1;}
-  .hi-label{font-size:8px;}
-  .hi-stats{font-size:10px;}
-  .slide-dots{bottom:14px;gap:5px;}
-  .dot{width:4px;height:4px;}
   .countdown-section{border-top:1px solid rgba(201,168,76,.18);padding:20px 14px 18px;}
   .hourly-section{border-top:1px solid rgba(201,168,76,.12);padding:20px 14px 16px;}
   .wind-metrics{border-top:1px solid rgba(201,168,76,.12);padding:0 14px 18px;gap:12px;}
@@ -368,6 +373,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
       <button class="snd-btn" id="snd-btn" onclick="toggleSound()">
         <span id="snd-icon">♪</span><span id="snd-lbl">Play Augusta</span>
       </button>
+      <a href="scoring.html" style="background:rgba(92,184,92,.15);border:.5px solid rgba(92,184,92,.45);border-radius:24px;padding:5px 16px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--good);text-decoration:none;letter-spacing:.07em;">⛳ Live Scoring</a>
     </div>
   </header>
 
@@ -378,45 +384,53 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 
   <main class="main">
     <div class="hero-section">
-      <div class="apr11-box">
-        <div class="apr11-header"><span class="a11-hl" id="cbs-header-left">Saturday, April 11 Forecast</span><span class="a11-hr" id="cbs-header-right">The Masters</span></div>
-        <div class="apr11-body">
-          <div class="a11-date">The Masters · Makanda, Illinois</div>
-          <div class="a11-loc">503 Stone Creek Dr · Tee time 9:00 AM CT</div>
-          <div class="a11-temp-row"><div class="a11-num" id="a11-hi">—</div><div class="a11-unit">°F</div></div>
-          <div class="a11-cond" id="a11-cond">Loading…</div>
-          <div class="a11-stats">
-            <div class="a11-stat"><div class="asl">Low</div><div class="asv"><span id="a11-lo">—</span><span class="asu">°</span></div></div>
-            <div class="a11-stat"><div class="asl">Rain</div><div class="asv"><span id="a11-pop">—</span><span class="asu">%</span></div></div>
-            <div class="a11-stat"><div class="asl">Wind</div><div class="asv"><span id="a11-wind">—</span><span class="asu">mph</span></div></div>
-            <div class="a11-stat"><div class="asl">UV Max</div><div class="asv"><span id="a11-uv">—</span></div></div>
-          </div>
-          <div class="a11-badge" id="a11-play-badge" style="display:none;"></div>
-        <div style="margin-top:8px;font-size:9px;color:var(--creamd);opacity:.4;font-style:italic;font-family:'EB Garamond',serif;" id="last-updated"></div>
-        </div>
-      </div>
-      <div class="play-box" id="play-box" style="display:none;">
-        <div class="pb-title">Golf Playability · Apr 11</div>
-        <div style="display:flex;align-items:center;gap:14px;">
-          <div class="play-ring">
-            <svg viewBox="0 0 110 110"><circle class="prb" cx="55" cy="55" r="44"/><circle class="prf" id="prf" cx="55" cy="55" r="44" stroke-dasharray="276.5" stroke-dashoffset="276.5"/></svg>
-            <div class="play-label"><div class="pln" id="play-num">—</div><div class="pls">/ 100</div></div>
-          </div>
-          <div><div class="play-word" id="play-word">—</div><div class="play-reason" id="play-reason">—</div></div>
-        </div>
-      </div>
-      <div class="slide-dots" id="slide-dots"></div>
+      <!-- Hole info top right -->
       <div class="hole-info">
         <div class="hi-label" id="hi-label">Augusta National Golf Club</div>
         <div class="hi-name" id="hi-name">Golden Bell</div>
         <div class="hi-stats" id="hi-stats">Par 3 · 155 yards</div>
+      </div>
+      <!-- Dots and scroll hint at bottom -->
+      <div class="slide-dots" id="slide-dots"></div>
+      <div class="scroll-hint">
+        <div class="scroll-hint-line"></div>
+        <div class="scroll-hint-dot"></div>
       </div>
     </div>
   </main>
 </div><!-- end hero-wrap -->
 
 <div class="content">
-  <div class="apr11-strip">
+  <!-- CBS WEATHER BOX — first thing after photo -->
+  <div style="padding:28px 24px 0;max-width:520px;margin:0 auto;">
+    <div class="apr11-box">
+      <div class="apr11-header"><span class="a11-hl" id="cbs-header-left">Saturday, April 11 Forecast</span><span class="a11-hr" id="cbs-header-right">The Masters</span></div>
+      <div class="apr11-body">
+        <div class="a11-date">The Masters · Makanda, Illinois</div>
+        <div class="a11-loc">503 Stone Creek Dr · Tee time 9:00 AM CT</div>
+        <div class="a11-temp-row"><div class="a11-num" id="a11-hi">—</div><div class="a11-unit">°F</div></div>
+        <div class="a11-cond" id="a11-cond">Loading…</div>
+        <div class="a11-stats">
+          <div class="a11-stat"><div class="asl">Low</div><div class="asv"><span id="a11-lo">—</span><span class="asu">°</span></div></div>
+          <div class="a11-stat"><div class="asl">Rain</div><div class="asv"><span id="a11-pop">—</span><span class="asu">%</span></div></div>
+          <div class="a11-stat"><div class="asl">Wind</div><div class="asv"><span id="a11-wind">—</span><span class="asu">mph</span></div></div>
+          <div class="a11-stat"><div class="asl">UV Max</div><div class="asv"><span id="a11-uv">—</span></div></div>
+        </div>
+        <div class="a11-badge" id="a11-play-badge" style="display:none;"></div>
+        <div style="margin-top:8px;font-size:9px;color:var(--creamd);opacity:.4;font-style:italic;font-family:'EB Garamond',serif;" id="last-updated"></div>
+      </div>
+    </div>
+    <div class="play-box" id="play-box" style="display:none;margin-top:16px;">
+      <div class="pb-title">Golf Playability · Apr 11</div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div class="play-ring">
+          <svg viewBox="0 0 110 110"><circle class="prb" cx="55" cy="55" r="44"/><circle class="prf" id="prf" cx="55" cy="55" r="44" stroke-dasharray="276.5" stroke-dashoffset="276.5"/></svg>
+          <div class="play-label"><div class="pln" id="play-num">—</div><div class="pls">/ 100</div></div>
+        </div>
+        <div><div class="play-word" id="play-word">—</div><div class="play-reason" id="play-reason">—</div></div>
+      </div>
+    </div>
+  </div>
     <div><div class="a11-strip-date" id="strip-date">Saturday, April 11, 2026</div><div class="a11-strip-sub" id="strip-sub">All weather data below is for April 11 · Makanda, IL</div></div>
     <div class="a11-strip-badge" id="strip-badge">⛳ The Masters · April 11</div>
   </div>
