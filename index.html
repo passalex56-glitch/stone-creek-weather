@@ -24,7 +24,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .slide.active{opacity:1;}
 .hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;background:linear-gradient(to bottom,rgba(7,26,12,.75) 0%,rgba(7,26,12,.38) 35%,rgba(7,26,12,.80) 70%,rgba(7,26,12,.98) 100%);}
 
-.hole-info{position:absolute;bottom:90px;right:32px;z-index:50;text-align:right;pointer-events:none;}
+.hole-info{position:absolute;top:24px;right:24px;z-index:50;text-align:right;pointer-events:none;max-width:45%;}
 .hi-label{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:rgba(245,240,232,.45);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;transition:opacity .8s;}
 .hi-name{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:rgba(245,240,232,.88);letter-spacing:.03em;transition:opacity .8s;}
 .hi-stats{font-family:'EB Garamond',serif;font-size:13px;font-style:italic;color:rgba(201,168,76,.65);margin-top:3px;transition:opacity .8s;}
@@ -266,8 +266,8 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   .asv{font-size:16px;}
   .a11-badge{font-size:11px;padding:5px 14px;}
   .play-box{display:none!important;}
-  .hole-info{bottom:42px;right:14px;max-width:55%;}
-  .hi-name{font-size:16px;}
+  .hole-info{top:16px;right:12px;bottom:auto;max-width:42%;}
+  .hi-name{font-size:15px;line-height:1.1;}
   .hi-label{font-size:8px;}
   .hi-stats{font-size:10px;}
   .slide-dots{bottom:14px;gap:5px;}
@@ -417,8 +417,8 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 
 <div class="content">
   <div class="apr11-strip">
-    <div><div class="a11-strip-date">Saturday, April 11, 2026</div><div class="a11-strip-sub">All weather data below is for April 11 · Makanda, IL</div></div>
-    <div class="a11-strip-badge">⛳ The Masters · April 11</div>
+    <div><div class="a11-strip-date" id="strip-date">Saturday, April 11, 2026</div><div class="a11-strip-sub" id="strip-sub">All weather data below is for April 11 · Makanda, IL</div></div>
+    <div class="a11-strip-badge" id="strip-badge">⛳ The Masters · April 11</div>
   </div>
 
   <div class="countdown-section">
@@ -436,7 +436,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
       <div class="cd-msg" id="cd-msg"></div>
       <div id="best-window-wrap" style="display:none;">
         <div class="best-window">
-          <div class="bw-label">⛳ Best Golf Window · Apr 11</div>
+          <div class="bw-label" id="bw-label">⛳ Best Golf Window · Apr 11</div>
           <div class="bw-time" id="bw-time">—</div>
           <div class="bw-sub" id="bw-sub">—</div>
         </div>
@@ -495,6 +495,20 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   </div>
 
   <div class="gdiv"><div class="gdl"></div><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><div class="gdq">"Your dogwoods and pines play on my mind like a song"</div><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><div class="gdl r"></div></div>
+      <div class="quote-card">
+        <div class="quote-text">"The most important shot in golf is the next one."</div>
+        <div class="quote-attr">— Ben Hogan</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-text">"Golf is a game that is played on a five-inch course — the distance between your ears."</div>
+        <div class="quote-attr">— Bobby Jones</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-text">"A bad day of golf is still better than a good day at the office."</div>
+        <div class="quote-attr">— Unknown</div>
+      </div>
+    </div>
+  </div>
 
   <!-- CHAMPIONS -->
   <div class="champions-section">
@@ -503,7 +517,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
       <span class="sec-txt">Past Champions · The Masters</span>
       <div class="sec-rule"></div>
     </div>
-    <div class="champ-subtitle">The green jacket of Makanda, Illinois &nbsp;·&nbsp; Est. 2019 &nbsp;·&nbsp; Jared Sheffer 3-peat champion 2019–2021</div>
+    <div class="champ-subtitle">The Green Jacket of Southern Illinois &nbsp;·&nbsp; Est. 2019 &nbsp;·&nbsp; Jared Sheffer 3-peat champion 2019–2021</div>
     <div class="champ-grid">
       <div class="champ-card">
         <div class="champ-jacket-top"></div>
@@ -720,7 +734,22 @@ function render(data){
   const ai=daily.time.indexOf(APR11);
   const usingApr11=ai>=0;
   const di=usingApr11?ai:ti;
-  if(!usingApr11){document.getElementById('cbs-header-left').textContent='Current Conditions';document.getElementById('cbs-header-right').textContent='Live · Makanda IL';}
+  if(!usingApr11){
+    document.getElementById('cbs-header-left').textContent='Current Conditions';
+    document.getElementById('cbs-header-right').textContent='Live · Makanda IL';
+    document.getElementById('strip-date').textContent='Today · '+DS[now.getDay()]+', '+MS[now.getMonth()]+' '+now.getDate();
+    document.getElementById('strip-sub').textContent='Showing live conditions · April 11 forecast available within 10 days';
+    document.getElementById('strip-badge').textContent='⛳ Apr 11 forecast coming soon';
+    document.getElementById('strip-badge').style.background='rgba(168,200,224,.1)';
+    document.getElementById('strip-badge').style.borderColor='rgba(168,200,224,.3)';
+    document.getElementById('strip-badge').style.color='var(--sky)';
+  } else {
+    document.getElementById('cbs-header-left').textContent='Saturday, April 11 Forecast';
+    document.getElementById('cbs-header-right').textContent='The Masters';
+    document.getElementById('strip-date').textContent='Saturday, April 11, 2026';
+    document.getElementById('strip-sub').textContent='All weather data below is for April 11 · Makanda, IL';
+    document.getElementById('strip-badge').textContent='⛳ The Masters · April 11';
+  }
   const srcHi=di>=0?Math.round(daily.temperature_2m_max[di]):Math.round(cur.temperature_2m);
   const srcCur=usingApr11?srcHi:Math.round(cur.temperature_2m);
   const srcLo=di>=0?Math.round(daily.temperature_2m_min[di]):Math.round(cur.apparent_temperature);
@@ -826,7 +855,7 @@ function render(data){
   const hrLabel=document.querySelector('.hourly-section .sec-txt');
   if(hrLabel)hrLabel.textContent=usingApr11?'Hourly Forecast · April 11 · 6 AM – 8 PM':'Hourly Forecast · Today · 6 AM – 8 PM (Apr 11 available within 10 days)';
   document.getElementById('hourly-scroll').innerHTML=hourlyHTML.length?hourlyHTML.join(''):'<div style="color:var(--creamd);opacity:.35;font-style:italic;padding:16px 0;">No hourly data available</div>';
-  if(bestHrLabel){document.getElementById('bw-time').textContent=bestHrLabel;document.getElementById('bw-sub').textContent=`Score ${bestScore}/100${usingApr11?' on Apr 11':' today'}`;document.getElementById('best-window-wrap').style.display='block';}
+  if(bestHrLabel){document.getElementById('bw-label').textContent=usingApr11?'⛳ Best Golf Window · Apr 11':'⛳ Best Golf Window · Today';document.getElementById('bw-time').textContent=bestHrLabel;document.getElementById('bw-sub').textContent=`Score ${bestScore}/100${usingApr11?' on Apr 11':' today'}`;document.getElementById('best-window-wrap').style.display='block';}
   document.getElementById('sb-body').innerHTML=daily.time.map((date,i)=>{
     const d2=new Date(date+'T12:00:00'),isToday=date===todayStr,isApr11=date===APR11,mday=isMasters(date);
     const code=daily.weathercode[i],hi=Math.round(daily.temperature_2m_max[i]),lo=Math.round(daily.temperature_2m_min[i]),pop=daily.precipitation_probability_max[i];
