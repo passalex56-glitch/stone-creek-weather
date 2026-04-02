@@ -94,7 +94,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .play-reason{font-size:10px;color:var(--creamd);opacity:.5;font-style:italic;max-width:120px;margin-top:3px;}
 
 /* CONTENT */
-.content{background:var(--gdeep);position:relative;z-index:10;border-top:2px solid var(--gold);}
+.content{background:#0a1f10;position:relative;z-index:10;border-top:2px solid var(--gold);}
 .apr11-strip{background:linear-gradient(to right,rgba(201,168,76,.1),rgba(201,168,76,.05),transparent);border-bottom:.5px solid rgba(201,168,76,.15);padding:12px 48px;display:flex;align-items:center;gap:20px;}
 .a11-strip-date{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--goldl);}
 .a11-strip-sub{font-size:12px;color:var(--creamd);opacity:.5;}
@@ -211,10 +211,10 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 /* ── CHAMPIONS ── */
 .champions-section{padding:0 48px 36px;}
 .champ-subtitle{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--gold);opacity:.55;text-align:center;margin-bottom:24px;letter-spacing:.08em;}
-.champ-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+.champ-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;justify-content:center;}
 .champ-card{
-  flex:0 0 200px;
-  max-width:200px;
+  width:100%;
+  max-width:none;
   background:rgba(7,26,12,.9);
   border:1px solid var(--gold);
   border-radius:8px;
@@ -293,7 +293,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .lb-text{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:#ffaaaa;}
 
 /* FOOTER */
-.bfoot{border-top:1px solid rgba(201,168,76,.1);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;background:var(--gdeep);}
+.bfoot{border-top:1px solid rgba(201,168,76,.1);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;background:#0a1f10;}
 .bfoot-l{font-size:10px;color:var(--creamd);opacity:.3;font-style:italic;}
 .bfoot-r{display:flex;align-items:center;gap:6px;}
 .ldot{width:6px;height:6px;border-radius:50%;background:#4CAF50;animation:pulse 2s ease-in-out infinite;}
@@ -457,9 +457,8 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   /* Champions — 2 per row, taller photo */
   .champions-section{padding:0 14px 28px;}
   .champ-subtitle{font-size:11px;padding:0 4px;margin-bottom:18px;}
-  .champ-grid{gap:12px;justify-content:flex-start;}
-  .champ-card{flex:0 0 calc(50% - 6px);max-width:calc(50% - 6px);background:rgba(15,45,22,.95);border-color:rgba(201,168,76,.45);}
-  .champ-photo-wrap{aspect-ratio:4/5;}
+  .champ-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .champ-card{width:100%;max-width:none;background:rgba(15,45,22,.98);border-color:rgba(201,168,76,.45);}
   .champ-photo-wrap{aspect-ratio:4/5;}
   .champ-name{font-size:15px;}
   .champ-year{font-size:11px;letter-spacing:.12em;}
