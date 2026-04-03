@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>The Masters · Stone Creek Invitational · Leaders</title>
+<title>The Masters · Southern Illinois Masters · Leaders</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -21,21 +21,9 @@
 }
 html,body{min-height:100vh;background:#0a2e12;font-family:'Oswald',sans-serif;overflow-x:hidden;}
 
-/* ── BACKGROUND PHOTO ── */
-
-nav,
-.flags-strip,
-.masters-header,
-.board-surround,
-.legend,
-.refresh-lbl,
-.modal-ov {
-  position:relative;
-  z-index:10;
-}
-.board-surround{background:transparent;padding:12px 10px 24px;}
-
-/* ── NAV ── */
+/* ── BOARD WRAP ── */
+.board-surround{background:var(--board-green);padding:14px 10px 24px;}
+.strokes-lbl{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;font-family:'EB Garamond',serif;}
 .nav{position:sticky;top:0;z-index:100;background:rgba(7,26,12,.97);border-bottom:2px solid var(--gold);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);}
 .nav-left{display:flex;align-items:center;gap:10px;}
 .fpole{width:2px;height:18px;background:var(--gold);}
@@ -48,9 +36,6 @@ nav,
 .live-txt{font-size:9px;color:#7ed87e;letter-spacing:.12em;text-transform:uppercase;}
 .nav-link{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--goldl);text-decoration:none;opacity:.55;}
 .nav-link:hover{opacity:1;}
-
-/* ── BOARD WRAP ── */
-.board-surround{background:var(--board-green);padding:14px 10px 24px;}
 
 /* ── LEADERS HEADER ── */
 .leaders-hd{max-width:600px;margin:0 auto;background:var(--board-white);border:3px solid var(--black);border-bottom:none;text-align:center;padding:7px 0 5px;}
@@ -158,7 +143,7 @@ nav,
 <nav class="nav">
   <div class="nav-left">
     <div style="display:flex;align-items:flex-end;"><div class="fpole"></div><div class="ftri"></div></div>
-    <span class="nav-title">Stone Creek Invitational · Leaders</span>
+    <span class="nav-title">Southern Illinois Masters · Leaders</span>
   </div>
   <div class="nav-right">
     <div class="live-pill"><div class="live-dot"></div><span class="live-txt">Live</span></div>
@@ -172,7 +157,7 @@ nav,
   <!-- LEADERS HEADER -->
   <div class="leaders-hd">
     <div class="leaders-word">Leaders</div>
-    <div class="leaders-sub">Stone Creek Invitational · April 11, 2026</div>
+    <div class="leaders-sub">Southern Illinois Masters · April 11, 2026</div>
   </div>
 
   <!-- COLUMN HEADERS -->
@@ -281,36 +266,52 @@ function render(){
   document.getElementById('col-headers').style.display='block';
   document.getElementById('board-footer').style.display='flex';
 
-  // Sort
+  // Sort — players who haven't started go to bottom
   const sorted = players.map(p=>({...p,...calcPlayer(p)}))
-    .sort((a,b)=>a.netVs-b.netVs||a.net-b.net||a.vs-b.vs);
+    .sort((a,b)=>{
+      // Push unstarted players to bottom
+      if(a.played===0 && b.played>0) return 1;
+      if(a.played>0 && b.played===0) return -1;
+      return a.netVs-b.netVs||a.net-b.net||a.vs-b.vs;
+    });
 
-  // Positions
+  // Positions — only assign position if they've played
   let lastVs=null,lastPos=1;
   sorted.forEach((p,i)=>{
+    if(p.played===0){p.pos='—';return;}
     if(p.netVs===lastVs){p.pos='T'+lastPos;}
     else{lastPos=i+1;p.pos=String(lastPos);lastVs=p.netVs;}
   });
 
   board.innerHTML = sorted.map((p,i)=>{
     const vStr = vsStr(p.vs);
-    const vCls = p.vs<0?'under':p.vs>0?'over':'even';
+    const netVsStr = p.played>0?vsStr(p.netVs):'—';
+    const netVsCls = p.netVs<0?'under':p.netVs>0?'over':'even';
     const thru = p.played===0?'—':p.played===18?'F':String(p.played);
     const thruCls = p.played===18?'finished':'';
     const isLeader = i===0 && p.played>0;
     const isTied = p.pos.startsWith('T');
 
-    return`<div class="player-row${isLeader?' leader':''}" onclick="openCard('${p.id}')">
+    // Add separator line between groups at different scores
+    const prev = sorted[i-1];
+    const showDivider = i>0 && p.played>0 && prev.played>0 && p.netVs !== prev.netVs;
+
+    return`${showDivider?'<div style="height:2px;background:var(--border);max-width:600px;margin:0 auto;"></div>':''}
+    <div class="player-row${isLeader?' leader':''}" onclick="openCard('${p.id}')">
       <div class="pos-cell">
-        ${isTied?`<span class="pos-t">T</span><span class="pos-num">${p.pos.slice(1)}</span>`:`<span class="pos-num">${p.pos}</span>`}
+        ${p.played===0?`<span class="pos-num" style="opacity:.3;">—</span>`:isTied?`<span class="pos-t">T</span><span class="pos-num">${p.pos.slice(1)}</span>`:`<span class="pos-num">${p.pos}</span>`}
       </div>
       <div class="name-cell">
         <div class="p-name">${p.name} <span style="font-size:10px;opacity:.45;font-weight:400;font-family:'EB Garamond',serif;font-style:italic;">HCP ${p.hcp||0}</span></div>
-        <div class="p-hometown">Thru ${p.played===0?'—':p.played===18?'F':p.played} · Gross ${vStr}</div>
+        <div class="p-hometown">${p.played>0?`Thru ${thru}`:'Not started'}</div>
       </div>
       <div class="score-cell">
-        <div class="vs-num ${p.netVs<0?'under':p.netVs>0?'over':'even'}">${p.played>0?vsStr(p.netVs):'—'}</div>
-        <div class="strokes-lbl">${p.net||'—'} net strokes</div>
+        <div class="vs-num ${p.vs<0?'under':p.vs>0?'over':'even'}">${p.played>0?vStr:'—'}</div>
+        <div class="strokes-lbl">${p.played>0?p.total:'—'} strokes</div>
+      </div>
+      <div class="score-cell" style="background:rgba(201,168,76,.04);border-right:1px solid var(--border);">
+        <div class="vs-num ${netVsCls}">${netVsStr}</div>
+        <div class="strokes-lbl">${p.played>0?p.net:'—'} net</div>
       </div>
       <div class="thru-cell">
         <div class="thru-num ${thruCls}">${thru}</div>
