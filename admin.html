@@ -172,10 +172,33 @@ const JSONBIN_URL  = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
 const USE_JSONBIN  = JSONBIN_ID.length > 10;
 const STORAGE_KEY  = 'scinv2026';
 
-// ── Course pars — update to match your actual course ─────────────
-const PAR = [4,5,4,3,4,3,4,5,4,4,4,3,5,4,5,3,4,4];
+// ── Apple Creek Golf Club · Blue tees · Par 70 ──────────────────
+const PAR = [5,4,3,4,3,5,4,4,4,3,4,3,4,4,4,3,4,5];
 
 let data={players:[],lastUpdated:null};
+
+// ── DEFAULT PLAYERS — pre-loaded for April 11 ─────────────────────
+const DEFAULT_PLAYERS = [
+  {name:'Patrick Brewster', hcp:3},
+  {name:'Louie Gualdoni',   hcp:9},
+  {name:'Jared Sheffer',    hcp:2},
+  {name:'Trevor Poore',     hcp:7},
+  {name:'Daniel Sherwood',  hcp:15},
+  {name:'Luke Palmer',      hcp:17},
+  {name:'Phil Palmer',      hcp:18},
+  {name:'Brad Magnuson',    hcp:15},
+  {name:'Jake Crain',       hcp:13},
+  {name:'Jordan Chamness',  hcp:18},
+  {name:'Riley Hoistad',    hcp:10},
+  {name:'Luc Damien',       hcp:9},
+  {name:'Max Schloemann',   hcp:12},
+  {name:'Alex Baine',       hcp:18},
+  {name:'Bobby Andrews',    hcp:10},
+  {name:'Andy Flynn',       hcp:6},
+  {name:'Tim Crosby',       hcp:8},
+  {name:'Matt Reed',        hcp:16},
+  {name:'Alex Pass',        hcp:25},
+];
 let autoTimer=null;
 
 // ── AUTH ──────────────────────────────────────────────────────────
@@ -203,6 +226,10 @@ async function loadData(){
     }catch(e){}
   }
   try{const r=localStorage.getItem(STORAGE_KEY);if(r)data=JSON.parse(r);}catch(e){}
+  // If no players yet, seed from defaults
+  if(!data.players||!data.players.length){
+    data.players=DEFAULT_PLAYERS.map(p=>({id:uid(),name:p.name,hcp:p.hcp,scores:new Array(18).fill(0)}));
+  }
 }
 
 async function saveData(){
@@ -256,7 +283,7 @@ function addPlayer(){
   const name=inp.value.trim();
   if(!name)return;
   if(!data.players)data.players=[];
-  data.players.push({id:uid(),name,scores:new Array(18).fill(0)});
+  data.players.push({id:uid(),name,scores:new Array(18).fill(0),hcp:0});
   inp.value='';
   saveData();
   renderAll();
@@ -308,7 +335,15 @@ function renderAll(){
           <div class="card-name">${p.name}</div>
           <div class="card-meta" id="meta-${p.id}">${vsStr(p.scores)}</div>
         </div>
-        <button class="del-btn" onclick="deletePlayer('${p.id}')">Remove</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="text-align:center;">
+            <div style="font-size:8px;color:var(--goldl);opacity:.5;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;">HCP</div>
+            <input type="number" min="0" max="54" class="s-inp" style="width:48px;font-size:14px;"
+              value="${p.hcp||0}" data-pid="${p.id}" data-field="hcp"
+              oninput="updateHcp(this)">
+          </div>
+          <button class="del-btn" onclick="deletePlayer('${p.id}')">Remove</button>
+        </div>
       </div>
       <div class="hole-grid">${front}${back}</div>
     </div>`;
@@ -332,6 +367,16 @@ function buildNine(p,start,end,label){
   return html;
 }
 
+function updateHcp(inp){
+  const pid=inp.dataset.pid;
+  const val=parseInt(inp.value)||0;
+  const player=data.players.find(p=>p.id===pid);
+  if(!player)return;
+  player.hcp=val;
+  document.getElementById('meta-'+pid).textContent=vsStr(player.scores);
+  clearTimeout(autoTimer);
+  autoTimer=setTimeout(saveData,1000);
+}
 async function saveAll(){await saveData();}
 </script>
 </body>
