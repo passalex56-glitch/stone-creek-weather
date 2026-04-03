@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Masters · Stone Creek Invitational</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --board-green:#1e5c2e;
+  --board-dark:#0d3318;
+  --tile-white:#f2ede4;
+  --tile-yellow:#f5d800;
+  --tile-red:#cc2200;
+  --tile-birdie-red:#dd3311;
+  --masters-gold:#b8962e;
+  --gdeep:#071a0c;
+  --gold:#c9a84c;--goldl:#e8c97a;
+  --cream:#f5f0e8;--creamd:#c8bfa8;
+}
+html,body{min-height:100vh;background:#0a1f10;font-family:'Oswald',sans-serif;overflow-x:hidden;}
+
+/* ── NAV BAR ── */
+.nav{position:sticky;top:0;z-index:100;background:rgba(7,26,12,.97);border-bottom:2px solid var(--masters-gold);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);}
+.nav-left{display:flex;align-items:center;gap:10px;}
+.fpole{width:2px;height:18px;background:var(--gold);}
+.ftri{width:0;height:0;border-top:5px solid var(--gold);border-bottom:5px solid transparent;border-left:9px solid var(--gold);margin-bottom:7px;margin-left:-2px;}
+.nav-title{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--goldl);letter-spacing:.1em;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.live-pill{display:flex;align-items:center;gap:5px;background:rgba(92,184,92,.12);border:.5px solid rgba(92,184,92,.4);border-radius:20px;padding:3px 10px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4CAF50;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.2;}}
+.live-txt{font-size:9px;color:#7ed87e;letter-spacing:.12em;text-transform:uppercase;}
+.nav-link{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--goldl);text-decoration:none;opacity:.55;transition:opacity .2s;}
+.nav-link:hover{opacity:1;}
+
+/* ── FLAGS STRIP ── */
+.flags-strip{background:var(--board-green);padding:8px 0;overflow:hidden;border-bottom:3px solid #1a4a24;position:relative;}
+.flags-inner{display:flex;gap:0;align-items:flex-end;justify-content:center;padding:0 20px;}
+.flag-pole{display:flex;flex-direction:column;align-items:center;margin:0 8px;}
+.flag-stick{width:2px;height:42px;background:rgba(255,255,255,.5);margin-bottom:2px;}
+.flag-emoji{font-size:22px;animation:wave 3s ease-in-out infinite;}
+.flag-emoji:nth-child(odd){animation-delay:.5s;}
+@keyframes wave{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
+
+/* ── MASTERS HEADER ── */
+.masters-header{background:var(--board-green);padding:14px 0 10px;text-align:center;border-bottom:4px solid #1a4a24;position:relative;}
+.masters-logo-wrap{display:inline-flex;align-items:center;gap:16px;padding:8px 32px;border:.5px solid rgba(255,255,255,.12);}
+.masters-wordmark{font-family:'Playfair Display',serif;font-size:58px;font-weight:800;color:var(--tile-white);letter-spacing:.06em;text-transform:uppercase;line-height:1;text-shadow:2px 2px 0 rgba(0,0,0,.3);}
+@media(max-width:500px){.masters-wordmark{font-size:38px;}}
+.masters-sub{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,.55);margin-top:4px;letter-spacing:.1em;}
+.masters-date{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px;letter-spacing:.08em;font-family:'EB Garamond',serif;}
+
+/* ── BOARD CONTAINER ── */
+.board-container{padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch;background:#0a1f10;}
+.board-inner{min-width:320px;}
+
+/* ── COLUMN HEADER (HOLE NUMBERS + PAR) ── */
+.col-header{background:var(--board-dark);display:flex;border-bottom:2px solid #1a4a24;}
+.col-header-name{min-width:140px;flex-shrink:0;padding:6px 10px;font-size:9px;letter-spacing:.12em;color:rgba(255,255,255,.35);text-transform:uppercase;border-right:1px solid rgba(255,255,255,.1);}
+.col-header-holes{display:flex;flex:1;}
+.hole-col-hd{flex:1;min-width:28px;text-align:center;padding:3px 1px;}
+.hole-num{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.05em;}
+.hole-par{font-size:8px;color:rgba(255,255,255,.22);margin-top:1px;}
+.col-header-totals{display:flex;border-left:2px solid rgba(255,255,255,.15);}
+.total-col-hd{width:52px;text-align:center;padding:6px 2px;font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.08em;border-right:1px solid rgba(255,255,255,.06);}
+
+/* ── PLAYER ROW ── */
+.player-row{display:flex;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;transition:filter .15s;}
+.player-row:hover{filter:brightness(1.08);}
+.player-row.leader .name-block{background:#1a5c30;}
+
+.name-block{min-width:140px;flex-shrink:0;background:var(--board-green);border-right:1px solid rgba(0,0,0,.3);padding:0;}
+.name-tile{background:var(--tile-white);margin:3px;padding:5px 8px;border-radius:1px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.15),0 1px 2px rgba(0,0,0,.3);}
+.player-name{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:#111;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.player-thru{font-size:9px;color:#555;margin-top:1px;font-family:'EB Garamond',serif;font-style:italic;}
+
+.holes-block{display:flex;flex:1;background:var(--board-green);}
+.hole-cell{flex:1;min-width:28px;display:flex;align-items:center;justify-content:center;padding:3px 1px;border-right:.5px solid rgba(0,0,0,.2);}
+.score-tile{width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;border-radius:1px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);}
+.st-eagle{background:var(--tile-yellow);color:#111;box-shadow:inset 0 -2px 0 rgba(0,0,0,.2),0 0 8px rgba(245,216,0,.4);}
+.st-birdie{background:var(--tile-birdie-red);color:#fff;border-radius:50%!important;}
+.st-par{background:var(--tile-white);color:#111;}
+.st-bogey{background:#fff;color:var(--tile-red);font-weight:700;}
+.st-double{background:#111;color:#ff6633;font-weight:700;}
+.st-empty{background:rgba(255,255,255,.07);color:transparent;border:.5px solid rgba(255,255,255,.08);}
+
+.totals-block{display:flex;border-left:2px solid rgba(255,255,255,.15);background:var(--board-dark);}
+.vs-par-cell{width:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid rgba(255,255,255,.06);}
+.vs-tile{min-width:38px;padding:3px 6px;text-align:center;font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;border-radius:1px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.2);}
+.vt-under{background:var(--tile-yellow);color:#111;}
+.vt-over{background:var(--tile-red);color:#fff;}
+.vt-even{background:var(--tile-white);color:#111;}
+.strokes-lbl{font-size:9px;color:rgba(255,255,255,.25);margin-top:2px;font-family:'EB Garamond',serif;}
+
+.pos-cell{width:36px;display:flex;align-items:center;justify-content:center;}
+.pos-tile{font-family:'Playfair Display',serif;font-size:15px;color:rgba(255,255,255,.6);}
+
+/* ── SECTION DIVIDERS (OUT/IN) ── */
+.nine-divider{background:rgba(0,0,0,.4);border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:3px 10px;font-size:8px;color:rgba(255,255,255,.25);letter-spacing:.15em;text-transform:uppercase;display:flex;}
+.nine-divider span{min-width:140px;}
+
+/* ── LEGEND ── */
+.legend{display:flex;gap:14px;padding:12px 16px;justify-content:center;flex-wrap:wrap;background:rgba(0,0,0,.3);border-top:1px solid rgba(255,255,255,.06);}
+.leg{display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(255,255,255,.4);font-family:'EB Garamond',serif;}
+.lt{width:16px;height:16px;border-radius:1px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:'Oswald',sans-serif;}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:60px 20px;background:var(--board-green);}
+.empty-icon{font-size:44px;margin-bottom:14px;opacity:.3;}
+.empty-title{font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:rgba(255,255,255,.6);margin-bottom:6px;}
+.empty-sub{font-size:13px;color:rgba(255,255,255,.3);max-width:280px;margin:0 auto 20px;font-family:'EB Garamond',serif;}
+.empty-btn{display:inline-block;background:rgba(255,255,255,.1);border:.5px solid rgba(255,255,255,.3);border-radius:3px;padding:8px 20px;font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,.7);text-decoration:none;}
+
+/* ── SCORECARD MODAL ── */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:none;align-items:center;justify-content:center;padding:12px;}
+.modal-ov.open{display:flex;}
+.modal{background:var(--board-green);border:2px solid var(--masters-gold);border-radius:3px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto;}
+.modal-hd{background:var(--tile-white);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;}
+.modal-name{font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;color:#111;letter-spacing:.05em;}
+.modal-x{background:none;border:none;font-size:22px;color:#333;cursor:pointer;line-height:1;}
+.modal-bd{padding:14px;}
+.m-nine-lbl{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;margin-top:12px;}
+.m-nine-lbl:first-child{margin-top:0;}
+.m-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-bottom:4px;}
+.m-hd{background:rgba(0,0,0,.3);border:.5px solid rgba(255,255,255,.1);border-radius:1px;padding:5px 2px;text-align:center;font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.06em;}
+.m-cell{border:.5px solid rgba(255,255,255,.12);border-radius:1px;padding:7px 2px;text-align:center;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;}
+.m-cell.st-eagle{background:var(--tile-yellow);color:#111;}
+.m-cell.st-birdie{background:var(--tile-birdie-red);color:#fff;border-radius:50%;}
+.m-cell.st-par{background:rgba(255,255,255,.12);color:#fff;}
+.m-cell.st-bogey{background:rgba(255,255,255,.08);color:#ff9999;}
+.m-cell.st-double{background:rgba(0,0,0,.4);color:#ff6633;}
+.m-cell.st-empty{background:rgba(255,255,255,.04);color:rgba(255,255,255,.15);}
+.m-total{margin-top:14px;background:rgba(0,0,0,.3);border:.5px solid rgba(255,255,255,.15);border-radius:2px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;}
+.m-total-lbl{font-family:'EB Garamond',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,.5);}
+.m-total-val{font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;}
+.m-total-val.under{color:var(--tile-yellow);}
+.m-total-val.over{color:#ff6644;}
+.m-total-val.even{color:#fff;}
+
+/* REFRESH */
+.refresh-lbl{text-align:center;font-size:9px;color:rgba(255,255,255,.2);padding:8px 0;letter-spacing:.08em;font-family:'EB Garamond',serif;}
+
+@media(max-width:480px){
+  .name-block,.col-header-name{min-width:100px;}
+  .player-name{font-size:12px;}
+  .score-tile{width:22px;height:22px;font-size:11px;}
+  .hole-cell{min-width:22px;}
+  .masters-wordmark{font-size:32px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-left">
+    <div style="display:flex;align-items:flex-end;"><div class="fpole"></div><div class="ftri"></div></div>
+    <span class="nav-title">Stone Creek Invitational · Live Scoring</span>
+  </div>
+  <div class="nav-right">
+    <div class="live-pill"><div class="live-dot"></div><span class="live-txt">Live</span></div>
+    <a href="index.html" class="nav-link">← Weather</a>
+    <a href="admin.html" class="nav-link">Admin</a>
+  </div>
+</nav>
+
+<!-- FLAGS -->
+<div class="flags-strip">
+  <div class="flags-inner" id="flags-strip">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- MASTERS HEADER -->
+<div class="masters-header">
+  <div class="masters-logo-wrap">
+    <div>
+      <div class="masters-wordmark">Masters</div>
+      <div class="masters-sub">Stone Creek Invitational · Makanda, Illinois</div>
+      <div class="masters-date">Saturday, April 11, 2026 · Tee Time 9:00 AM CT</div>
+    </div>
+  </div>
+</div>
+
+<!-- BOARD -->
+<div class="board-container">
+  <div class="board-inner" id="board-inner">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="leg"><div class="lt" style="background:#f5d800;color:#111;">2</div>Eagle or better</div>
+  <div class="leg"><div class="lt" style="background:#dd3311;color:#fff;border-radius:50%;">3</div>Birdie</div>
+  <div class="leg"><div class="lt" style="background:#f2ede4;color:#111;">4</div>Par</div>
+  <div class="leg"><div class="lt" style="background:#f2ede4;color:#cc2200;">5</div>Bogey</div>
+  <div class="leg"><div class="lt" style="background:#111;color:#ff6633;">6</div>Double+</div>
+</div>
+
+<div class="refresh-lbl" id="refresh-lbl">Refreshes every 15 seconds</div>
+
+<!-- SCORECARD MODAL -->
+<div class="modal-ov" id="modal-ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-hd">
+      <span class="modal-name" id="modal-name">Scorecard</span>
+      <button class="modal-x" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-bd" id="modal-bd"></div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+// JSONBin setup — scores are stored here and shared across all devices
+// Get a free bin at jsonbin.io — create account, create a bin, paste the ID and API key below
+const JSONBIN_ID   = '69cf1477856a682189f51614';
+const JSONBIN_KEY  = '$2a$10$44R1Eg/oHWXmy1eTJVFZXur.kKDuM4/k034YqHSjsdsOVvjPIDVjS';
+const JSONBIN_ACCESS = '$2a$10$nPS4wCQiSqytcVKjiB.aS.RSXCt975l2MRrGjs2yRVi4R0ZwWUO1C';
+const JSONBIN_URL  = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
+const USE_JSONBIN  = JSONBIN_ID.length > 10; // auto-falls back to localStorage
+
+// ── COURSE SETUP ─────────────────────────────────────────────────
+// Update these pars to match your actual course
+const PAR = [4,5,4,3,4,3,4,5,4,4,4,3,5,4,5,3,4,4];
+const COURSE_PAR = PAR.reduce((a,b)=>a+b,0);
+
+// ── FLAGS ─────────────────────────────────────────────────────────
+const FLAGS = ['🇺🇸','🏴󠁧󠁢󠁳󠁣󠁴󠁿','🇦🇺','🇿🇦','🇯🇵','🇪🇸','🇩🇪','🇰🇷','🇮🇪','🇸🇪','🇳🇴','🇦🇷','🇨🇦','🇮🇹','🇳🇿','🇫🇮','🇫🇷','🏴󠁧󠁢󠁥󠁮󠁧󠁿'];
+function buildFlags(){
+  const el=document.getElementById('flags-strip');
+  el.innerHTML=FLAGS.map(f=>`<div class="flag-pole"><div class="flag-stick"></div><div class="flag-emoji">${f}</div></div>`).join('');
+}
+
+// ── DATA ─────────────────────────────────────────────────────────
+let data={players:[],lastUpdated:null};
+
+async function loadData(){
+  if(USE_JSONBIN){
+    try{
+      const r=await fetch(JSONBIN_URL+'/latest',{headers:{'X-Master-Key':JSONBIN_KEY,'X-Access-Key':JSONBIN_ACCESS}});
+      if(r.ok){const j=await r.json();data=j.record||data;}
+    }catch(e){loadLocal();}
+  }else{loadLocal();}
+}
+
+function loadLocal(){
+  try{const r=localStorage.getItem('scinv2026');if(r)data=JSON.parse(r);}catch(e){}
+}
+
+// ── SCORE HELPERS ─────────────────────────────────────────────────
+function vsStr(vs){
+  if(vs===0)return'E';
+  return vs<0?String(vs):'+'+vs;
+}
+
+function tileClass(s,par){
+  if(!s||s<1)return'st-empty';
+  const d=s-par;
+  if(d<=-2)return'st-eagle';
+  if(d===-1)return'st-birdie';
+  if(d===0)return'st-par';
+  if(d===1)return'st-bogey';
+  return'st-double';
+}
+
+function calcPlayer(p){
+  let total=0,played=0,vs=0;
+  for(let i=0;i<18;i++){const s=p.scores[i];if(s&&s>0){total+=s;played++;vs+=s-PAR[i];}}
+  return{total,played,vs};
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function render(){
+  const players=data.players||[];
+  const board=document.getElementById('board-inner');
+
+  if(!players.length){
+    board.innerHTML=`<div class="empty"><div class="empty-icon">⛳</div><div class="empty-title">Tee time is coming</div><div class="empty-sub">Players will appear here once the round begins.</div><a href="admin.html" class="empty-btn">Admin — Enter Scores</a></div>`;
+    return;
+  }
+
+  const sorted=players.map(p=>({...p,...calcPlayer(p)}))
+    .sort((a,b)=>a.vs-b.vs||a.total-b.total);
+
+  // Assign positions
+  let lastVs=null,lastPos=1;
+  sorted.forEach((p,i)=>{
+    if(p.vs===lastVs){p.pos='T'+lastPos;}
+    else{lastPos=i+1;p.pos=String(lastPos);lastVs=p.vs;}
+  });
+
+  // ── Column headers ──
+  let html=`<div class="col-header">`;
+  html+=`<div class="col-header-name">Stone Creek</div>`;
+  html+=`<div class="col-header-holes">`;
+  for(let h=0;h<18;h++){
+    html+=`<div class="hole-col-hd"><div class="hole-num">${h+1}</div><div class="hole-par">${PAR[h]}</div></div>`;
+  }
+  html+=`</div>`;
+  html+=`<div class="col-header-totals">`;
+  html+=`<div class="total-col-hd">TOT</div>`;
+  html+=`<div class="total-col-hd" style="width:36px;">POS</div>`;
+  html+=`</div></div>`;
+
+  // ── Player rows ──
+  sorted.forEach((p,idx)=>{
+    const vStr=vsStr(p.vs);
+    const vCls=p.vs<0?'vt-under':p.vs>0?'vt-over':'vt-even';
+    const thru=p.played===0?'—':p.played===18?'F':`Thru ${p.played}`;
+    const isLeader=idx===0&&p.played>0;
+
+    html+=`<div class="player-row${isLeader?' leader':''}" onclick="openCard('${p.id}')">`;
+
+    // Name tile
+    html+=`<div class="name-block"><div class="name-tile"><div class="player-name">${p.name}</div><div class="player-thru">${thru}</div></div></div>`;
+
+    // Score tiles
+    html+=`<div class="holes-block">`;
+    for(let h=0;h<18;h++){
+      const s=p.scores[h];
+      const cls=tileClass(s,PAR[h]);
+      html+=`<div class="hole-cell"><div class="score-tile ${cls}">${s&&s>0?s:''}</div></div>`;
+    }
+    html+=`</div>`;
+
+    // Totals
+    html+=`<div class="totals-block">`;
+    html+=`<div class="vs-par-cell"><div class="vs-tile ${vCls}">${vStr}</div><div class="strokes-lbl">${p.total||'—'}</div></div>`;
+    html+=`<div class="pos-cell"><div class="pos-tile">${p.pos}</div></div>`;
+    html+=`</div></div>`;
+  });
+
+  board.innerHTML=html;
+
+  // Refresh label
+  const ts=data.lastUpdated?new Date(data.lastUpdated).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}):'—';
+  document.getElementById('refresh-lbl').textContent=`Last updated ${ts} · ${USE_JSONBIN?'Live sync active':'Local mode'} · Refreshes every 15s`;
+}
+
+// ── SCORECARD MODAL ───────────────────────────────────────────────
+function openCard(pid){
+  const p=(data.players||[]).find(x=>x.id===pid);
+  if(!p)return;
+  const{total,played,vs}=calcPlayer(p);
+  const vStr=vsStr(vs);
+  const vCls=vs<0?'under':vs>0?'over':'even';
+  document.getElementById('modal-name').textContent=p.name;
+
+  let html='';
+  ['Front Nine','Back Nine'].forEach((lbl,nine)=>{
+    const start=nine*9;
+    html+=`<div class="m-nine-lbl">${lbl}</div>`;
+    html+=`<div class="m-grid">`;
+    for(let h=start;h<start+9;h++) html+=`<div class="m-hd">${h+1}<br><span style="font-size:8px;opacity:.5;">${PAR[h]}</span></div>`;
+    html+=`</div><div class="m-grid">`;
+    for(let h=start;h<start+9;h++){
+      const s=p.scores[h];const cls=tileClass(s,PAR[h]);
+      html+=`<div class="m-cell ${cls}">${s&&s>0?s:'·'}</div>`;
+    }
+    html+=`</div>`;
+  });
+  html+=`<div class="m-total"><span class="m-total-lbl">${played} holes · ${total||'—'} strokes</span><span class="m-total-val ${vCls}">${vStr}</span></div>`;
+
+  document.getElementById('modal-bd').innerHTML=html;
+  document.getElementById('modal-ov').classList.add('open');
+}
+function closeModal(){document.getElementById('modal-ov').classList.remove('open');}
+
+// ── INIT ──────────────────────────────────────────────────────────
+buildFlags();
+async function refresh(){await loadData();render();}
+refresh();
+setInterval(refresh,15000);
+</script>
+</body>
+</html>

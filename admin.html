@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Admin · Stone Creek Invitational</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --board-green:#1e5c2e;--board-dark:#0d3318;
+  --gdeep:#071a0c;--gdark:#0f2d16;
+  --gold:#c9a84c;--goldl:#e8c97a;
+  --cream:#f5f0e8;--creamd:#c8bfa8;
+  --tile-white:#f2ede4;--tile-yellow:#f5d800;
+  --good:#5cb85c;--bad:#e05050;
+}
+html,body{min-height:100vh;background:var(--gdeep);font-family:'EB Garamond',Georgia,serif;}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(7,26,12,.97);border-bottom:2px solid var(--gold);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);}
+.nav-left{display:flex;align-items:center;gap:10px;}
+.fpole{width:2px;height:18px;background:var(--gold);}
+.ftri{width:0;height:0;border-top:5px solid var(--gold);border-bottom:5px solid transparent;border-left:9px solid var(--gold);margin-bottom:7px;margin-left:-2px;}
+.nav-title{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--goldl);letter-spacing:.1em;}
+.nav-right{display:flex;gap:10px;}
+.nav-link{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--goldl);text-decoration:none;opacity:.55;}
+.nav-link:hover{opacity:1;}
+
+/* LOGIN */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 52px);padding:20px;}
+.login-box{background:var(--gdark);border:1px solid var(--gold);border-radius:6px;padding:32px 28px;width:100%;max-width:320px;text-align:center;}
+.login-icon{font-size:38px;margin-bottom:14px;}
+.login-title{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:var(--goldl);margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--creamd);opacity:.45;margin-bottom:22px;}
+.pw-inp{width:100%;background:rgba(255,255,255,.05);border:.5px solid rgba(201,168,76,.4);border-radius:3px;padding:12px;font-family:'Oswald',sans-serif;font-size:18px;color:var(--cream);text-align:center;letter-spacing:.25em;outline:none;margin-bottom:12px;}
+.pw-inp:focus{border-color:var(--gold);}
+.login-btn{width:100%;background:var(--gold);border:none;border-radius:3px;padding:12px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:.1em;color:var(--gdeep);cursor:pointer;text-transform:uppercase;}
+.login-btn:hover{opacity:.88;}
+.login-err{font-size:12px;color:var(--bad);margin-top:10px;opacity:0;transition:opacity .25s;font-family:'Playfair Display',serif;font-style:italic;}
+.login-err.show{opacity:1;}
+
+/* ADMIN */
+.admin-wrap{display:none;max-width:680px;margin:0 auto;padding:18px 14px 80px;}
+
+/* Setup notice */
+.setup-notice{background:rgba(201,168,76,.07);border:.5px solid rgba(201,168,76,.35);border-radius:4px;padding:12px 14px;margin-bottom:20px;font-size:12px;color:var(--goldl);line-height:1.5;}
+.setup-notice strong{color:var(--gold);}
+.setup-notice a{color:var(--gold);}
+
+/* Section */
+.sec-hd{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:var(--goldl);padding-bottom:8px;border-bottom:.5px solid rgba(201,168,76,.2);margin:22px 0 12px;display:flex;align-items:center;justify-content:space-between;}
+.sec-sub{font-size:11px;color:var(--creamd);opacity:.4;font-style:normal;font-family:'EB Garamond',serif;}
+
+/* Add player */
+.add-row{display:flex;gap:8px;margin-bottom:18px;}
+.txt-inp{flex:1;background:rgba(255,255,255,.05);border:.5px solid rgba(201,168,76,.3);border-radius:3px;padding:10px 12px;font-family:'Oswald',sans-serif;font-size:14px;color:var(--cream);outline:none;}
+.txt-inp:focus{border-color:var(--gold);}
+.txt-inp::placeholder{color:var(--creamd);opacity:.3;}
+.add-btn{background:rgba(201,168,76,.15);border:.5px solid rgba(201,168,76,.4);border-radius:3px;padding:10px 16px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--gold);cursor:pointer;white-space:nowrap;text-transform:uppercase;}
+.add-btn:hover{background:rgba(201,168,76,.25);}
+
+/* Player card */
+.player-card{background:var(--gdark);border:1px solid rgba(201,168,76,.18);border-radius:4px;margin-bottom:14px;overflow:hidden;}
+.card-hd{background:rgba(201,168,76,.1);padding:9px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:.5px solid rgba(201,168,76,.15);}
+.card-name{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--cream);letter-spacing:.05em;}
+.card-meta{font-size:11px;color:var(--goldl);opacity:.5;font-family:'Playfair Display',serif;font-style:italic;margin-top:1px;}
+.del-btn{background:none;border:.5px solid rgba(224,80,80,.25);border-radius:2px;padding:3px 9px;font-size:10px;color:var(--bad);opacity:.45;cursor:pointer;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.06em;}
+.del-btn:hover{opacity:1;}
+
+/* Hole grid */
+.hole-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:5px;padding:12px 12px 14px;}
+.nine-lbl{grid-column:1/-1;font-size:8px;color:var(--goldl);opacity:.4;letter-spacing:.14em;text-transform:uppercase;padding-top:5px;}
+.nine-lbl:first-child{padding-top:0;}
+.hole-wrap{}
+.h-lbl{text-align:center;font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.06em;margin-bottom:1px;}
+.h-par{text-align:center;font-size:8px;color:rgba(255,255,255,.18);margin-bottom:3px;}
+.s-inp{width:100%;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.1);border-radius:2px;padding:7px 2px;text-align:center;font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--cream);outline:none;-moz-appearance:textfield;}
+.s-inp::-webkit-outer-spin-button,.s-inp::-webkit-inner-spin-button{-webkit-appearance:none;}
+.s-inp:focus{border-color:var(--gold);background:rgba(201,168,76,.08);}
+.s-inp.eagle{background:rgba(245,216,0,.2);border-color:rgba(245,216,0,.5);color:#f5d800;}
+.s-inp.birdie{background:rgba(221,51,17,.18);border-color:rgba(221,51,17,.4);color:#ff8870;}
+.s-inp.bogey{background:rgba(180,210,255,.08);border-color:rgba(180,210,255,.25);color:#9dc8ff;}
+.s-inp.dbl{background:rgba(255,100,50,.08);border-color:rgba(255,100,50,.25);color:#ff7043;}
+
+/* Save bar */
+.save-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(7,26,12,.97);border-top:1px solid var(--gold);padding:11px 18px;display:flex;align-items:center;justify-content:space-between;z-index:60;backdrop-filter:blur(10px);}
+.save-status{font-size:11px;color:var(--goldl);opacity:.45;font-family:'Playfair Display',serif;font-style:italic;}
+.save-actions{display:flex;align-items:center;gap:12px;}
+.saved-flash{font-size:11px;color:var(--good);font-family:'Playfair Display',serif;font-style:italic;opacity:0;transition:opacity .3s;}
+.saved-flash.show{opacity:1;}
+.save-btn{background:var(--gold);border:none;border-radius:20px;padding:9px 26px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;color:var(--gdeep);cursor:pointer;text-transform:uppercase;}
+.save-btn:hover{opacity:.85;}
+.save-btn.saving{opacity:.6;}
+
+/* Danger */
+.danger{margin-top:28px;padding:14px;border:.5px solid rgba(224,80,80,.18);border-radius:4px;}
+.danger-lbl{font-size:9px;color:var(--bad);opacity:.5;letter-spacing:.12em;text-transform:uppercase;margin-bottom:9px;}
+.reset-btn{background:none;border:.5px solid rgba(224,80,80,.25);border-radius:3px;padding:7px 16px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--bad);opacity:.45;cursor:pointer;text-transform:uppercase;}
+.reset-btn:hover{opacity:1;}
+
+@media(max-width:480px){
+  .hole-grid{grid-template-columns:repeat(6,1fr);}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-left">
+    <div style="display:flex;align-items:flex-end;"><div class="fpole"></div><div class="ftri"></div></div>
+    <span class="nav-title">Admin · Score Entry</span>
+  </div>
+  <div class="nav-right">
+    <a href="scoring.html" class="nav-link">Live Board →</a>
+    <a href="index.html" class="nav-link">← Weather</a>
+  </div>
+</nav>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-wrap">
+  <div class="login-box">
+    <div class="login-icon">⛳</div>
+    <div class="login-title">Admin Access</div>
+    <div class="login-sub">Stone Creek Invitational</div>
+    <input type="password" class="pw-inp" id="pw-inp" placeholder="••••••" onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="login-btn" onclick="checkPw()">Enter the Club</button>
+    <div class="login-err" id="pw-err">Wrong password</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-wrap" id="admin-wrap">
+
+  <div class="setup-notice" id="setup-notice" style="display:none;">
+    <strong>JSONBin not configured</strong> — scores are saving locally to this device only.<br>
+    To enable live sync across all phones: <a href="https://jsonbin.io" target="_blank">create a free JSONBin account</a>, make a bin, then paste the Bin ID and API key into both <strong>scoring.html</strong> and <strong>admin.html</strong> where it says <code>69cf1477856a682189f51614</code>.
+  </div>
+
+  <div class="sec-hd">Players <span class="sec-sub">Add everyone before the round</span></div>
+
+  <div class="add-row">
+    <input type="text" class="txt-inp" id="new-name" placeholder="Player name…" onkeydown="if(event.key==='Enter')addPlayer()">
+    <button class="add-btn" onclick="addPlayer()">+ Add</button>
+  </div>
+
+  <div id="players-container"></div>
+
+  <div class="danger">
+    <div class="danger-lbl">⚠ Danger Zone</div>
+    <button class="reset-btn" onclick="resetAll()">Reset all scores & players</button>
+  </div>
+
+  <div style="height:72px;"></div>
+</div>
+
+<!-- SAVE BAR -->
+<div class="save-bar" id="save-bar" style="display:none;">
+  <span class="save-status" id="save-status">Ready</span>
+  <div class="save-actions">
+    <span class="saved-flash" id="saved-flash">✓ Saved</span>
+    <button class="save-btn" id="save-btn" onclick="saveAll()">Save Scores</button>
+  </div>
+</div>
+
+<script>
+// ── CONFIG — must match scoring.html ─────────────────────────────
+const ADMIN_PW     = 'masters2026';  // ← change this
+const JSONBIN_ID   = '69cf1477856a682189f51614';
+const JSONBIN_KEY  = '$2a$10$44R1Eg/oHWXmy1eTJVFZXur.kKDuM4/k034YqHSjsdsOVvjPIDVjS';
+const JSONBIN_URL  = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
+const USE_JSONBIN  = JSONBIN_ID.length > 10;
+const STORAGE_KEY  = 'scinv2026';
+
+// ── Course pars — update to match your actual course ─────────────
+const PAR = [4,5,4,3,4,3,4,5,4,4,4,3,5,4,5,3,4,4];
+
+let data={players:[],lastUpdated:null};
+let autoTimer=null;
+
+// ── AUTH ──────────────────────────────────────────────────────────
+function checkPw(){
+  if(document.getElementById('pw-inp').value===ADMIN_PW){
+    document.getElementById('login-wrap').style.display='none';
+    document.getElementById('admin-wrap').style.display='block';
+    document.getElementById('save-bar').style.display='flex';
+    if(!USE_JSONBIN) document.getElementById('setup-notice').style.display='block';
+    loadData().then(renderAll);
+  }else{
+    const e=document.getElementById('pw-err');
+    e.classList.add('show');
+    setTimeout(()=>e.classList.remove('show'),2200);
+    document.getElementById('pw-inp').value='';
+  }
+}
+
+// ── DATA ──────────────────────────────────────────────────────────
+async function loadData(){
+  if(USE_JSONBIN){
+    try{
+      const r=await fetch(JSONBIN_URL+'/latest',{headers:{'X-Master-Key':JSONBIN_KEY}});
+      if(r.ok){const j=await r.json();data=j.record||data;return;}
+    }catch(e){}
+  }
+  try{const r=localStorage.getItem(STORAGE_KEY);if(r)data=JSON.parse(r);}catch(e){}
+}
+
+async function saveData(){
+  data.lastUpdated=new Date().toISOString();
+  // Always save local as backup
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+
+  if(USE_JSONBIN){
+    const btn=document.getElementById('save-btn');
+    btn.textContent='Saving…';btn.classList.add('saving');
+    try{
+      await fetch(JSONBIN_URL,{
+        method:'PUT',
+        headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},
+        body:JSON.stringify(data)
+      });
+    }catch(e){console.warn('JSONBin save failed, saved locally');}
+    btn.textContent='Save Scores';btn.classList.remove('saving');
+  }
+
+  const fl=document.getElementById('saved-flash');
+  fl.classList.add('show');
+  setTimeout(()=>fl.classList.remove('show'),1800);
+  document.getElementById('save-status').textContent='Saved '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function uid(){return'p'+Date.now()+Math.random().toString(36).slice(2,5);}
+
+function vsStr(scores){
+  let vs=0,played=0;
+  scores.forEach((s,i)=>{if(s&&s>0){vs+=s-PAR[i];played++;}});
+  if(!played)return'—';
+  const str=vs===0?'E':vs<0?String(vs):'+'+vs;
+  return`${str} (thru ${played})`;
+}
+
+function scoreCls(s,par){
+  if(!s||s<1)return'';
+  const d=s-par;
+  if(d<=-2)return'eagle';
+  if(d===-1)return'birdie';
+  if(d===1)return'bogey';
+  if(d>=2)return'dbl';
+  return'';
+}
+
+// ── PLAYERS ───────────────────────────────────────────────────────
+function addPlayer(){
+  const inp=document.getElementById('new-name');
+  const name=inp.value.trim();
+  if(!name)return;
+  if(!data.players)data.players=[];
+  data.players.push({id:uid(),name,scores:new Array(18).fill(0)});
+  inp.value='';
+  saveData();
+  renderAll();
+}
+
+function deletePlayer(pid){
+  if(!confirm('Remove this player and their scores?'))return;
+  data.players=data.players.filter(p=>p.id!==pid);
+  saveData();
+  renderAll();
+}
+
+function resetAll(){
+  if(!confirm('Delete ALL players and scores? This cannot be undone.'))return;
+  data={players:[],lastUpdated:null};
+  saveData();
+  renderAll();
+}
+
+// ── SCORE INPUT ───────────────────────────────────────────────────
+function updateScore(inp){
+  const pid=inp.dataset.pid;
+  const hole=parseInt(inp.dataset.hole);
+  const val=parseInt(inp.value)||0;
+  const player=data.players.find(p=>p.id===pid);
+  if(!player)return;
+  player.scores[hole]=val;
+  inp.className='s-inp '+scoreCls(val,PAR[hole]);
+  document.getElementById('meta-'+pid).textContent=vsStr(player.scores);
+  // Debounce auto-save
+  clearTimeout(autoTimer);
+  autoTimer=setTimeout(saveData,1000);
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function renderAll(){
+  const c=document.getElementById('players-container');
+  if(!data.players||!data.players.length){
+    c.innerHTML=`<div style="text-align:center;padding:30px 0;font-family:'Playfair Display',serif;font-style:italic;color:var(--goldl);opacity:.3;font-size:16px;">No players yet</div>`;
+    return;
+  }
+
+  c.innerHTML=data.players.map(p=>{
+    const front=buildNine(p,0,9,'Front Nine');
+    const back=buildNine(p,9,18,'Back Nine');
+    return`<div class="player-card" id="card-${p.id}">
+      <div class="card-hd">
+        <div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-meta" id="meta-${p.id}">${vsStr(p.scores)}</div>
+        </div>
+        <button class="del-btn" onclick="deletePlayer('${p.id}')">Remove</button>
+      </div>
+      <div class="hole-grid">${front}${back}</div>
+    </div>`;
+  }).join('');
+}
+
+function buildNine(p,start,end,label){
+  let html=`<div class="nine-lbl">${label}</div>`;
+  for(let h=start;h<end;h++){
+    const s=p.scores[h];
+    const cls=scoreCls(s,PAR[h]);
+    html+=`<div class="hole-wrap">
+      <div class="h-lbl">${h+1}</div>
+      <div class="h-par">${PAR[h]}</div>
+      <input type="number" min="1" max="15" class="s-inp ${cls}"
+        value="${s>0?s:''}" placeholder="·"
+        data-pid="${p.id}" data-hole="${h}"
+        oninput="updateScore(this)">
+    </div>`;
+  }
+  return html;
+}
+
+async function saveAll(){await saveData();}
+</script>
+</body>
+</html>
