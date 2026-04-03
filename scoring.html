@@ -308,16 +308,12 @@ function render(){
         ${isTied?`<span class="pos-t">T</span><span class="pos-num">${p.pos.slice(1)}</span>`:`<span class="pos-num">${p.pos}</span>`}
       </div>
       <div class="name-cell">
-        <div class="p-name">${p.name}</div>
-        <div class="p-hometown">Stone Creek · Apr 11</div>
+        <div class="p-name">${p.name} <span style="font-size:10px;opacity:.45;font-weight:400;font-family:'EB Garamond',serif;font-style:italic;">HCP ${p.hcp||0}</span></div>
+        <div class="p-hometown">Thru ${p.played===0?'—':p.played===18?'F':p.played} · Gross ${vStr}</div>
       </div>
       <div class="score-cell">
-        <div class="vs-num ${vCls}">${vStr}</div>
-        <div class="strokes-lbl">${p.total||'—'} strokes</div>
-      </div>
-      <div class="score-cell" style="background:rgba(201,168,76,.04);border-left:1px solid rgba(201,168,76,.2);">
-        <div class="vs-num ${p.netVs<0?'under':p.netVs>0?'over':'even'}">${vsStr(p.netVs||0)}</div>
-        <div class="strokes-lbl">${p.net||'—'} net${p.hcp?` (hcp ${p.hcp})`:''}  </div>
+        <div class="vs-num ${p.netVs<0?'under':p.netVs>0?'over':'even'}">${p.played>0?vsStr(p.netVs):'—'}</div>
+        <div class="strokes-lbl">${p.net||'—'} net strokes</div>
       </div>
       <div class="thru-cell">
         <div class="thru-num ${thruCls}">${thru}</div>
@@ -335,13 +331,16 @@ function openCard(pid){
   const p = (data.players||[]).find(x=>x.id===pid);
   if(!p)return;
   const{total,played,vs} = calcPlayer(p);
+  const hcp = p.hcp||0;
+  const netVs = total>0?vs-hcp:0;
   const vStr = vsStr(vs);
-  const vCls = vs<0?'under':'';
+  const netStr = played>0?vsStr(netVs):'—';
+  const vCls = netVs<0?'under':netVs>0?'over':'';
 
   document.getElementById('modal-player').textContent = p.name;
   const vsEl = document.getElementById('modal-vs');
-  vsEl.textContent = vStr;
-  vsEl.className = 'modal-vs '+vCls;
+  vsEl.textContent = played>0?`Net ${netStr}`:'No scores yet';
+  vsEl.className = 'modal-vs '+(netVs<0?'under':'');
 
   // Front 9
   let frontTotal=0, frontPar=0, backTotal=0, backPar=0;
@@ -386,11 +385,9 @@ function openCard(pid){
   }
 
   // Total
-  const hcp=p.hcp||0;
   const net=total>0?total-hcp:0;
-  const netVs=total>0?vs-hcp:0;
-  const netStr=vsStr(netVs);
   const netCls=netVs<0?'under':'';
+  const netStrFinal=vsStr(netVs);
   html+=`<div class="sc-total">
     <div>
       <div style="font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;">Gross</div>
@@ -399,7 +396,7 @@ function openCard(pid){
     </div>
     <div style="text-align:right;">
       <div style="font-size:9px;color:rgba(201,168,76,.6);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;">Net (HCP ${hcp})</div>
-      <span class="sc-total-val ${netCls}">${netStr}</span>
+      <span class="sc-total-val ${netCls}">${netStrFinal}</span>
       <span style="font-size:13px;color:rgba(255,255,255,.4);margin-left:4px;">${net||'—'}</span>
     </div>
   </div>`;
