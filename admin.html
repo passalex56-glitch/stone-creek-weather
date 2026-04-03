@@ -222,13 +222,15 @@ async function loadData(){
   if(USE_JSONBIN){
     try{
       const r=await fetch(JSONBIN_URL+'/latest',{headers:{'X-Master-Key':JSONBIN_KEY}});
-      if(r.ok){const j=await r.json();data=j.record||data;return;}
+      if(r.ok){const j=await r.json();data=j.record||data;}
     }catch(e){}
+  } else {
+    try{const r=localStorage.getItem(STORAGE_KEY);if(r)data=JSON.parse(r);}catch(e){}
   }
-  try{const r=localStorage.getItem(STORAGE_KEY);if(r)data=JSON.parse(r);}catch(e){}
-  // If no players yet, seed from defaults
+  // Seed default players if none exist yet (first run)
   if(!data.players||!data.players.length){
     data.players=DEFAULT_PLAYERS.map(p=>({id:uid(),name:p.name,hcp:p.hcp,scores:new Array(18).fill(0)}));
+    await saveData(); // push defaults to JSONBin immediately
   }
 }
 
