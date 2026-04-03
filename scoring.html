@@ -19,23 +19,20 @@
   --gold:#c9a84c;--goldl:#e8c97a;
   --gdeep:#071a0c;
 }
-html,body{min-height:100vh;background:var(--board-green);font-family:'Oswald',sans-serif;overflow-x:hidden;}
+html,body{min-height:100vh;background:#0a2e12;font-family:'Oswald',sans-serif;overflow-x:hidden;display:flex;flex-direction:column;}
 
 /* ── BACKGROUND PHOTO ── */
 body::before{
   content:'';
-  position:fixed;
-  inset:0;
-  background:url('hole12.png') center center/cover no-repeat;
-  z-index:0;
+  display:block;
+  width:100%;
+  height:180px;
+  background:url('hole12.png') center 40%/cover no-repeat;
+  position:relative;
+  z-index:10;
+  flex-shrink:0;
 }
-body::after{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:rgba(4,14,7,.65);
-  z-index:1;
-}
+body::after{content:none;}
 nav,
 .flags-strip,
 .masters-header,
@@ -46,7 +43,7 @@ nav,
   position:relative;
   z-index:10;
 }
-.board-surround{background:transparent;}
+.board-surround{background:transparent;padding:12px 10px 24px;}
 
 /* ── NAV ── */
 .nav{position:sticky;top:0;z-index:100;background:rgba(7,26,12,.97);border-bottom:2px solid var(--gold);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);}
@@ -66,9 +63,9 @@ nav,
 .board-surround{background:var(--board-green);padding:14px 10px 24px;}
 
 /* ── LEADERS HEADER ── */
-.leaders-hd{max-width:600px;margin:0 auto;background:var(--board-white);border:3px solid var(--black);border-bottom:none;text-align:center;padding:10px 0 7px;}
-.leaders-word{font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--black);}
-.leaders-sub{font-family:'EB Garamond',serif;font-size:12px;font-style:italic;color:var(--gray);margin-top:2px;letter-spacing:.06em;}
+.leaders-hd{max-width:600px;margin:0 auto;background:var(--board-white);border:3px solid var(--black);border-bottom:none;text-align:center;padding:7px 0 5px;}
+.leaders-word{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--black);}
+.leaders-sub{font-family:'EB Garamond',serif;font-size:11px;font-style:italic;color:var(--gray);margin-top:1px;letter-spacing:.06em;}
 
 /* ── MAIN BOARD ── */
 .board{max-width:600px;margin:0 auto;background:var(--board-white);border:3px solid var(--black);overflow:hidden;}
