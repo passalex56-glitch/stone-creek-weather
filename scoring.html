@@ -3,408 +3,348 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>The Masters · Southern Illinois Masters · Leaders</title>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<title>Southern Illinois Masters · Leaders</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --board-white:#f5f2ec;
-  --board-bg:#eae6db;
-  --board-green:#1e5c2e;
-  --board-dark:#0d3318;
-  --red:#cc1100;
-  --black:#111;
-  --gray:#777;
-  --border:#ccc5b5;
-  --gold:#c9a84c;--goldl:#e8c97a;
-  --gdeep:#071a0c;
-}
-html,body{min-height:100vh;background:#0a2e12;font-family:'Oswald',sans-serif;overflow-x:hidden;}
-
-/* ── BOARD WRAP ── */
-.board-surround{background:var(--board-green);padding:14px 10px 24px;}
-.strokes-lbl{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;font-family:'EB Garamond',serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--green:#1a5c2a;--dk:#0d3318;--red:#cc1100;--gold:#c9a84c;--goldl:#e8c97a;}
+html,body{min-height:100vh;background:var(--green);font-family:'Oswald',sans-serif;overflow-x:hidden;}
 .nav{position:sticky;top:0;z-index:100;background:rgba(7,26,12,.97);border-bottom:2px solid var(--gold);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);}
 .nav-left{display:flex;align-items:center;gap:10px;}
 .fpole{width:2px;height:18px;background:var(--gold);}
 .ftri{width:0;height:0;border-top:5px solid var(--gold);border-bottom:5px solid transparent;border-left:9px solid var(--gold);margin-bottom:7px;margin-left:-2px;}
-.nav-title{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--goldl);letter-spacing:.1em;}
+.nt{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--goldl);letter-spacing:.1em;}
 .nav-right{display:flex;align-items:center;gap:10px;}
-.live-pill{display:flex;align-items:center;gap:5px;background:rgba(92,184,92,.12);border:.5px solid rgba(92,184,92,.4);border-radius:20px;padding:3px 10px;}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#4CAF50;animation:pulse 2s ease-in-out infinite;}
+.lp{display:flex;align-items:center;gap:5px;background:rgba(92,184,92,.12);border:.5px solid rgba(92,184,92,.4);border-radius:20px;padding:3px 10px;}
+.ld{width:6px;height:6px;border-radius:50%;background:#4CAF50;animation:pulse 2s ease-in-out infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.2;}}
-.live-txt{font-size:9px;color:#7ed87e;letter-spacing:.12em;text-transform:uppercase;}
-.nav-link{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--goldl);text-decoration:none;opacity:.55;}
-.nav-link:hover{opacity:1;}
+.lt{font-size:9px;color:#7ed87e;letter-spacing:.12em;text-transform:uppercase;}
+.nl{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--goldl);text-decoration:none;opacity:.55;}
+.nl:hover{opacity:1;}
+.wrap{padding:14px 8px 32px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.board-outer{min-width:800px;margin:0 auto;max-width:1200px;}
+.board{border:4px solid #111;background:#fff;overflow:hidden;}
+.title-bar{background:#fff;border-bottom:3px solid #111;text-align:center;padding:10px 12px 7px;}
+.ttxt{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:.32em;color:#111;text-transform:uppercase;line-height:1;}
+.tsub{font-size:11px;color:#666;font-family:'EB Garamond',Georgia,serif;font-style:italic;letter-spacing:.08em;margin-top:3px;}
+table{border-collapse:collapse;width:100%;table-layout:fixed;}
+td{border:1px solid #bbb;text-align:center;padding:0;overflow:hidden;}
+td.nm{text-align:left;border-right:2px solid #999;white-space:nowrap;}
+tr.hdr td{background:#e8e4d9;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;color:#444;padding:5px 2px;letter-spacing:.07em;}
+tr.hdr td.nm{padding-left:10px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#777;}
+tr.hdr td.sep{background:#ccc8bb;font-size:9px;color:#555;letter-spacing:.1em;}
+tr.hdr td.rt{background:#d8d4c7;font-size:9px;letter-spacing:.12em;}
+tr.par td{background:#f5f2e8;font-size:10px;color:#999;padding:3px 2px;font-family:'EB Garamond',Georgia,serif;font-style:italic;}
+tr.par td.nm{padding-left:10px;}
+tr.par td.sep{background:#e8e4d9;font-weight:600;color:#777;}
+tr.par td.rt{background:#eeead9;color:#888;}
+tr.pr{cursor:pointer;transition:background .1s;}
+tr.pr:hover td{background:#faf8f2!important;}
+tr.pr td{background:#fff;font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:#111;padding:6px 3px;}
+tr.pr td.nm{background:#fff;padding:9px 10px 9px 12px;font-size:15px;font-weight:700;letter-spacing:.03em;}
+tr.pr.ldr td.nm{border-left:5px solid var(--red);padding-left:8px;}
+tr.pr.ns{opacity:.38;}
+tr.pr td.sep{background:#e8e4d9;font-size:12px;font-weight:700;}
+tr.pr td.rt{background:#f0eed8;}
+tr.pr td.rt.under{color:var(--red);}
+tr.pr td.net{background:#e8f2e8;}
+tr.pr td.net.under{color:var(--red);}
+td.uc{color:var(--red)!important;}
+td.ec{color:var(--red)!important;font-size:15px!important;}
+td.bc{color:#999!important;}
+td.ec-y{color:#b8860b!important;font-size:15px!important;}
+tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
+.ppos{font-size:10px;color:#aaa;margin-right:3px;font-weight:400;}
+.phcp{font-size:9px;color:#bbb;font-family:'EB Garamond',Georgia,serif;font-style:italic;font-weight:400;margin-left:4px;}
+.refresh-lbl{text-align:center;font-size:10px;color:rgba(255,255,255,.2);padding:10px 0 2px;letter-spacing:.06em;font-family:'EB Garamond',serif;}
+.leg{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;padding:10px 16px 4px;}
+.li{display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(255,255,255,.35);font-family:'EB Garamond',serif;}
+.empty-state{background:#fff;padding:56px 20px;text-align:center;}
+.et{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#444;margin-bottom:8px;}
+.es{font-size:13px;color:#888;font-family:'EB Garamond',serif;margin-bottom:22px;}
+.eb{display:inline-block;background:var(--green);padding:10px 24px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none;}
 
-/* ── LEADERS HEADER ── */
-.leaders-hd{max-width:600px;margin:0 auto;background:var(--board-white);border:3px solid var(--black);border-bottom:none;text-align:center;padding:7px 0 5px;}
-.leaders-word{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--black);}
-.leaders-sub{font-family:'EB Garamond',serif;font-size:11px;font-style:italic;color:var(--gray);margin-top:1px;letter-spacing:.06em;}
+/* ── MOBILE COMPACT LEADERBOARD ── */
+.mobile-board{display:none;background:#fff;border:4px solid #111;overflow:hidden;}
+.mb-hdr{background:#e8e4d9;border-bottom:2px solid #111;display:grid;grid-template-columns:44px 1fr 70px 70px 44px;padding:6px 10px;}
+.mb-hc{font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;text-align:center;}
+.mb-hc.left{text-align:left;}
+.mb-row{display:grid;grid-template-columns:44px 1fr 70px 70px 44px;padding:0;border-bottom:1px solid #ddd;cursor:pointer;transition:background .1s;align-items:center;background:#fff;}
+.mb-row:last-child{border-bottom:none;}
+.mb-row:hover{background:#faf8f2;}
+.mb-row.ldr .mb-name{border-left:5px solid var(--red);padding-left:7px;}
+.mb-row.ns{opacity:.38;}
+.mb-pos{text-align:center;padding:12px 4px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:700;color:#888;border-right:1px solid #ddd;}
+.mb-pos .t{font-size:10px;color:#aaa;display:block;line-height:1;}
+.mb-name{padding:12px 10px;border-right:1px solid #ddd;}
+.mb-pname{font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;color:#111;letter-spacing:.02em;line-height:1.1;}
+.mb-psub{font-size:10px;color:#aaa;font-family:'EB Garamond',serif;font-style:italic;margin-top:2px;}
+.mb-psub .tap{color:#5588cc;font-style:normal;}
+.mb-score{text-align:center;padding:8px 4px;border-right:1px solid #ddd;}
+.mb-big{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;color:#111;line-height:1;}
+.mb-big.under{color:var(--red);}
+.mb-small{font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;font-family:'EB Garamond',serif;margin-top:1px;}
+.mb-net{text-align:center;padding:8px 4px;border-right:1px solid #ddd;background:#eef6ee;}
+.mb-thru{text-align:center;padding:8px 4px;}
+.mb-thru-num{font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;color:#555;line-height:1;}
+.mb-thru-num.done{color:var(--red);font-size:13px;}
+.mb-thru-lbl{font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-top:1px;}
+.mb-grp{height:3px;background:#b8b0a0;}
 
-/* ── MAIN BOARD ── */
-.board{max-width:600px;margin:0 auto;background:var(--board-white);border:3px solid var(--black);overflow:hidden;}
-
-/* Column headers */
-.board-cols{display:grid;grid-template-columns:44px 1fr 72px 72px 44px;background:var(--board-bg);border-bottom:2px solid var(--black);}
-.col-hd{padding:6px 4px;text-align:center;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);border-right:1px solid var(--border);}
-.col-hd.name-hd{text-align:left;padding-left:12px;}
-.col-hd:last-child{border-right:none;}
-
-/* Player rows */
-.player-row{display:grid;grid-template-columns:44px 1fr 72px 72px 44px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;align-items:center;}
-.player-row:last-child{border-bottom:none;}
-.player-row:hover{background:#ede8de;}
-.player-row.leader .name-cell{border-left:4px solid var(--red);}
-.player-row.leader .score-cell{background:rgba(204,17,0,.04);}
-
-/* Position cell */
-.pos-cell{padding:14px 4px;text-align:center;border-right:1px solid var(--border);}
-.pos-num{font-size:16px;font-weight:600;color:var(--gray);}
-.pos-t{font-size:11px;color:var(--gray);display:block;line-height:1;}
-
-/* Name cell */
-.name-cell{padding:12px 10px 12px 14px;border-right:1px solid var(--border);}
-.p-name{font-size:18px;font-weight:700;letter-spacing:.04em;color:var(--black);line-height:1.1;}
-.p-hometown{font-size:10px;color:var(--gray);font-family:'EB Garamond',serif;font-style:italic;margin-top:2px;}
-
-/* Score cell — the big number */
-.score-cell{padding:8px 6px;text-align:center;border-right:1px solid var(--border);}
-.vs-num{font-size:32px;font-weight:700;line-height:1;color:var(--black);}
-.vs-num.under{color:var(--red);}
-.vs-num.even{color:var(--black);}
-.vs-num.over{color:var(--black);}
-
-/* Strokes cell */
-.strokes-cell{padding:8px 4px;text-align:center;border-right:1px solid var(--border);}
-.strokes-num{font-size:18px;font-weight:600;color:var(--black);}
-.strokes-lbl{font-size:8px;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-top:1px;}
-
-/* Thru cell */
-.thru-cell{padding:8px 4px;text-align:center;}
-.thru-num{font-size:16px;font-weight:600;color:var(--black);}
-.thru-lbl{font-size:8px;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-top:1px;}
-.thru-num.finished{color:var(--red);font-size:13px;}
-
-/* ── BOARD FOOTER ── */
-.board-footer{max-width:600px;margin:0 auto;background:var(--board-bg);border:3px solid var(--black);border-top:1px solid var(--border);padding:6px 14px;display:flex;justify-content:space-between;align-items:center;}
-.bf-txt{font-size:10px;color:var(--gray);font-family:'EB Garamond',serif;font-style:italic;}
-.bf-hint{font-size:10px;color:var(--gray);font-family:'EB Garamond',serif;font-style:italic;}
-
-/* ── EMPTY ── */
-.empty-board{max-width:600px;margin:0 auto;background:var(--board-white);border:3px solid var(--black);text-align:center;padding:56px 20px;}
-.empty-icon{font-size:44px;margin-bottom:16px;opacity:.25;}
-.empty-title{font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--black);margin-bottom:6px;}
-.empty-sub{font-size:13px;color:var(--gray);font-family:'EB Garamond',serif;margin-bottom:22px;}
-.empty-btn{display:inline-block;background:var(--board-green);padding:10px 24px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none;}
-
-/* ── REFRESH ── */
-.refresh-lbl{text-align:center;font-size:10px;color:rgba(255,255,255,.22);padding:8px 0 2px;letter-spacing:.06em;font-family:'EB Garamond',serif;}
-
-/* ── SCORECARD MODAL ── */
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;display:none;align-items:center;justify-content:center;padding:12px;}
+@media(max-width:700px){
+  .wrap{padding:10px 6px 28px;overflow-x:visible;}
+  .board-outer{min-width:0;}
+  .desktop-board{display:none;}
+  .mobile-board{display:block;}
+  .leg{padding:8px 12px 4px;}
+}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:none;align-items:center;justify-content:center;padding:12px;}
 .modal-ov.open{display:flex;}
-.modal{background:var(--board-white);border:3px solid var(--black);width:100%;max-width:500px;max-height:90vh;overflow-y:auto;}
-.modal-hd{background:var(--black);padding:11px 16px;display:flex;align-items:center;justify-content:space-between;}
-.modal-player{font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;}
-.modal-vs{font-size:22px;font-weight:700;color:#fff;}
-.modal-vs.under{color:#ff6644;}
-.modal-x{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;opacity:.5;line-height:1;}
-.modal-bd{padding:0;}
-
-/* Scorecard grid */
+.modal{background:#f5f2ec;border:4px solid #111;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;}
+.mhd{background:#0d3318;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.mp{font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;}
+.mvs{font-size:22px;font-weight:700;color:#fff;}
+.mvs.under{color:#f5d800;}
+.mx{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;opacity:.5;line-height:1;}
 .sc-section{padding:12px 14px;}
-.sc-nine-lbl{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:4px;}
-.sc-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;margin-bottom:3px;}
-.sc-hd{background:var(--board-bg);border:1px solid var(--border);padding:5px 2px;text-align:center;}
-.sc-hd-num{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;color:var(--black);}
-.sc-hd-par{font-size:8px;color:var(--gray);margin-top:1px;}
-.sc-cell{border:1px solid var(--border);padding:8px 2px;text-align:center;font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--black);background:var(--board-white);}
-.sc-cell.under{color:var(--red);}
-.sc-cell.eagle{color:var(--red);background:#fff8f0;font-size:17px;}
-.sc-cell.empty{color:#ccc;font-size:10px;}
-.sc-divider{height:1px;background:var(--border);margin:0 14px;}
-
-/* Subtotals */
-.sc-subtotal{display:flex;justify-content:space-between;padding:6px 14px;background:var(--board-bg);border-top:1px solid var(--border);}
-.sc-sub-lbl{font-size:10px;color:var(--gray);font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
-.sc-sub-val{font-size:14px;font-weight:700;color:var(--black);}
-
-/* Total row */
-.sc-total{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--black);border-top:2px solid var(--black);}
-.sc-total-lbl{font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);}
-.sc-total-val{font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;color:#fff;}
-.sc-total-val.under{color:#ff6644;}
+.sc9{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#888;margin-bottom:8px;border-bottom:1px solid #ccc5b5;padding-bottom:4px;}
+.scg{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;margin-bottom:3px;}
+.sch{background:#eae6db;border:1px solid #ccc5b5;padding:5px 2px;text-align:center;}
+.schn{font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;color:#111;}
+.schp{font-size:8px;color:#888;margin-top:1px;}
+.scc{border:1px solid #ccc5b5;padding:8px 2px;text-align:center;font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:#111;background:#f5f2ec;}
+.scc.under{color:var(--red);}
+.scc.eagle{background:#f5d800;color:#111;font-size:17px;}
+.scc.empty{color:#ccc;font-size:10px;}
+.scdiv{height:1px;background:#ccc5b5;margin:0 14px;}
+.scsub{display:flex;justify-content:space-between;padding:6px 14px;background:#eae6db;border-top:1px solid #ccc5b5;}
+.scsbl{font-size:10px;color:#888;font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.08em;text-transform:uppercase;}
+.scsbv{font-size:14px;font-weight:700;color:#111;}
+.sctot{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#0d3318;}
+.sctv{font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;color:#fff;}
+.sctv.under{color:#f5d800;}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-left">
     <div style="display:flex;align-items:flex-end;"><div class="fpole"></div><div class="ftri"></div></div>
-    <span class="nav-title">Southern Illinois Masters · Leaders</span>
+    <span class="nt">Southern Illinois Masters · Leaders</span>
   </div>
   <div class="nav-right">
-    <div class="live-pill"><div class="live-dot"></div><span class="live-txt">Live</span></div>
-    <a href="index.html" class="nav-link">← Weather</a>
-    <a href="admin.html" class="nav-link">Admin</a>
+    <div class="lp"><div class="ld"></div><span class="lt">Live</span></div>
+    <a href="index.html" class="nl">← Weather</a>
+    <a href="admin.html" class="nl">Admin</a>
   </div>
 </nav>
-
-<div class="board-surround">
-
-  <!-- LEADERS HEADER -->
-  <div class="leaders-hd">
-    <div class="leaders-word">Leaders</div>
-    <div class="leaders-sub">Southern Illinois Masters · April 11, 2026</div>
-  </div>
-
-  <!-- COLUMN HEADERS -->
-  <div id="col-headers" style="display:none;">
-    <div class="board" style="border-bottom:none;background:var(--board-bg);">
-      <div class="board-cols">
-        <div class="col-hd">Pos</div>
-        <div class="col-hd name-hd">Player</div>
-        <div class="col-hd">Gross</div>
-        <div class="col-hd" style="background:rgba(201,168,76,.08);">Net</div>
-        <div class="col-hd">Thru</div>
+<div class="wrap">
+  <div class="board-outer desktop-board">
+    <div class="board" id="board-container">
+      <div class="title-bar">
+        <div class="ttxt">Leaders</div>
+        <div class="tsub">Southern Illinois Masters &nbsp;·&nbsp; Apple Creek Golf Club &nbsp;·&nbsp; April 11, 2026</div>
       </div>
+      <div id="board"></div>
     </div>
   </div>
 
-  <!-- MAIN BOARD -->
-  <div class="board" id="board"></div>
-
-  <!-- FOOTER -->
-  <div class="board-footer" id="board-footer" style="display:none;">
-    <span class="bf-txt">Stone Creek · Makanda, IL · Apr 11</span>
-    <span class="bf-hint">Tap player for scorecard</span>
+  <!-- MOBILE COMPACT BOARD -->
+  <div class="mobile-board" id="mobile-board">
+    <div class="title-bar">
+      <div class="ttxt" style="font-size:18px;letter-spacing:.22em;">Leaders</div>
+      <div class="tsub">Southern Illinois Masters · Apr 11, 2026</div>
+    </div>
+    <div class="mb-hdr">
+      <div class="mb-hc">Pos</div>
+      <div class="mb-hc left">Player</div>
+      <div class="mb-hc">Gross</div>
+      <div class="mb-hc">Net</div>
+      <div class="mb-hc">Thru</div>
+    </div>
+    <div id="mobile-rows"></div>
   </div>
-
+  <div class="leg" id="legend" style="display:none;">
+    <div class="li"><span style="font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;color:var(--red);">4</span>Under par</div>
+    <div class="li"><span style="font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;color:#b8860b;">3</span>Eagle</div>
+    <div class="li"><span style="font-family:'Oswald',sans-serif;font-weight:700;font-size:13px;color:#999;">6</span>Bogey+</div>
+    <div class="li"><span style="display:inline-block;width:3px;height:16px;background:var(--red);vertical-align:middle;margin-right:2px;"></span>Leader</div>
+  </div>
   <div class="refresh-lbl" id="refresh-lbl">Refreshes every 15 seconds</div>
 </div>
-
-<!-- SCORECARD MODAL -->
 <div class="modal-ov" id="modal-ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="modal-hd">
-      <span class="modal-player" id="modal-player">—</span>
-      <span class="modal-vs" id="modal-vs">—</span>
-      <button class="modal-x" onclick="closeModal()">×</button>
+    <div class="mhd">
+      <span class="mp" id="modal-player">—</span>
+      <span class="mvs" id="modal-vs">—</span>
+      <button class="mx" onclick="closeModal()">×</button>
     </div>
-    <div class="modal-bd" id="modal-bd"></div>
+    <div id="modal-bd"></div>
   </div>
 </div>
-
 <script>
-// ── CONFIG ───────────────────────────────────────────────────────
-const JSONBIN_ID     = '69cf1477856a682189f51614';
-const JSONBIN_KEY    = '$2a$10$44R1Eg/oHWXmy1eTJVFZXur.kKDuM4/k034YqHSjsdsOVvjPIDVjS';
-const JSONBIN_ACCESS = '$2a$10$nPS4wCQiSqytcVKjiB.aS.RSXCt975l2MRrGjs2yRVi4R0ZwWUO1C';
-const JSONBIN_URL    = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
-
-// ── Apple Creek Golf Club · Blue tees · Par 70 ──────────────────
-const PAR = [5,4,3,4,3,5,4,4,4,3,4,3,4,4,4,3,4,5];
-const COURSE_PAR = PAR.reduce((a,b)=>a+b,0);
-
-let data = {players:[],lastUpdated:null};
-
-// ── DATA ─────────────────────────────────────────────────────────
+const JID='69cf1477856a682189f51614';
+const JK='$2a$10$44R1Eg/oHWXmy1eTJVFZXur.kKDuM4/k034YqHSjsdsOVvjPIDVjS';
+const JA='$2a$10$nPS4wCQiSqytcVKjiB.aS.RSXCt975l2MRrGjs2yRVi4R0ZwWUO1C';
+const JURL=`https://api.jsonbin.io/v3/b/${JID}`;
+const PAR=[5,4,3,4,3,5,4,4,4,3,4,3,4,4,4,3,4,5];
+const CP=PAR.reduce((a,b)=>a+b,0);
+let data={players:[],lastUpdated:null};
 async function loadData(){
-  try{
-    const r = await fetch(JSONBIN_URL+'/latest',{
-      headers:{'X-Master-Key':JSONBIN_KEY,'X-Access-Key':JSONBIN_ACCESS}
-    });
-    if(r.ok){const j=await r.json();data=j.record||data;return;}
-  }catch(e){}
+  try{const r=await fetch(JURL+'/latest',{headers:{'X-Master-Key':JK,'X-Access-Key':JA}});if(r.ok){const j=await r.json();data=j.record||data;return;}}catch(e){}
   try{const s=localStorage.getItem('scinv2026');if(s)data=JSON.parse(s);}catch(e){}
 }
-
-// ── HELPERS ──────────────────────────────────────────────────────
-function vsStr(vs){
-  if(vs===0)return'E';
-  return vs<0?String(vs):'+'+vs;
+function vs(n){if(n===0)return'E';return n<0?String(n):'+'+n;}
+function calc(p){
+  let t=0,pl=0,g=0;
+  for(let i=0;i<18;i++){const s=p.scores[i];if(s&&s>0){t+=s;pl++;g+=s-PAR[i];}}
+  const h=p.hcp||0;
+  return{total:t,played:pl,gross:g,net:t>0?t-h:0,netVs:t>0?g-h:0};
 }
-function calcPlayer(p){
-  let total=0,played=0,vs=0;
-  for(let i=0;i<18;i++){
-    const s=p.scores[i];
-    if(s&&s>0){total+=s;played++;vs+=s-PAR[i];}
-  }
-  const hcp=p.hcp||0;
-  const net=total>0?total-hcp:0;
-  const netVs=total>0?vs-hcp:0;
-  return{total,played,vs,net,netVs};
-}
-function holeCls(s,par){
+function hcls(s,par){
   if(!s||s<1)return'empty';
   if(s<=par-2)return'eagle';
   if(s<par)return'under';
   if(s===par)return'par';
-  return'over';
+  return'bogey';
 }
-
-// ── RENDER ───────────────────────────────────────────────────────
 function render(){
-  const players = data.players||[];
-  const board = document.getElementById('board');
-
+  const players=data.players||[];
+  const board=document.getElementById('board');
   if(!players.length){
-    document.getElementById('col-headers').style.display='none';
-    document.getElementById('board-footer').style.display='none';
-    board.innerHTML=`
-      <div class="empty-board">
-        <div class="empty-icon">⛳</div>
-        <div class="empty-title">Tee Time Coming</div>
-        <div class="empty-sub">April 11, 2026 · Stone Creek · 9:00 AM CT</div>
-        <a href="admin.html" class="empty-btn">Admin Entry</a>
-      </div>`;
+    board.innerHTML=`<div class="empty-state"><div class="et">Tee Time Coming</div><div class="es">April 11, 2026 &middot; 9:00 AM CT &middot; Apple Creek Golf Club</div><a href="admin.html" class="eb">Admin Entry</a></div>`;
     return;
   }
-
-  document.getElementById('col-headers').style.display='block';
-  document.getElementById('board-footer').style.display='flex';
-
-  // Sort — players who haven't started go to bottom
-  const sorted = players.map(p=>({...p,...calcPlayer(p)}))
-    .sort((a,b)=>{
-      // Push unstarted players to bottom
-      if(a.played===0 && b.played>0) return 1;
-      if(a.played>0 && b.played===0) return -1;
-      return a.netVs-b.netVs||a.net-b.net||a.vs-b.vs;
-    });
-
-  // Positions — only assign position if they've played
-  let lastVs=null,lastPos=1;
-  sorted.forEach((p,i)=>{
-    if(p.played===0){p.pos='—';return;}
-    if(p.netVs===lastVs){p.pos='T'+lastPos;}
-    else{lastPos=i+1;p.pos=String(lastPos);lastVs=p.netVs;}
+  document.getElementById('legend').style.display='flex';
+  const sorted=players.map(p=>({...p,...calc(p)})).sort((a,b)=>{
+    if(a.played===0&&b.played>0)return 1;
+    if(a.played>0&&b.played===0)return -1;
+    return a.netVs-b.netVs||a.net-b.net||a.gross-b.gross;
   });
-
-  board.innerHTML = sorted.map((p,i)=>{
-    const vStr = vsStr(p.vs);
-    const netVsStr = p.played>0?vsStr(p.netVs):'—';
-    const netVsCls = p.netVs<0?'under':p.netVs>0?'over':'even';
-    const thru = p.played===0?'—':p.played===18?'F':String(p.played);
-    const thruCls = p.played===18?'finished':'';
-    const isLeader = i===0 && p.played>0;
-    const isTied = p.pos.startsWith('T');
-
-    // Add separator line between groups at different scores
-    const prev = sorted[i-1];
-    const showDivider = i>0 && p.played>0 && prev.played>0 && p.netVs !== prev.netVs;
-
-    return`${showDivider?'<div style="height:2px;background:var(--border);max-width:600px;margin:0 auto;"></div>':''}
-    <div class="player-row${isLeader?' leader':''}" onclick="openCard('${p.id}')">
-      <div class="pos-cell">
-        ${p.played===0?`<span class="pos-num" style="opacity:.3;">—</span>`:isTied?`<span class="pos-t">T</span><span class="pos-num">${p.pos.slice(1)}</span>`:`<span class="pos-num">${p.pos}</span>`}
-      </div>
-      <div class="name-cell">
-        <div class="p-name">${p.name} <span style="font-size:10px;opacity:.45;font-weight:400;font-family:'EB Garamond',serif;font-style:italic;">HCP ${p.hcp||0}</span></div>
-        <div class="p-hometown">${p.played>0?`Thru ${thru}`:'Not started'}</div>
-      </div>
-      <div class="score-cell">
-        <div class="vs-num ${p.vs<0?'under':p.vs>0?'over':'even'}">${p.played>0?vStr:'—'}</div>
-        <div class="strokes-lbl">${p.played>0?p.total:'—'} strokes</div>
-      </div>
-      <div class="score-cell" style="background:rgba(201,168,76,.04);border-right:1px solid var(--border);">
-        <div class="vs-num ${netVsCls}">${netVsStr}</div>
-        <div class="strokes-lbl">${p.played>0?p.net:'—'} net</div>
-      </div>
-      <div class="thru-cell">
-        <div class="thru-num ${thruCls}">${thru}</div>
-        <div class="thru-lbl">Thru</div>
-      </div>
-    </div>`;
-  }).join('');
-
-  const ts = data.lastUpdated?new Date(data.lastUpdated).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}):'—';
+  let lv=null,lp=1;
+  sorted.forEach((p,i)=>{
+    if(p.played===0){p.pos='';return;}
+    if(p.netVs===lv){p.pos='T'+lp;}
+    else{lp=i+1;p.pos=String(lp);lv=p.netVs;}
+  });
+  const fp=PAR.slice(0,9).reduce((a,b)=>a+b,0);
+  const bp=PAR.slice(9).reduce((a,b)=>a+b,0);
+  let h=`<table>`;
+  h+=`<colgroup><col style="width:170px;">`;
+  for(let i=0;i<18;i++)h+=`<col style="width:26px;">`; 
+  h+=`<col style="width:36px;"><col style="width:36px;"><col style="width:60px;"><col style="width:60px;"><col style="width:42px;"></colgroup>`;
+  h+=`<tr class="hdr"><td class="nm">Player</td>`;
+  for(let i=0;i<9;i++)h+=`<td>${i+1}</td>`;
+  h+=`<td class="sep">OUT</td>`;
+  for(let i=9;i<18;i++)h+=`<td>${i+1}</td>`;
+  h+=`<td class="sep">IN</td><td class="rt">GROSS</td><td class="rt net">NET</td><td class="rt">THRU</td></tr>`;
+  h+=`<tr class="par"><td class="nm" style="padding-left:10px;font-family:'EB Garamond',serif;font-style:italic;color:#999;">Par</td>`;
+  for(let i=0;i<9;i++)h+=`<td>${PAR[i]}</td>`;
+  h+=`<td class="sep">${fp}</td>`;
+  for(let i=9;i<18;i++)h+=`<td>${PAR[i]}</td>`;
+  h+=`<td class="sep">${bp}</td><td class="rt">${CP}</td><td class="rt net">—</td><td class="rt">—</td></tr>`;
+  sorted.forEach((p,i)=>{
+    const prev=sorted[i-1];
+    if(i>0&&p.played>0&&prev.played>0&&p.netVs!==prev.netVs)
+      h+=`<tr class="gdv"><td colspan="25"></td></tr>`;
+    const isL=i===0&&p.played>0;
+    const thru=p.played===0?'—':p.played===18?'F':String(p.played);
+    const gStr=p.played>0?vs(p.gross):'—';
+    const nStr=p.played>0?vs(p.netVs):'—';
+    const posTxt=p.pos?(p.pos.startsWith('T')?`T${p.pos.slice(1)}`:p.pos):'';
+    let out=0,inn=0;
+    for(let k=0;k<9;k++){if(p.scores[k]>0)out+=p.scores[k];}
+    for(let k=9;k<18;k++){if(p.scores[k]>0)inn+=p.scores[k];}
+    h+=`<tr class="pr${isL?' ldr':''}${p.played===0?' ns':''}" onclick="openCard('${p.id}')">`;
+    h+=`<td class="nm"><span class="ppos">${posTxt}</span>${p.name}<span class="phcp">HCP ${p.hcp||0}</span></td>`;
+    for(let k=0;k<9;k++){const s=p.scores[k];const c=hcls(s,PAR[k]);h+=`<td class="${c==='under'?'uc':c==='eagle'?'ec':c==='bogey'?'bc':''}">${s&&s>0?s:'·'}</td>`;}
+    h+=`<td class="sep">${out>0?out:'·'}</td>`;
+    for(let k=9;k<18;k++){const s=p.scores[k];const c=hcls(s,PAR[k]);h+=`<td class="${c==='under'?'uc':c==='eagle'?'ec':c==='bogey'?'bc':''}">${s&&s>0?s:'·'}</td>`;}
+    h+=`<td class="sep">${inn>0?inn:'·'}</td>`;
+    h+=`<td class="rt${p.played>0&&p.gross<0?' under':''}">${gStr}</td>`;
+    h+=`<td class="rt net${p.played>0&&p.netVs<0?' under':''}">${nStr}</td>`;
+    h+=`<td class="rt">${thru}</td>`;
+    h+=`</tr>`;
+  });
+  h+=`</table>`;
+  board.innerHTML=h;
+  const ts=data.lastUpdated?new Date(data.lastUpdated).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}):'—';
   document.getElementById('refresh-lbl').textContent=`Updated ${ts} · Refreshes every 15s`;
+  renderMobile(sorted);
 }
 
-// ── SCORECARD MODAL ──────────────────────────────────────────────
+function renderMobile(sorted){
+  const el=document.getElementById('mobile-rows');
+  if(!el)return;
+  if(!sorted||!sorted.length){
+    el.innerHTML=`<div class="empty-state"><div class="et">Tee Time Coming</div><div class="es">April 11 · 9:00 AM CT</div><a href="admin.html" class="eb">Admin Entry</a></div>`;
+    return;
+  }
+  let h='';
+  sorted.forEach((p,i)=>{
+    const prev=sorted[i-1];
+    if(i>0&&p.played>0&&prev.played>0&&p.netVs!==prev.netVs)
+      h+=`<div class="mb-grp"></div>`;
+    const isL=i===0&&p.played>0;
+    const thru=p.played===0?'—':p.played===18?'F':String(p.played);
+    const gStr=p.played>0?vs(p.gross):'—';
+    const nStr=p.played>0?vs(p.netVs):'—';
+    const isTied=p.pos&&p.pos.startsWith('T');
+    const posHtml=p.played===0
+      ?`<span style="color:#ddd;font-size:13px;">—</span>`
+      :isTied
+        ?`<span class="t">T</span>${p.pos.slice(1)}`
+        :`${p.pos}`;
+    h+=`<div class="mb-row${isL?' ldr':''}${p.played===0?' ns':''}" onclick="openCard('${p.id}')">
+      <div class="mb-pos">${posHtml}</div>
+      <div class="mb-name">
+        <div class="mb-pname">${p.name}</div>
+        <div class="mb-psub">HCP ${p.hcp||0} &nbsp;·&nbsp; <span class="tap">tap for scorecard</span></div>
+      </div>
+      <div class="mb-score">
+        <div class="mb-big ${p.played>0&&p.gross<0?'under':''}">${gStr}</div>
+        <div class="mb-small">${p.played>0?p.total+' str':''}</div>
+      </div>
+      <div class="mb-net">
+        <div class="mb-big ${p.played>0&&p.netVs<0?'under':''}">${nStr}</div>
+        <div class="mb-small">${p.played>0?p.net+' net':''}</div>
+      </div>
+      <div class="mb-thru">
+        <div class="mb-thru-num${p.played===18?' done':''}">${thru}</div>
+        <div class="mb-thru-lbl">Thru</div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=h;
+}
 function openCard(pid){
-  const p = (data.players||[]).find(x=>x.id===pid);
-  if(!p)return;
-  const{total,played,vs} = calcPlayer(p);
-  const hcp = p.hcp||0;
-  const netVs = total>0?vs-hcp:0;
-  const vStr = vsStr(vs);
-  const netStr = played>0?vsStr(netVs):'—';
-  const vCls = netVs<0?'under':netVs>0?'over':'';
-
-  document.getElementById('modal-player').textContent = p.name;
-  const vsEl = document.getElementById('modal-vs');
-  vsEl.textContent = played>0?`Net ${netStr}`:'No scores yet';
-  vsEl.className = 'modal-vs '+(netVs<0?'under':'');
-
-  // Front 9
-  let frontTotal=0, frontPar=0, backTotal=0, backPar=0;
-  for(let h=0;h<9;h++){const s=p.scores[h];if(s>0){frontTotal+=s;frontPar+=PAR[h];}}
-  for(let h=9;h<18;h++){const s=p.scores[h];if(s>0){backTotal+=s;backPar+=PAR[h];}}
-
+  const p=(data.players||[]).find(x=>x.id===pid);if(!p)return;
+  const{total,played,gross,netVs}=calc(p);
+  const hcp=p.hcp||0,net=total>0?total-hcp:0;
+  const gStr=vs(gross),nStr=vs(netVs);
+  document.getElementById('modal-player').textContent=p.name;
+  const ve=document.getElementById('modal-vs');
+  ve.textContent=played>0?`Net ${nStr}`:'No scores yet';
+  ve.className='mvs '+(netVs<0?'under':'');
+  let ft=0,fp2=0,bt=0,bp2=0;
+  for(let k=0;k<9;k++){const s=p.scores[k];if(s>0){ft+=s;fp2+=PAR[k];}}
+  for(let k=9;k<18;k++){const s=p.scores[k];if(s>0){bt+=s;bp2+=PAR[k];}}
   let html='';
-
-  // Front 9
-  html+=`<div class="sc-section">`;
-  html+=`<div class="sc-nine-lbl">Front Nine</div>`;
-  html+=`<div class="sc-grid">`;
-  for(let h=0;h<9;h++) html+=`<div class="sc-hd"><div class="sc-hd-num">${h+1}</div><div class="sc-hd-par">${PAR[h]}</div></div>`;
-  html+=`</div><div class="sc-grid">`;
-  for(let h=0;h<9;h++){
-    const s=p.scores[h];
-    const cls=holeCls(s,PAR[h]);
-    html+=`<div class="sc-cell ${cls}">${s&&s>0?s:'·'}</div>`;
-  }
-  html+=`</div></div>`;
-  if(frontTotal>0){
-    const fVs=frontTotal-frontPar;
-    html+=`<div class="sc-subtotal"><span class="sc-sub-lbl">Front 9</span><span class="sc-sub-val">${frontTotal} (${vsStr(fVs)})</span></div>`;
-  }
-  html+=`<div class="sc-divider"></div>`;
-
-  // Back 9
-  html+=`<div class="sc-section">`;
-  html+=`<div class="sc-nine-lbl">Back Nine</div>`;
-  html+=`<div class="sc-grid">`;
-  for(let h=9;h<18;h++) html+=`<div class="sc-hd"><div class="sc-hd-num">${h+1}</div><div class="sc-hd-par">${PAR[h]}</div></div>`;
-  html+=`</div><div class="sc-grid">`;
-  for(let h=9;h<18;h++){
-    const s=p.scores[h];
-    const cls=holeCls(s,PAR[h]);
-    html+=`<div class="sc-cell ${cls}">${s&&s>0?s:'·'}</div>`;
-  }
-  html+=`</div></div>`;
-  if(backTotal>0){
-    const bVs=backTotal-backPar;
-    html+=`<div class="sc-subtotal"><span class="sc-sub-lbl">Back 9</span><span class="sc-sub-val">${backTotal} (${vsStr(bVs)})</span></div>`;
-  }
-
-  // Total
-  const net=total>0?total-hcp:0;
-  const netCls=netVs<0?'under':'';
-  const netStrFinal=vsStr(netVs);
-  html+=`<div class="sc-total">
-    <div>
-      <div style="font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;">Gross</div>
-      <span class="sc-total-val ${vCls}">${vStr}</span>
-      <span style="font-size:13px;color:rgba(255,255,255,.4);margin-left:4px;">${total||'—'}</span>
-    </div>
-    <div style="text-align:right;">
-      <div style="font-size:9px;color:rgba(201,168,76,.6);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;">Net (HCP ${hcp})</div>
-      <span class="sc-total-val ${netCls}">${netStrFinal}</span>
-      <span style="font-size:13px;color:rgba(255,255,255,.4);margin-left:4px;">${net||'—'}</span>
-    </div>
-  </div>`;
-
+  ['Front Nine','Back Nine'].forEach((lbl,nine)=>{
+    const st=nine*9;
+    html+=`<div class="sc-section"><div class="sc9">${lbl}</div><div class="scg">`;
+    for(let k=st;k<st+9;k++)html+=`<div class="sch"><div class="schn">${k+1}</div><div class="schp">${PAR[k]}</div></div>`;
+    html+=`</div><div class="scg">`;
+    for(let k=st;k<st+9;k++){const s=p.scores[k];const c=hcls(s,PAR[k]);html+=`<div class="scc ${c||'empty'}">${s&&s>0?s:'·'}</div>`;}
+    html+=`</div></div>`;
+    const nt=nine===0?ft:bt,np=nine===0?fp2:bp2;
+    if(nt>0)html+=`<div class="scsub"><span class="scsbl">${lbl.replace(' Nine','9')}</span><span class="scsbv">${nt} (${vs(nt-np)})</span></div>`;
+    if(nine===0)html+=`<div class="scdiv"></div>`;
+  });
+  html+=`<div class="sctot"><div><div style="font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;">Gross</div><span class="sctv ${gross<0?'under':''}">${gStr}</span><span style="font-size:13px;color:rgba(255,255,255,.35);margin-left:5px;">${total||'—'}</span></div><div style="text-align:right;"><div style="font-size:9px;color:rgba(201,168,76,.55);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;">Net (HCP ${hcp})</div><span class="sctv ${netVs<0?'under':''}">${nStr}</span><span style="font-size:13px;color:rgba(255,255,255,.35);margin-left:5px;">${net||'—'}</span></div></div>`;
   document.getElementById('modal-bd').innerHTML=html;
   document.getElementById('modal-ov').classList.add('open');
 }
 function closeModal(){document.getElementById('modal-ov').classList.remove('open');}
-
-// ── INIT ─────────────────────────────────────────────────────────
 async function refresh(){await loadData();render();}
 refresh();
 setInterval(refresh,15000);
