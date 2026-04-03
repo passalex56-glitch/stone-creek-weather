@@ -36,7 +36,17 @@ body::after{
   background:rgba(4,14,7,.65);
   z-index:1;
 }
-.nav,.flags-strip,.masters-header,.board-surround,.board-container,.legend,.refresh-lbl,.modal-ov{position:relative;z-index:2;}
+nav,
+.flags-strip,
+.masters-header,
+.board-surround,
+.legend,
+.refresh-lbl,
+.modal-ov {
+  position:relative;
+  z-index:10;
+}
+.board-surround{background:transparent;}
 
 /* ── NAV ── */
 .nav{position:sticky;top:0;z-index:100;background:rgba(7,26,12,.97);border-bottom:2px solid var(--gold);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);}
