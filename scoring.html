@@ -64,7 +64,23 @@ tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
 .es{font-size:13px;color:#888;font-family:'EB Garamond',serif;margin-bottom:22px;}
 .eb{display:inline-block;background:var(--green);padding:10px 24px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none;}
 
-/* ── MOBILE COMPACT LEADERBOARD ── */
+/* ── MASTERS TEAMS ── */
+.teams-table{width:100%;border-collapse:collapse;background:#fff;border:4px solid #111;}
+.teams-table th{background:#1a5c2a;color:#fff;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 8px;text-align:center;border-right:1px solid rgba(255,255,255,.15);}
+.teams-table th.left{text-align:left;}
+.teams-table th:last-child{border-right:none;}
+.teams-table td{border:1px solid #ddd;padding:8px 8px;font-family:'Oswald',sans-serif;font-size:13px;text-align:center;color:#111;background:#fff;}
+.teams-table td.player-td{text-align:left;font-size:15px;font-weight:700;border-right:2px solid #999;}
+.teams-table td.player-td.ldr{border-left:5px solid #cc1100;padding-left:7px;}
+.teams-table td.pro-td{font-size:13px;background:#f8f8f5;}
+.teams-table td.pro-td .pro-name{font-size:11px;color:#888;font-family:'EB Garamond',serif;font-style:italic;display:block;line-height:1.2;}
+.teams-table td.pro-td .pro-score{font-size:16px;font-weight:700;color:#111;}
+.teams-table td.pro-td .pro-score.pending{color:#ccc;font-size:12px;}
+.teams-table td.total-td{font-size:22px;font-weight:700;background:#f0eed8;color:#111;}
+.teams-table td.total-td.leader{color:#cc1100;}
+.teams-table tr.teams-grp td{height:3px;background:#b8b0a0;border:none;padding:0;}
+.teams-table tr:hover td{background:#faf8f2!important;}
+.my-score-td{background:#e8f0e8!important;}
 .mobile-board{display:none;background:#fff;border:4px solid #111;overflow:hidden;}
 .mb-hdr{background:#e8e4d9;border-bottom:2px solid #111;display:grid;grid-template-columns:44px 1fr 70px 70px 44px;padding:6px 10px;}
 .mb-hc{font-family:'Oswald',sans-serif;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;text-align:center;}
@@ -170,6 +186,18 @@ tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
     <div class="li"><span style="display:inline-block;width:3px;height:16px;background:var(--red);vertical-align:middle;margin-right:2px;"></span>Leader</div>
   </div>
   <div class="refresh-lbl" id="refresh-lbl">Refreshes every 15 seconds</div>
+
+  <!-- ── MASTERS TEAMS LEADERBOARD ── -->
+  <div id="masters-teams-section" style="display:none;margin-top:28px;">
+    <div style="text-align:center;padding:10px 16px 8px;border-top:2px solid rgba(255,255,255,.12);border-bottom:2px solid rgba(255,255,255,.12);margin-bottom:10px;">
+      <div style="font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:rgba(255,255,255,.38);letter-spacing:.2em;text-transform:uppercase;">Combined Team Score</div>
+      <div style="font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#fff;line-height:1.1;">Masters Teams</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.3);font-family:'EB Garamond',serif;font-style:italic;margin-top:3px;">Your score + 1 pick + 2 random draws · Lowest total wins</div>
+    </div>
+    <div style="min-width:0;overflow-x:auto;padding:0 8px;">
+      <div id="teams-board"></div>
+    </div>
+  </div>
 </div>
 <div class="modal-ov" id="modal-ov" onclick="if(event.target===this)closeModal()">
   <div class="modal">
@@ -345,9 +373,79 @@ function openCard(pid){
   document.getElementById('modal-ov').classList.add('open');
 }
 function closeModal(){document.getElementById('modal-ov').classList.remove('open');}
-async function refresh(){await loadData();render();}
+async function refresh(){await loadData();render();renderTeams();}
 refresh();
 setInterval(refresh,15000);
+
+function renderTeams(){
+  const players=data.players||[];
+  const picks=data.mastersPicks||{};
+  const draws=data.mastersDraws||{};
+  const proScores=data.proScores||{};
+  const section=document.getElementById('masters-teams-section');
+
+  // Only show if at least one player has a pick or draw assigned
+  const hasTeams=players.some(p=>picks[p.id]||((draws[p.id]||[]).length>0));
+  if(!hasTeams){section.style.display='none';return;}
+  section.style.display='block';
+
+  // Build team totals
+  const teams=players.map(p=>{
+    const calc_p=calcPlayer(p);
+    const myScore=calc_p.total||0;
+    const myPlayed=calc_p.played;
+    const pick=picks[p.id]||'';
+    const d=draws[p.id]||[];
+    const pro1=pick,pro2=d[0]||'',pro3=d[1]||'';
+    const s1=proScores[pro1]||0;
+    const s2=proScores[pro2]||0;
+    const s3=proScores[pro3]||0;
+    const proTotal=s1+s2+s3;
+    const teamTotal=myPlayed>0&&proTotal>0?myScore+proTotal:0;
+    return{...p,myScore,myPlayed,pick,pro2,pro3,s1,s2,s3,proTotal,teamTotal};
+  }).sort((a,b)=>{
+    if(a.teamTotal===0&&b.teamTotal>0)return 1;
+    if(a.teamTotal>0&&b.teamTotal===0)return -1;
+    return a.teamTotal-b.teamTotal;
+  });
+
+  const prosDone=teams.some(t=>t.s1>0||t.s2>0||t.s3>0);
+
+  let h=`<table class="teams-table">
+    <tr>
+      <th class="left" style="width:160px;">Player</th>
+      <th>My Score</th>
+      <th>Pick</th>
+      <th>Draw 1</th>
+      <th>Draw 2</th>
+      <th style="background:#0d3318;">Total</th>
+    </tr>`;
+
+  teams.forEach((t,i)=>{
+    const isLeader=i===0&&t.teamTotal>0;
+    const prev=teams[i-1];
+    if(i>0&&t.teamTotal>0&&prev.teamTotal>0&&t.teamTotal!==prev.teamTotal)
+      h+=`<tr class="teams-grp"><td colspan="6"></td></tr>`;
+
+    const myDisp=t.myPlayed>0?t.myScore:`—`;
+    const s1disp=t.s1>0?t.s1:`<span class="pro-score pending">${t.pick||'—'}</span>`;
+    const s2disp=t.s2>0?t.s2:`<span class="pro-score pending">${t.pro2||'—'}</span>`;
+    const s3disp=t.s3>0?t.s3:`<span class="pro-score pending">${t.pro3||'—'}</span>`;
+    const totalDisp=t.teamTotal>0?t.teamTotal:'—';
+
+    h+=`<tr>
+      <td class="player-td${isLeader?' ldr':''}">${t.name}</td>
+      <td class="my-score-td"><div style="font-size:18px;font-weight:700;">${myDisp}</div><div style="font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;">${t.myPlayed>0?t.myPlayed+' holes':'not started'}</div></td>
+      <td class="pro-td"><span class="pro-name">${t.pick||'—'}</span><span class="pro-score${t.s1?'':' pending'}">${t.s1||'TBD'}</span></td>
+      <td class="pro-td"><span class="pro-name">${t.pro2||'—'}</span><span class="pro-score${t.s2?'':' pending'}">${t.s2||'TBD'}</span></td>
+      <td class="pro-td"><span class="pro-name">${t.pro3||'—'}</span><span class="pro-score${t.s3?'':' pending'}">${t.s3||'TBD'}</span></td>
+      <td class="total-td${isLeader?' leader':''}">${totalDisp}</td>
+    </tr>`;
+  });
+
+  h+=`</table>`;
+  document.getElementById('teams-board').innerHTML=h;
+}
 </script>
 </body>
 </html>

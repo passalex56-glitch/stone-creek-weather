@@ -146,9 +146,37 @@ html,body{min-height:100vh;background:var(--gdeep);font-family:'EB Garamond',Geo
 
   <div id="players-container"></div>
 
+  <!-- ── MASTERS TEAMS SECTION ── -->
+  <div class="sec-hd" style="margin-top:32px;">Masters Teams <span class="sec-sub">Pick + draw + enter Saturday scores</span></div>
+
+  <div style="background:rgba(201,168,76,.06);border:.5px solid rgba(201,168,76,.25);border-radius:4px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--goldl);line-height:1.6;">
+    <strong style="color:var(--gold);">How it works:</strong><br>
+    1. Each player enters their <strong>1 Masters pick</strong> below.<br>
+    2. After the cut (Friday night), hit <strong>Draw Teams</strong> to randomly assign 2 more pros to each player.<br>
+    3. After Saturday's round, enter each pro's <strong>Round 3 strokes</strong> in the pro scores section.<br>
+    Combined total (your score + 3 pros) = team score. Lowest wins.
+  </div>
+
+  <!-- Step 1: Player picks -->
+  <div style="font-size:11px;color:var(--goldl);opacity:.6;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;font-family:'Playfair Display',serif;font-style:italic;">Step 1 · Player Picks</div>
+  <div id="picks-container"></div>
+
+  <!-- Step 2: Draw button -->
+  <div style="font-size:11px;color:var(--goldl);opacity:.6;letter-spacing:.1em;text-transform:uppercase;margin:18px 0 10px;font-family:'Playfair Display',serif;font-style:italic;">Step 2 · Draw Teams (after Friday cut)</div>
+  <div style="margin-bottom:8px;">
+    <input type="text" class="txt-inp" id="cut-list" placeholder="Paste cut survivors, comma separated (e.g. Scheffler, McIlroy, Rahm…)" style="width:100%;margin-bottom:8px;">
+    <button class="add-btn" onclick="drawTeams()" style="width:100%;justify-content:center;background:rgba(92,184,92,.15);border-color:rgba(92,184,92,.4);color:#7ed87e;">🎲 Draw Teams</button>
+  </div>
+  <div id="draw-result" style="font-size:12px;color:var(--goldl);opacity:.7;margin-top:8px;font-style:italic;"></div>
+
+  <!-- Step 3: Pro scores -->
+  <div style="font-size:11px;color:var(--goldl);opacity:.6;letter-spacing:.1em;text-transform:uppercase;margin:18px 0 10px;font-family:'Playfair Display',serif;font-style:italic;">Step 3 · Round 3 Pro Scores</div>
+  <div id="pro-scores-container"></div>
+
   <div class="danger">
     <div class="danger-lbl">⚠ Danger Zone</div>
     <button class="reset-btn" onclick="resetAll()">Reset all scores & players</button>
+    <button class="reset-btn" onclick="resetTeams()" style="margin-left:10px;">Reset Masters teams</button>
   </div>
 
   <div style="height:72px;"></div>
@@ -350,6 +378,8 @@ function renderAll(){
       <div class="hole-grid">${front}${back}</div>
     </div>`;
   }).join('');
+  renderPicks();
+  renderProScores();
 }
 
 function buildNine(p,start,end,label){
@@ -380,6 +410,114 @@ function updateHcp(inp){
   autoTimer=setTimeout(saveData,1000);
 }
 async function saveAll(){await saveData();}
+
+// ── MASTERS TEAMS ─────────────────────────────────────────────────
+function renderPicks(){
+  const c=document.getElementById('picks-container');
+  if(!data.players||!data.players.length){c.innerHTML=`<div style="opacity:.4;font-style:italic;font-size:13px;padding:8px 0;">Add players first</div>`;return;}
+  c.innerHTML=data.players.map(p=>{
+    const pick=(data.mastersPicks||{})[p.id]||'';
+    const draws=((data.mastersDraws||{})[p.id]||[]).join(', ');
+    return`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.18);border-radius:4px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <div style="min-width:140px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;color:var(--cream);">${p.name}</div>
+      <input type="text" class="txt-inp" style="flex:1;min-width:160px;font-size:13px;padding:7px 10px;"
+        placeholder="Their 1 Masters pick…"
+        value="${pick}"
+        oninput="updatePick('${p.id}',this.value)">
+      ${draws?`<div style="font-size:11px;color:var(--goldl);opacity:.6;font-style:italic;">Draws: ${draws}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function updatePick(pid, val){
+  if(!data.mastersPicks)data.mastersPicks={};
+  data.mastersPicks[pid]=val.trim();
+  clearTimeout(autoTimer);
+  autoTimer=setTimeout(saveData,1000);
+}
+
+function drawTeams(){
+  const raw=document.getElementById('cut-list').value.trim();
+  if(!raw){alert('Paste the cut list first');return;}
+  const cutPlayers=raw.split(',').map(s=>s.trim()).filter(Boolean);
+  if(!data.players||!data.players.length){alert('No players added yet');return;}
+
+  // Remove ALL picks (every player's chosen pro) from the draw pool
+  const picks=data.mastersPicks||{};
+  const allPicked=new Set(Object.values(picks).filter(Boolean));
+
+  // Pool = cut list minus anyone already picked by anyone
+  let pool=cutPlayers.filter(p=>!allPicked.has(p));
+
+  // Check we have enough for 2 per player
+  const needed=data.players.length*2;
+  if(pool.length<needed){
+    alert(`Need at least ${needed} players in the pool after removing all picks. Only have ${pool.length}. Add more to the cut list.`);
+    return;
+  }
+
+  // Shuffle pool
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+
+  // Assign 2 per player — no repeats, drawn sequentially from shuffled pool
+  data.mastersDraws={};
+  let idx=0;
+  data.players.forEach(p=>{
+    data.mastersDraws[p.id]=[pool[idx++],pool[idx++]];
+  });
+
+  saveData();
+  renderPicks();
+  renderProScores();
+  document.getElementById('draw-result').textContent=`✓ Teams drawn! Each player has their pick + 2 unique random pros. No pro appears twice.`;
+}
+
+function renderProScores(){
+  const c=document.getElementById('pro-scores-container');
+  if(!data.players||!data.players.length){c.innerHTML='';return;}
+
+  // Build a unique list of all pros across all teams
+  const allPros=new Set();
+  data.players.forEach(p=>{
+    const pick=(data.mastersPicks||{})[p.id];
+    const draws=(data.mastersDraws||{})[p.id]||[];
+    if(pick)allPros.add(pick);
+    draws.forEach(d=>allPros.add(d));
+  });
+
+  if(!allPros.size){c.innerHTML=`<div style="opacity:.4;font-style:italic;font-size:13px;padding:8px 0;">Draw teams first to see pros here</div>`;return;}
+
+  const proScores=data.proScores||{};
+  c.innerHTML=`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.18);border-radius:4px;padding:12px 14px;">
+    <div style="font-size:11px;color:var(--creamd);opacity:.5;margin-bottom:12px;font-style:italic;">Enter Round 3 actual strokes for each pro (not vs par — actual score e.g. 68, 71)</div>
+    ${[...allPros].sort().map(pro=>{
+      const score=proScores[pro]||'';
+      return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div style="min-width:180px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;color:var(--cream);">${pro}</div>
+        <input type="number" min="60" max="100" class="s-inp" style="width:70px;font-size:16px;"
+          value="${score}" placeholder="—"
+          oninput="updateProScore('${pro}',this.value)">
+        <div style="font-size:11px;color:var(--goldl);opacity:.5;">${score?'strokes':''}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function updateProScore(pro, val){
+  if(!data.proScores)data.proScores={};
+  data.proScores[pro]=parseInt(val)||0;
+  clearTimeout(autoTimer);
+  autoTimer=setTimeout(saveData,1000);
+}
+
+function resetTeams(){
+  if(!confirm('Reset all Masters team draws and pro scores? Picks will be kept.'))return;
+  data.mastersDraws={};
+  data.proScores={};
+  saveData();
+  renderPicks();
+  renderProScores();
+}
 </script>
 </body>
 </html>
