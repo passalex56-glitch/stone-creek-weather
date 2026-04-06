@@ -228,6 +228,96 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .lb-text{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:#ffaaaa;}
 
 /* FOOTER */
+/* RULES SECTION */
+.rules-section{padding:0 48px 28px;}
+.rules-card{
+  background:linear-gradient(135deg,#f5f0e8 0%,#ede5d4 100%);
+  border:1px solid var(--gold);border-radius:6px;overflow:hidden;
+  box-shadow:0 4px 32px rgba(0,0,0,.4);
+}
+.rules-card-header{
+  background:var(--gmid);
+  border-bottom:2px solid var(--gold);
+  padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.rules-title{
+  font-family:'Playfair Display',serif;font-size:22px;font-weight:600;
+  color:var(--goldl);letter-spacing:.04em;
+}
+.rules-subtitle{
+  font-family:'EB Garamond',serif;font-size:12px;font-style:italic;
+  color:rgba(245,240,232,.55);margin-top:3px;letter-spacing:.08em;
+}
+.rules-crest{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  opacity:.7;
+}
+.rc-pole{width:2px;height:18px;background:var(--gold);}
+.rc-tri{width:0;height:0;border-top:6px solid var(--gold);border-bottom:6px solid transparent;border-left:10px solid var(--gold);margin-top:-18px;margin-left:-2px;margin-bottom:4px;}
+.rc-text{font-family:'Playfair Display',serif;font-size:10px;font-style:italic;color:var(--goldl);letter-spacing:.12em;}
+.rules-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.rules-col{padding:20px 24px;border-right:.5px solid rgba(15,45,22,.15);}
+.rules-col:last-child{border-right:none;}
+.rule-item{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;}
+.rule-item:last-child{margin-bottom:0;}
+.rule-num{
+  flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  background:var(--gmid);color:var(--goldl);
+  font-family:'Playfair Display',serif;font-size:11px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+.rule-num.gold{background:var(--gold);color:var(--gdeep);}
+.rule-text{
+  font-family:'EB Garamond',serif;font-size:14px;
+  color:#2a1f0f;line-height:1.55;
+}
+.rule-text strong{color:#1a0f00;font-weight:600;}
+.rule-text em{font-style:italic;color:#5a3a1a;}
+.penalty{
+  display:inline-block;
+  background:rgba(160,48,96,.12);
+  color:#8b1a3a;
+  font-weight:600;
+  padding:0 5px;border-radius:3px;
+  font-size:13px;
+}
+/* Poker sub-card */
+.rule-poker{
+  flex-direction:column;gap:0;
+  background:rgba(15,45,22,.06);
+  border:.5px solid rgba(15,45,22,.2);
+  border-radius:6px;padding:12px 14px;
+  margin-top:4px;
+}
+.rule-poker-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.poker-badge{
+  font-family:'Playfair Display',serif;font-size:13px;font-weight:600;
+  color:var(--gmid);letter-spacing:.04em;
+}
+.poker-entry{
+  font-family:'EB Garamond',serif;font-size:12px;font-style:italic;
+  color:rgba(15,45,22,.6);
+}
+.poker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px;}
+.poker-cell{
+  background:rgba(255,255,255,.5);border:.5px solid rgba(15,45,22,.15);
+  border-radius:4px;padding:6px 4px;text-align:center;
+}
+.poker-cell.highlight{background:rgba(45,107,68,.12);border-color:rgba(45,107,68,.3);}
+.poker-cell.highlight-gold{background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.4);}
+.poker-cell.penalty-cell{background:rgba(160,48,96,.08);border-color:rgba(160,48,96,.25);}
+.poker-putts{font-family:'Playfair Display',serif;font-size:12px;font-weight:500;color:#2a1f0f;}
+.poker-cards{font-family:'EB Garamond',serif;font-size:11px;color:#5a3a1a;margin-top:2px;}
+.poker-note{font-family:'EB Garamond',serif;font-size:11px;font-style:italic;color:rgba(15,45,22,.55);line-height:1.4;}
+@media(max-width:1000px){
+  .rules-section{padding-left:16px;padding-right:16px;}
+  .rules-body{grid-template-columns:1fr;}
+  .rules-col{border-right:none;border-bottom:.5px solid rgba(15,45,22,.12);padding:16px 16px;}
+  .rules-col:last-child{border-bottom:none;}
+  .poker-grid{grid-template-columns:repeat(2,1fr);}
+}
 .bfoot{border-top:1px solid rgba(201,168,76,.1);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;background:#071a0c;}
 .bfoot-l{font-size:10px;color:var(--creamd);opacity:.3;font-style:italic;}
 .bfoot-r{display:flex;align-items:center;gap:6px;}
@@ -614,11 +704,91 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
         <div style="text-align:center;font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--creamd);opacity:.45;">Group 4 · TBA</div>
         <div style="text-align:right;font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);">Hole 1</div>
       </div>
-      <!-- Group 5 — 9:50 AM -->
+      <!-- Group 5 — 9:40 AM -->
       <div style="display:grid;grid-template-columns:110px 1fr 110px;padding:12px 20px;align-items:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:var(--goldl);">9:50 AM</div>
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:var(--goldl);">9:40 AM</div>
         <div style="text-align:center;font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--creamd);opacity:.45;">Group 5 · TBA</div>
         <div style="text-align:right;font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);">Hole 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RULES OF GOLF -->
+  <div class="rules-section">
+    <div class="sec-hd">
+      <div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div>
+      <span class="sec-txt">Local Rules · Southern Illinois Masters · Apple Creek Golf Club</span>
+      <div class="sec-rule"></div>
+    </div>
+    <div class="rules-card">
+      <div class="rules-card-header">
+        <div class="rules-header-left">
+          <div class="rules-title">Rules of Golf</div>
+          <div class="rules-subtitle">Official Local Rules · 2026 Tournament</div>
+        </div>
+        <div class="rules-header-right">
+          <div class="rules-crest">
+            <div class="rc-flag"><div class="rc-pole"></div><div class="rc-tri"></div></div>
+            <div class="rc-text">SIM</div>
+          </div>
+        </div>
+      </div>
+      <div class="rules-body">
+        <div class="rules-col">
+          <div class="rule-item">
+            <div class="rule-num">1</div>
+            <div class="rule-text"><strong>Ready Golf.</strong> Please play ready golf at all times to maintain pace of play.</div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-num">2</div>
+            <div class="rule-text"><strong>Blue Tees.</strong> All players must play from the Blue tees.</div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-item-highlight">
+              <div class="rule-num gold">3</div>
+              <div class="rule-text"><strong>Ball Up / Bunkers.</strong> Play the ball up. Rake and place in the bunkers.</div>
+            </div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-num">4</div>
+            <div class="rule-text"><strong>Putts.</strong> All putts must be holed out. <em>No gimmes.</em></div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-num">5</div>
+            <div class="rule-text"><strong>USGA Rules apply</strong> unless superseded by a local rule below.</div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-num">6</div>
+            <div class="rule-text"><strong>Out of Bounds (White Stakes).</strong> Re-hit or re-tee from the original position with a <span class="penalty">+1 stroke</span> penalty. This applies whether or not you find your ball. If you suspect OB, play a provisional to maintain pace.</div>
+          </div>
+        </div>
+        <div class="rules-col">
+          <div class="rule-item">
+            <div class="rule-num">7</div>
+            <div class="rule-text"><strong>Hazards (Yellow / Red Stakes).</strong> Play the ball as it lies, or take nearest point of relief with a <span class="penalty">+1 stroke</span> penalty. If the ball is lost in the hazard, take relief at the nearest point on the line the ball entered with a <span class="penalty">+1 stroke</span> penalty.</div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-num">8</div>
+            <div class="rule-text"><strong>Lost Ball — Unmarked Area.</strong> <em>Local Rule:</em> Drop in the fairway where you estimate the ball was lost with a <span class="penalty">+2 stroke</span> penalty. Alternatively, re-hit from the original position with a <span class="penalty">+1 stroke</span> penalty.</div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-num">9</div>
+            <div class="rule-text"><strong>Scorecard.</strong> Keep gross score only on the official card. Handicaps will be applied after the round. If tracking net score for a side game, use a separate card.</div>
+          </div>
+          <div class="rule-item rule-poker">
+            <div class="rule-poker-header">
+              <span class="poker-badge">♠ Putting Poker</span>
+              <span class="poker-entry">$10 entry</span>
+            </div>
+            <div class="poker-grid">
+              <div class="poker-cell"><div class="poker-putts">2 putts</div><div class="poker-cards">0 cards</div></div>
+              <div class="poker-cell highlight"><div class="poker-putts">1 putt</div><div class="poker-cards">1 card</div></div>
+              <div class="poker-cell highlight-gold"><div class="poker-putts">0 putts</div><div class="poker-cards">2 cards</div></div>
+              <div class="poker-cell penalty-cell"><div class="poker-putts">3 putts</div><div class="poker-cards">+$5 to pot</div></div>
+            </div>
+            <div class="poker-note">Best 5-card poker hand at end of round wins the pot. Track putts per hole.</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
