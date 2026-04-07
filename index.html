@@ -228,6 +228,33 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .lb-text{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:#ffaaaa;}
 
 /* FOOTER */
+/* TEE SHEET */
+.tee-grid-wrap{border:.5px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 6px 6px;overflow:hidden;}
+.tee-group{display:grid;grid-template-columns:100px 1fr 1fr 90px;gap:0;border-bottom:.5px solid rgba(201,168,76,.1);padding:14px 20px;align-items:start;}
+.tee-group-you{background:rgba(201,168,76,.06);border-left:2px solid var(--gold);}
+.tg-time{display:flex;flex-direction:column;align-items:flex-start;padding-top:2px;}
+.tg-time-num{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--goldl);line-height:1;}
+.tg-time-ampm{font-size:10px;color:var(--gold);opacity:.7;letter-spacing:.08em;margin-top:1px;}
+.tg-grp-num{font-size:10px;color:var(--creamd);opacity:.4;margin-top:5px;font-style:italic;font-family:'EB Garamond',serif;}
+.tg-players{display:flex;flex-direction:column;gap:5px;}
+.tg-player{font-family:'EB Garamond',serif;font-size:15px;color:var(--cream);display:flex;align-items:center;gap:6px;}
+.tg-player.first-player{font-weight:500;color:var(--goldl);}
+.tg-player-you{color:var(--goldl);}
+.you-tag{font-size:9px;background:rgba(201,168,76,.2);color:var(--gold);border:.5px solid rgba(201,168,76,.4);border-radius:10px;padding:1px 7px;letter-spacing:.08em;text-transform:uppercase;font-family:'EB Garamond',serif;margin-left:4px;}
+.fp-dot{width:5px;height:5px;border-radius:50%;background:var(--az);flex-shrink:0;}
+.tg-picks{display:flex;flex-direction:column;gap:5px;}
+.tg-pick{display:flex;align-items:center;gap:6px;}
+.pick-flag{font-size:12px;opacity:.5;}
+.pick-name{font-family:'EB Garamond',serif;font-size:14px;color:var(--creamd);opacity:.5;font-style:italic;}
+.pick-rank{font-size:10px;color:var(--gold);opacity:.45;margin-left:2px;}
+.tg-hole{font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);text-align:right;padding-top:4px;opacity:.7;}
+.field-note{margin-top:10px;font-family:'EB Garamond',serif;font-size:12px;font-style:italic;color:var(--creamd);opacity:.5;text-align:center;padding:8px 0;}
+.field-note strong{color:var(--goldl);font-style:normal;opacity:1;}
+.field-note-flag{margin-right:6px;}
+@media(max-width:1000px){
+  .tee-group{grid-template-columns:80px 1fr 90px;gap:8px;}
+  .tg-picks{display:none;}
+}
 /* RULES SECTION */
 .rules-section{padding:0 48px 28px;}
 .rules-card{
@@ -676,40 +703,134 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 
   <!-- TEE TIMES -->
   <div class="tee-section">
-    <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Tee Times · Saturday, April 11, 2026 · The Masters</span><div class="sec-rule"></div></div>
-    <div class="tee-header-row"><div class="thc">Time</div><div class="thc">Grouping</div><div class="thc" style="text-align:right;">Hole</div></div>
-    <div class="tee-date-row"><div class="tdr-l">Saturday, April 11, 2026 &nbsp;·&nbsp; Southern Illinois Masters</div><div class="tdr-s">5 groups · 10 min intervals · First tee 9:00 AM CT</div></div>
-    <div style="border:.5px solid rgba(201,168,76,.16);border-top:none;border-radius:0 0 4px 4px;overflow:hidden;">
-      <!-- Group 1 — 9:00 AM -->
-      <div style="display:grid;grid-template-columns:110px 1fr 110px;padding:12px 20px;border-bottom:.5px solid rgba(201,168,76,.1);align-items:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:var(--goldl);">9:00 AM</div>
-        <div style="text-align:center;font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--creamd);opacity:.45;">Group 1 · TBA</div>
-        <div style="text-align:right;font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);">Hole 1</div>
+    <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Tee Sheet · Saturday, April 11, 2026 · Southern Illinois Masters</span><div class="sec-rule"></div></div>
+
+    <div class="tee-header-row">
+      <div class="thc">Time</div>
+      <div class="thc">Players</div>
+      <div class="thc" style="text-align:center;">Masters Pro Pick</div>
+      <div class="thc" style="text-align:right;">Hole</div>
+    </div>
+    <div class="tee-date-row">
+      <div class="tdr-l">Saturday, April 11, 2026 &nbsp;·&nbsp; Apple Creek Golf Club · Makanda, IL</div>
+      <div class="tdr-s">5 groups · Tee intervals vary · First tee 9:00 AM CT &nbsp;·&nbsp; <em style="color:var(--goldl);">Pro picks drawn from 2026 Masters field</em></div>
+    </div>
+
+    <div class="tee-grid-wrap">
+
+      <!-- GROUP 1 -->
+      <div class="tee-group">
+        <div class="tg-time">
+          <div class="tg-time-num">9:00</div>
+          <div class="tg-time-ampm">AM</div>
+          <div class="tg-grp-num">Group 1</div>
+        </div>
+        <div class="tg-players">
+          <div class="tg-player first-player"><span class="fp-dot"></span>Riley Hoistad</div>
+          <div class="tg-player">Matt Reed</div>
+          <div class="tg-player">Jordan Chamness</div>
+        </div>
+        <div class="tg-picks">
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+        </div>
+        <div class="tg-hole">Hole 1</div>
       </div>
-      <!-- Group 2 — 9:10 AM -->
-      <div style="display:grid;grid-template-columns:110px 1fr 110px;padding:12px 20px;border-bottom:.5px solid rgba(201,168,76,.1);align-items:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:var(--goldl);">9:10 AM</div>
-        <div style="text-align:center;font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--creamd);opacity:.45;">Group 2 · TBA</div>
-        <div style="text-align:right;font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);">Hole 1</div>
+
+      <!-- GROUP 2 -->
+      <div class="tee-group">
+        <div class="tg-time">
+          <div class="tg-time-num">9:10</div>
+          <div class="tg-time-ampm">AM</div>
+          <div class="tg-grp-num">Group 2</div>
+        </div>
+        <div class="tg-players">
+          <div class="tg-player first-player"><span class="fp-dot"></span>Luc Damien</div>
+          <div class="tg-player">Brad Magnuson</div>
+          <div class="tg-player">Daniel Sherwood</div>
+        </div>
+        <div class="tg-picks">
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+        </div>
+        <div class="tg-hole">Hole 1</div>
       </div>
-      <!-- Group 3 — 9:20 AM -->
-      <div style="display:grid;grid-template-columns:110px 1fr 110px;padding:12px 20px;border-bottom:.5px solid rgba(201,168,76,.1);align-items:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:var(--goldl);">9:20 AM</div>
-        <div style="text-align:center;font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--creamd);opacity:.45;">Group 3 · TBA</div>
-        <div style="text-align:right;font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);">Hole 1</div>
+
+      <!-- GROUP 3 -->
+      <div class="tee-group">
+        <div class="tg-time">
+          <div class="tg-time-num">9:20</div>
+          <div class="tg-time-ampm">AM</div>
+          <div class="tg-grp-num">Group 3</div>
+        </div>
+        <div class="tg-players">
+          <div class="tg-player first-player"><span class="fp-dot"></span>Jared Sheffer</div>
+          <div class="tg-player">Andy Flynn</div>
+          <div class="tg-player">Louie Gualdoni</div>
+          <div class="tg-player">Alex Baine</div>
+        </div>
+        <div class="tg-picks">
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+        </div>
+        <div class="tg-hole">Hole 1</div>
       </div>
-      <!-- Group 4 — 9:30 AM -->
-      <div style="display:grid;grid-template-columns:110px 1fr 110px;padding:12px 20px;border-bottom:.5px solid rgba(201,168,76,.1);align-items:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:var(--goldl);">9:30 AM</div>
-        <div style="text-align:center;font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--creamd);opacity:.45;">Group 4 · TBA</div>
-        <div style="text-align:right;font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);">Hole 1</div>
+
+      <!-- GROUP 4 -->
+      <div class="tee-group tee-group-you">
+        <div class="tg-time">
+          <div class="tg-time-num">9:30</div>
+          <div class="tg-time-ampm">AM</div>
+          <div class="tg-grp-num">Group 4</div>
+        </div>
+        <div class="tg-players">
+          <div class="tg-player first-player"><span class="fp-dot"></span>Patrick Brewster</div>
+          <div class="tg-player">Bobby Andrews</div>
+          <div class="tg-player">Luke Palmer</div>
+          <div class="tg-player">Alex Pass</div>
+        </div>
+        <div class="tg-picks">
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+        </div>
+        <div class="tg-hole">Hole 1</div>
       </div>
-      <!-- Group 5 — 9:40 AM -->
-      <div style="display:grid;grid-template-columns:110px 1fr 110px;padding:12px 20px;align-items:center;">
-        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:var(--goldl);">9:40 AM</div>
-        <div style="text-align:center;font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--creamd);opacity:.45;">Group 5 · TBA</div>
-        <div style="text-align:right;font-family:'Playfair Display',serif;font-size:13px;color:var(--gold);">Hole 1</div>
+
+      <!-- GROUP 5 -->
+      <div class="tee-group" style="border-bottom:none;">
+        <div class="tg-time">
+          <div class="tg-time-num">9:50</div>
+          <div class="tg-time-ampm">AM</div>
+          <div class="tg-grp-num">Group 5</div>
+        </div>
+        <div class="tg-players">
+          <div class="tg-player first-player"><span class="fp-dot"></span>Trevor Poore</div>
+          <div class="tg-player">Jake Crane</div>
+          <div class="tg-player">Max Schloemann</div>
+          <div class="tg-player">Phil Palmer</div>
+        </div>
+        <div class="tg-picks">
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+          <div class="tg-pick"><span class="pick-flag">🏴</span><span class="pick-name">TBD</span><span class="pick-rank">—</span></div>
+        </div>
+        <div class="tg-hole">Hole 1</div>
       </div>
+
+    </div>
+
+    <!-- MASTERS FIELD NOTE -->
+    <div class="field-note">
+      <span class="field-note-flag">⛳</span>
+      Pro picks drawn from the 2026 Masters Tournament field · Augusta National Golf Club · April 9–12, 2026
+      &nbsp;·&nbsp; <strong>Top picks:</strong> S. Scheffler (1) · R. McIlroy (3) · X. Schauffele (4) · T. Fleetwood (5) · L. Åberg (10)
     </div>
   </div>
 
