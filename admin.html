@@ -587,18 +587,18 @@ async function testFeed(){
     const tableEl=document.getElementById('test-table');
     resultEl.style.display='block';
 
-    const stats=d.players||[];
-    if(!stats.length){
+    const testStats=d.players||[];
+    if(!testStats.length){
       tableEl.innerHTML=`<div style="font-size:12px;color:var(--creamd);opacity:.5;font-style:italic;">No live data yet — round may not have started.</div>`;
       btn.textContent='🔍 Test Feed (show raw scores)';btn.disabled=false;
       return;
     }
 
     // Show event info
-    let html=`<div style="font-size:11px;color:var(--goldl);opacity:.7;margin-bottom:8px;font-style:italic;">${d.event_name||'Masters'} · Round ${round} · Source: ${d.source||'—'} · ${stats.length} players</div>`;
+    let html=`<div style="font-size:11px;color:var(--goldl);opacity:.7;margin-bottom:8px;font-style:italic;">${d.event_name||'Masters'} · Round ${round} · Source: ${d.source||'—'} · ${testStats.length} players</div>`;
 
     // Table sorted by today's score
-    const sorted=[...stats].sort((a,b)=>(a.today||99)-(b.today||99));
+    const sorted=[...testStats].sort((a,b)=>(a.today||99)-(b.today||99));
     html+=`<table style="width:100%;border-collapse:collapse;font-size:12px;">
       <tr style="background:rgba(201,168,76,.15);">
         <td style="padding:5px 8px;color:var(--gold);font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;">Pos</td>
