@@ -229,6 +229,23 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 
 /* FOOTER */
 .mt-player-name{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:#fff !important;font-weight:700;}
+.mt-section-wrap{padding:0 48px 28px;}
+.mt-header{background:var(--gold);display:grid;grid-template-columns:1fr 80px 120px 120px 120px 90px;padding:8px 16px;gap:4px;}
+.mt-row{display:grid;grid-template-columns:1fr 80px 120px 120px 120px 90px;padding:10px 16px;gap:4px;border-bottom:.5px solid rgba(201,168,76,.07);align-items:center;background:rgba(10,30,15,.85);}
+.mt-row.leader{background:rgba(201,168,76,.08);border-left:3px solid var(--gold);}
+.mt-pro-label{font-size:10px;color:var(--creamd);opacity:.55;display:block;font-family:'EB Garamond',serif;font-style:italic;}
+.mt-pro-score{font-size:16px;font-weight:500;display:block;}
+@media(max-width:600px){
+  .mt-section-wrap{padding:0 12px 20px;}
+  .mt-header{grid-template-columns:1fr 60px 70px 70px;gap:2px;padding:6px 10px;}
+  .mt-header .mt-col-draw2,.mt-header .mt-col-myscore{display:none;}
+  .mt-row{grid-template-columns:1fr 60px 70px 70px;gap:2px;padding:8px 10px;}
+  .mt-col-draw2,.mt-col-myscore{display:none;}
+  .mt-player-name{font-size:13px;}
+  .mt-pro-label{font-size:9px;}
+  .mt-pro-score{font-size:14px;}
+  .mt-total{font-size:18px !important;}
+}
 /* TEE SHEET */
 .tee-grid-wrap{border:.5px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 6px 6px;overflow:hidden;}
 .tee-group{display:grid;grid-template-columns:100px 1fr 1fr 90px;gap:0;border-bottom:.5px solid rgba(201,168,76,.1);padding:14px 20px;align-items:start;}
@@ -836,7 +853,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   </div>
 
   <!-- MASTERS TEAMS LEADERBOARD -->
-  <div class="masters-teams-section" id="masters-teams-section" style="padding:0 48px 28px;display:none;">
+  <div class="masters-teams-section mt-section-wrap" id="masters-teams-section" style="display:none;">
     <div class="sec-hd">
       <div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div>
       <span class="sec-txt">Masters Teams · Combined Score · Lowest Wins The Jacket</span>
@@ -844,12 +861,12 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
     </div>
     <div style="background:rgba(8,24,12,.92);border:.5px solid rgba(201,168,76,.2);border-radius:6px;overflow:hidden;">
       <!-- Header -->
-      <div style="background:var(--gold);display:grid;grid-template-columns:1fr 80px 120px 120px 120px 90px;padding:8px 16px;gap:4px;">
+      <div class="mt-header">
         <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);">Player</div>
-        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">My Score</div>
+        <div class="mt-col-myscore" style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Score</div>
         <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Pick</div>
         <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Draw 1</div>
-        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Draw 2</div>
+        <div class="mt-col-draw2" style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Draw 2</div>
         <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Total</div>
       </div>
       <div id="mt-body"></div>
@@ -1414,17 +1431,17 @@ function renderMastersTeams(d){
       :`<span style="opacity:.35;font-size:12px;font-style:italic;">${t.played>0?t.played+' holes':'—'}</span>`;
 
     const fmtVsPar=(s)=>s===0?'E':s>0?'+'+s:String(s);
-    const proCell=(name,score)=>`<div style="text-align:center;">
+    const proCell=(name,score,hide=false)=>`<div style="text-align:center;" ${hide?'class="mt-col-draw2"':''}>
       <span style="${proStyle}margin-bottom:2px;">${name||'—'}</span>
       ${score!==null?`<span style="${scoreStyle}color:${score<0?'var(--az)':score>0?'var(--sky)':'var(--cream)'};">${fmtVsPar(score)}</span>`:`<span style="opacity:.35;font-size:12px;">TBD</span>`}
     </div>`;
 
-    html+=`<div style="${rowStyle}${rowBg}">
+    html+=`<div class="mt-row${isLeader?' leader':''}">
       <div class="mt-player-name">${isLeader?'🏆 ':''}${t.name}</div>
-      <div style="${cellStyle}">${myDisp}</div>
+      <div class="mt-col-myscore" style="${cellStyle}">${myDisp}</div>
       ${proCell(t.pick,t.s1)}
       ${proCell(t.pro2,t.s2)}
-      ${proCell(t.pro3,t.s3)}
+      ${proCell(t.pro3,t.s3,true)}
       <div style="${cellStyle}">${totalDisp}</div>
     </div>`;
   });
