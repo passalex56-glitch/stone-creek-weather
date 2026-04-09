@@ -1399,9 +1399,9 @@ function renderMastersTeams(d){
     const pick=picks[p.id]||'';
     const d2=(draws[p.id]||[]);
     const pro1=pick,pro2=d2[0]||'',pro3=d2[1]||'';
-    const s1=proScores[pro1]!==undefined&&proScores[pro1]!==0?proScores[pro1]:null;
-    const s2=proScores[pro2]!==undefined&&proScores[pro2]!==0?proScores[pro2]:null;
-    const s3=proScores[pro3]!==undefined&&proScores[pro3]!==0?proScores[pro3]:null;
+    const s1=pro1&&proScores[pro1]!==undefined?proScores[pro1]:null;
+    const s2=pro2&&proScores[pro2]!==undefined?proScores[pro2]:null;
+    const s3=pro3&&proScores[pro3]!==undefined?proScores[pro3]:null;
     const hasProScores=s1!==null||s2!==null||s3!==null;
     const proTotal=(s1||0)+(s2||0)+(s3||0);
     const allIn=myScore!==null&&s1!==null&&s2!==null&&s3!==null;

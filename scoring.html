@@ -398,9 +398,9 @@ function renderTeams(){
     const pick=picks[p.id]||'';
     const d=draws[p.id]||[];
     const pro1=pick,pro2=d[0]||'',pro3=d[1]||'';
-    const s1=proScores[pro1]!==undefined?proScores[pro1]:null;
-    const s2=proScores[pro2]!==undefined?proScores[pro2]:null;
-    const s3=proScores[pro3]!==undefined?proScores[pro3]:null;
+    const s1=pro1&&proScores[pro1]!==undefined?proScores[pro1]:null;
+    const s2=pro2&&proScores[pro2]!==undefined?proScores[pro2]:null;
+    const s3=pro3&&proScores[pro3]!==undefined?proScores[pro3]:null;
     const proTotal=(s1||0)+(s2||0)+(s3||0);
     const hasAnyPro=s1!==null||s2!==null||s3!==null;
     const teamTotal=hasAnyPro?(myPlayed>0?myScore+proTotal:proTotal):0;
@@ -434,9 +434,9 @@ function renderTeams(){
     const fvp=s=>s===undefined||s===null?null:(s===0?'E':s>0?'+'+s:String(s));
     const safeName=n=>n&&n!=='null'&&n!=='undefined'?n:'TBD';
     const myDisp=t.myPlayed>0?t.myScore:'—';
-    const hasS1=t.s1!==undefined&&t.s1!==0;
-    const hasS2=t.s2!==undefined&&t.s2!==0;
-    const hasS3=t.s3!==undefined&&t.s3!==0;
+    const hasS1=t.s1!==null;
+    const hasS2=t.s2!==null;
+    const hasS3=t.s3!==null;
     const totalDisp=t.proTotal!==0?fvp(t.teamTotal):'—';
 
     h+=`<tr>
