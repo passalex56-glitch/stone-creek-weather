@@ -70,7 +70,7 @@ tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
 .teams-table th.left{text-align:left;}
 .teams-table th:last-child{border-right:none;}
 .teams-table td{border:1px solid #ddd;padding:8px 8px;font-family:'Oswald',sans-serif;font-size:13px;text-align:center;color:#111;background:#fff;}
-.teams-table td.player-td{text-align:left;font-size:15px;font-weight:700;border-right:2px solid #999;color:#fff;}
+.teams-table td.player-td{text-align:left;font-size:15px;font-weight:700;border-right:2px solid #999;color:#111;background:#f8f8f5;}
 .teams-table td.player-td.ldr{border-left:5px solid #cc1100;padding-left:7px;}
 .teams-table td.pro-td{font-size:13px;background:#f8f8f5;}
 .teams-table td.pro-td .pro-name{font-size:11px;color:#888;font-family:'EB Garamond',serif;font-style:italic;display:block;line-height:1.2;}
@@ -432,6 +432,7 @@ function renderTeams(){
       h+=`<tr class="teams-grp"><td colspan="6"></td></tr>`;
 
     const fvp=s=>s===undefined||s===null?null:(s===0?'E':s>0?'+'+s:String(s));
+    const safeName=n=>n&&n!=='null'&&n!=='undefined'?n:'TBD';
     const myDisp=t.myPlayed>0?t.myScore:'—';
     const hasS1=t.s1!==undefined&&t.s1!==0;
     const hasS2=t.s2!==undefined&&t.s2!==0;
@@ -439,11 +440,11 @@ function renderTeams(){
     const totalDisp=t.proTotal!==0?fvp(t.teamTotal):'—';
 
     h+=`<tr>
-      <td class="player-td${isLeader?' ldr':''}">${t.name}</td>
+      <td class="player-td${isLeader?' ldr':''}">${t.name||'—'}</td>
       <td class="my-score-td"><div style="font-size:18px;font-weight:700;">${myDisp}</div><div style="font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;">${t.myPlayed>0?t.myPlayed+' holes':'not started'}</div></td>
-      <td class="pro-td"><span class="pro-name">${t.pick||'—'}</span><span class="pro-score${hasS1?'':' pending'}">${hasS1?fvp(t.s1):'TBD'}</span></td>
-      <td class="pro-td"><span class="pro-name">${t.pro2||'—'}</span><span class="pro-score${hasS2?'':' pending'}">${hasS2?fvp(t.s2):'TBD'}</span></td>
-      <td class="pro-td"><span class="pro-name">${t.pro3||'—'}</span><span class="pro-score${hasS3?'':' pending'}">${hasS3?fvp(t.s3):'TBD'}</span></td>
+      <td class="pro-td"><span class="pro-name">${safeName(t.pick)}</span><span class="pro-score${hasS1?'':' pending'}">${hasS1?fvp(t.s1):'TBD'}</span></td>
+      <td class="pro-td"><span class="pro-name">${safeName(t.pro2)}</span><span class="pro-score${hasS2?'':' pending'}">${hasS2?fvp(t.s2):'TBD'}</span></td>
+      <td class="pro-td"><span class="pro-name">${safeName(t.pro3)}</span><span class="pro-score${hasS3?'':' pending'}">${hasS3?fvp(t.s3):'TBD'}</span></td>
       <td class="total-td${isLeader?' leader':''}">${totalDisp}</td>
     </tr>`;
   });
