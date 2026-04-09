@@ -428,18 +428,19 @@ function renderTeams(){
     if(i>0&&t.teamTotal>0&&prev.teamTotal>0&&t.teamTotal!==prev.teamTotal)
       h+=`<tr class="teams-grp"><td colspan="6"></td></tr>`;
 
-    const myDisp=t.myPlayed>0?t.myScore:`—`;
-    const s1disp=t.s1>0?t.s1:`<span class="pro-score pending">${t.pick||'—'}</span>`;
-    const s2disp=t.s2>0?t.s2:`<span class="pro-score pending">${t.pro2||'—'}</span>`;
-    const s3disp=t.s3>0?t.s3:`<span class="pro-score pending">${t.pro3||'—'}</span>`;
-    const totalDisp=t.teamTotal>0?t.teamTotal:'—';
+    const fvp=s=>s===undefined||s===null?null:(s===0?'E':s>0?'+'+s:String(s));
+    const myDisp=t.myPlayed>0?t.myScore:'—';
+    const hasS1=t.s1!==undefined&&t.s1!==0;
+    const hasS2=t.s2!==undefined&&t.s2!==0;
+    const hasS3=t.s3!==undefined&&t.s3!==0;
+    const totalDisp=t.proTotal!==0?fvp(t.teamTotal):'—';
 
     h+=`<tr>
       <td class="player-td${isLeader?' ldr':''}">${t.name}</td>
       <td class="my-score-td"><div style="font-size:18px;font-weight:700;">${myDisp}</div><div style="font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;">${t.myPlayed>0?t.myPlayed+' holes':'not started'}</div></td>
-      <td class="pro-td"><span class="pro-name">${t.pick||'—'}</span><span class="pro-score${t.s1?'':' pending'}">${t.s1||'TBD'}</span></td>
-      <td class="pro-td"><span class="pro-name">${t.pro2||'—'}</span><span class="pro-score${t.s2?'':' pending'}">${t.s2||'TBD'}</span></td>
-      <td class="pro-td"><span class="pro-name">${t.pro3||'—'}</span><span class="pro-score${t.s3?'':' pending'}">${t.s3||'TBD'}</span></td>
+      <td class="pro-td"><span class="pro-name">${t.pick||'—'}</span><span class="pro-score${hasS1?'':' pending'}">${hasS1?fvp(t.s1):'TBD'}</span></td>
+      <td class="pro-td"><span class="pro-name">${t.pro2||'—'}</span><span class="pro-score${hasS2?'':' pending'}">${hasS2?fvp(t.s2):'TBD'}</span></td>
+      <td class="pro-td"><span class="pro-name">${t.pro3||'—'}</span><span class="pro-score${hasS3?'':' pending'}">${hasS3?fvp(t.s3):'TBD'}</span></td>
       <td class="total-td${isLeader?' leader':''}">${totalDisp}</td>
     </tr>`;
   });
