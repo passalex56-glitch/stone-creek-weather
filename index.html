@@ -228,6 +228,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .lb-text{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:#ffaaaa;}
 
 /* FOOTER */
+.mt-player-name{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:#fff !important;font-weight:700;}
 /* TEE SHEET */
 .tee-grid-wrap{border:.5px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 6px 6px;overflow:hidden;}
 .tee-group{display:grid;grid-template-columns:100px 1fr 1fr 90px;gap:0;border-bottom:.5px solid rgba(201,168,76,.1);padding:14px 20px;align-items:start;}
@@ -1397,7 +1398,7 @@ function renderMastersTeams(d){
   });
 
   const rowStyle='display:grid;grid-template-columns:1fr 80px 120px 120px 120px 90px;padding:10px 16px;gap:4px;border-bottom:.5px solid rgba(201,168,76,.07);align-items:center;background:rgba(10,30,15,.85);';
-  const nameStyle='font-family:"Playfair Display",serif;font-size:14px;font-style:italic;color:#fff;font-weight:600;';
+  const nameStyle='font-family:"Playfair Display",serif;font-size:14px;font-style:italic;color:#ffffff!important;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.8);';
   const cellStyle='text-align:center;font-family:"Playfair Display",serif;font-size:13px;color:var(--cream);';
   const proStyle='font-size:10px;color:var(--creamd);opacity:.55;display:block;font-family:"EB Garamond",serif;font-style:italic;';
   const scoreStyle='font-size:16px;font-weight:500;display:block;';
@@ -1419,7 +1420,7 @@ function renderMastersTeams(d){
     </div>`;
 
     html+=`<div style="${rowStyle}${rowBg}">
-      <div style="${nameStyle}">${isLeader?'🏆 ':''}${t.name}</div>
+      <div class="mt-player-name">${isLeader?'🏆 ':''}${t.name}</div>
       <div style="${cellStyle}">${myDisp}</div>
       ${proCell(t.pick,t.s1)}
       ${proCell(t.pro2,t.s2)}
