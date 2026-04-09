@@ -425,65 +425,57 @@ function renderProScores(){
     const pick=(data.mastersPicks||{})[p.id];
     const draws=(data.mastersDraws||{})[p.id]||[];
     if(pick)allPros.add(pick);
-    draws.forEach(d=>allPros.add(d));
+    draws.forEach(d2=>allPros.add(d2));
   });
   if(!allPros.size){
-    c.innerHTML=`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.18);border-radius:4px;padding:12px 14px;">
-      <div style="opacity:.4;font-style:italic;font-size:13px;margin-bottom:12px;">Complete picks and draw first to see pro scores here.</div>
-      <div style="border-top:.5px solid rgba(201,168,76,.12);padding-top:10px;">
-        <div style="font-size:11px;color:var(--goldl);opacity:.7;margin-bottom:8px;font-style:italic;">Test the Data Golf live feed independently:</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px;">
-          <select id="round-select" class="txt-inp" style="width:120px;padding:8px 10px;font-size:13px;">
-            <option value="1">Round 1 (Thu)</option>
-            <option value="2">Round 2 (Fri)</option>
-            <option value="3" selected>Round 3 (Sat)</option>
-            <option value="4">Round 4 (Sun)</option>
-          </select>
-          <button class="add-btn" onclick="testFeed()" style="background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3);color:var(--goldl);">🔍 Test Feed (show raw scores)</button>
-        </div>
-        <div id="fetch-result" style="font-size:11px;color:var(--goldl);opacity:.6;font-style:italic;"></div>
-        <div id="test-result" style="margin-top:10px;max-height:280px;overflow-y:auto;display:none;">
-          <div style="font-size:10px;color:var(--goldl);opacity:.6;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;font-family:'Playfair Display',serif;font-style:italic;">Live Data Golf Response</div>
-          <div id="test-table"></div>
-        </div>
-      </div>
-    </div>`;
+    c.innerHTML=`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.18);border-radius:4px;padding:12px 14px;opacity:.45;font-style:italic;font-size:13px;">Complete picks and draw first.</div>`;
     return;
   }
   const proScores=data.proScores||{};
-  c.innerHTML=`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.18);border-radius:4px;padding:12px 14px;">
-    <div style="margin-bottom:12px;">
-      <div style="font-size:11px;color:var(--goldl);opacity:.7;margin-bottom:8px;font-style:italic;">Auto-fetch live R3 scores from Data Golf (updates every 5 min during the round)</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px;">
-        <select id="round-select" class="txt-inp" style="width:120px;padding:8px 10px;font-size:13px;">
-          <option value="1">Round 1 (Thu)</option>
-          <option value="2">Round 2 (Fri)</option>
-          <option value="3" selected>Round 3 (Sat)</option>
-          <option value="4">Round 4 (Sun)</option>
-        </select>
-        <button id="fetch-btn" class="add-btn" onclick="fetchProScores()" style="background:rgba(92,184,92,.15);border-color:rgba(92,184,92,.4);color:#7ed87e;">⛳ Fetch Live Scores</button>
-        <button class="add-btn" onclick="startAutoFetch()" style="background:rgba(168,200,224,.1);border-color:rgba(168,200,224,.3);color:var(--sky);">▶ Auto (every 5 min)</button>
-        <button class="add-btn" onclick="stopAutoFetch()" style="background:rgba(224,80,80,.08);border-color:rgba(224,80,80,.25);color:var(--bad);">■ Stop</button>
-      </div>
-      <div id="fetch-result" style="font-size:11px;color:var(--goldl);opacity:.6;font-style:italic;"></div>
-      <div style="margin-top:10px;padding-top:10px;border-top:.5px solid rgba(201,168,76,.12);">
-        <button class="add-btn" onclick="testFeed()" style="background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3);color:var(--goldl);">🔍 Test Feed (show raw scores)</button>
-        <div id="test-result" style="margin-top:10px;max-height:280px;overflow-y:auto;display:none;">
-          <div style="font-size:10px;color:var(--goldl);opacity:.6;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;font-family:'Playfair Display',serif;font-style:italic;">Live Data Golf Response</div>
-          <div id="test-table"></div>
-        </div>
-      </div>
+  const proList=[...allPros].sort();
+  c.innerHTML=`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.25);border-radius:6px;overflow:hidden;">
+    <div style="background:var(--gold);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:var(--gdeep);">⛳ Round 3 Scores · vs Par</div>
+      <div style="font-family:'EB Garamond',serif;font-size:11px;font-style:italic;color:var(--gmid);">${proList.length} pros · auto-saves</div>
     </div>
-    <div style="font-size:11px;color:var(--creamd);opacity:.4;margin-bottom:10px;font-style:italic;">Scores shown as vs-par (e.g. -2, +1, E). Override manually if needed.</div>
-    ${[...allPros].sort().map(pro=>{
-      const score=proScores[pro]||'';
-      return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-        <div style="min-width:200px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;color:var(--cream);">${pro}</div>
-        <input type="number" min="-20" max="30" class="s-inp" style="width:72px;font-size:16px;" value="${score}" placeholder="—" oninput="updateProScore('${pro}',this.value)">
-        <div style="font-size:11px;color:var(--goldl);opacity:.5;">${score!==''?(score>0?'+'+score:score===0?'E':score)+' R3':''}</div>
-      </div>`;
-    }).join('')}
+    <div style="padding:8px;">
+      ${proList.map(pro=>{
+        const raw=proScores[pro];
+        const hasScore=raw!==undefined&&raw!==0&&raw!=='';
+        const score=hasScore?raw:0;
+        const vp=hasScore?(score>0?'+'+score:score===0?'E':String(score)):'—';
+        const clr=hasScore?(score<0?'var(--az)':score>0?'var(--sky)':'var(--cream)'):'rgba(255,255,255,.2)';
+        const safeId=pro.replace(/[^a-z0-9]/gi,'_');
+        return`<div style="display:flex;align-items:center;margin-bottom:5px;background:rgba(255,255,255,.04);border-radius:6px;overflow:hidden;min-height:52px;">
+          <div style="flex:1;padding:10px 14px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;color:var(--cream);line-height:1.2;">${pro}</div>
+          <div style="display:flex;align-items:center;border-left:.5px solid rgba(255,255,255,.08);">
+            <button onclick="adjScore('${pro}',-1)" style="background:rgba(212,84,126,.2);border:none;color:#f0b8cc;font-size:24px;font-weight:700;width:52px;height:52px;cursor:pointer;touch-action:manipulation;">−</button>
+            <div id="spd_${safeId}" style="width:56px;text-align:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:${clr};">${vp}</div>
+            <button onclick="adjScore('${pro}',1)" style="background:rgba(168,200,224,.2);border:none;color:#a8c8e0;font-size:24px;font-weight:700;width:52px;height:52px;cursor:pointer;touch-action:manipulation;">+</button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="padding:8px 14px 10px;font-size:10px;color:var(--creamd);opacity:.3;font-style:italic;">
+      Tap − / + to set score vs par · Saves automatically · Updates leaderboard instantly
+    </div>
   </div>`;
+}
+
+
+function adjScore(pro, delta){
+  if(!data.proScores)data.proScores={};
+  const cur=data.proScores[pro]||0;
+  const next=cur+delta;
+  data.proScores[pro]=next;
+  const safeId=pro.replace(/[^a-z0-9]/gi,'_');
+  const el=document.getElementById('spd_'+safeId);
+  if(el){
+    const vp=next>0?'+'+next:next===0?'E':String(next);
+    el.textContent=vp;
+    el.style.color=next<0?'var(--az)':next>0?'var(--sky)':'var(--cream)';
+  }
+  clearTimeout(autoTimer);autoTimer=setTimeout(saveData,800);
 }
 
 function updateProScore(pro,val){
@@ -511,14 +503,21 @@ async function fetchProScores(){
       return;
     }
 
-    // Build name lookup — handles both "Last, First" (DG) and "First Last" (ESPN)
+    // Data Golf format is "Last, First" e.g. "Burns, Sam"
+    // Our picks format is "S. Burns" — match on last name
     const scoreMap={};
     liveStats.forEach(p=>{
-      scoreMap[p.name]=p.today;
-      // Last name matching — works for both formats
-      const parts=p.name.includes(',')?p.name.split(',')[0]:p.name.split(' ').pop();
-      const last=parts.trim().toLowerCase().replace(/[^a-z]/g,'');
+      scoreMap[p.name]=p.today; // store full name
+      // Extract last name — DG uses "Last, First"
+      const last=p.name.split(',')[0].trim().toLowerCase().replace(/[^a-z]/g,'');
       scoreMap['_last_'+last]=p.today;
+      // Also store first initial + last e.g. "s. burns"
+      const parts=p.name.split(',');
+      if(parts.length>=2){
+        const firstName=parts[1].trim();
+        const initial=firstName[0].toLowerCase();
+        scoreMap['_init_'+initial+'_'+last]=p.today;
+      }
     });
 
     // Match each pro in our system to a DG player
@@ -534,12 +533,18 @@ async function fetchProScores(){
     let matched=0,unmatched=[];
 
     allPros.forEach(pro=>{
-      // pro format: "S. Scheffler" — extract last name
-      const parts=pro.split(' ');
-      const lastName=parts[parts.length-1].toLowerCase().replace(/[^a-z]/g,'');
-      const score=scoreMap['_last_'+lastName];
+      // pro format: "S. Scheffler" — try initial+last first, then last only
+      const proClean=pro.trim();
+      const proParts=proClean.split(' ');
+      const lastName=proParts[proParts.length-1].toLowerCase().replace(/[^a-z]/g,'');
+      const initial=proClean[0].toLowerCase();
+
+      let score=scoreMap['_init_'+initial+'_'+lastName]; // try "S. Scheffler" → s_scheffler
+      if(score===undefined) score=scoreMap['_last_'+lastName]; // fallback to last name only
+      if(score===undefined) score=scoreMap[proClean]; // try exact match
+
       if(score!==undefined){
-        data.proScores[pro]=score; // store as vs-par integer
+        data.proScores[pro]=score;
         matched++;
       } else {
         unmatched.push(pro);
