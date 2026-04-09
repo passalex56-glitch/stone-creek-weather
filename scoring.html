@@ -70,7 +70,7 @@ tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
 .teams-table th.left{text-align:left;}
 .teams-table th:last-child{border-right:none;}
 .teams-table td{border:1px solid #ddd;padding:8px 8px;font-family:'Oswald',sans-serif;font-size:13px;text-align:center;color:#111;background:#fff;}
-.teams-table td.player-td{text-align:left;font-size:15px;font-weight:700;border-right:2px solid #999;}
+.teams-table td.player-td{text-align:left;font-size:15px;font-weight:700;border-right:2px solid #999;color:#fff;}
 .teams-table td.player-td.ldr{border-left:5px solid #cc1100;padding-left:7px;}
 .teams-table td.pro-td{font-size:13px;background:#f8f8f5;}
 .teams-table td.pro-td .pro-name{font-size:11px;color:#888;font-family:'EB Garamond',serif;font-style:italic;display:block;line-height:1.2;}
@@ -392,8 +392,8 @@ function renderTeams(){
 
   // Build team totals
   const teams=players.map(p=>{
-    const calc_p=calcPlayer(p);
-    const myScore=calc_p.total||0;
+    const calc_p=calc(p);
+    const myScore=calc_p.gross||0;
     const myPlayed=calc_p.played;
     const pick=picks[p.id]||'';
     const d=draws[p.id]||[];
