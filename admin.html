@@ -427,7 +427,29 @@ function renderProScores(){
     if(pick)allPros.add(pick);
     draws.forEach(d=>allPros.add(d));
   });
-  if(!allPros.size){c.innerHTML=`<div style="opacity:.4;font-style:italic;font-size:13px;padding:8px 0;">Complete picks and draw first</div>`;return;}
+  if(!allPros.size){
+    c.innerHTML=`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.18);border-radius:4px;padding:12px 14px;">
+      <div style="opacity:.4;font-style:italic;font-size:13px;margin-bottom:12px;">Complete picks and draw first to see pro scores here.</div>
+      <div style="border-top:.5px solid rgba(201,168,76,.12);padding-top:10px;">
+        <div style="font-size:11px;color:var(--goldl);opacity:.7;margin-bottom:8px;font-style:italic;">Test the Data Golf live feed independently:</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px;">
+          <select id="round-select" class="txt-inp" style="width:120px;padding:8px 10px;font-size:13px;">
+            <option value="1">Round 1 (Thu)</option>
+            <option value="2">Round 2 (Fri)</option>
+            <option value="3" selected>Round 3 (Sat)</option>
+            <option value="4">Round 4 (Sun)</option>
+          </select>
+          <button class="add-btn" onclick="testFeed()" style="background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.3);color:var(--goldl);">🔍 Test Feed (show raw scores)</button>
+        </div>
+        <div id="fetch-result" style="font-size:11px;color:var(--goldl);opacity:.6;font-style:italic;"></div>
+        <div id="test-result" style="margin-top:10px;max-height:280px;overflow-y:auto;display:none;">
+          <div style="font-size:10px;color:var(--goldl);opacity:.6;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;font-family:'Playfair Display',serif;font-style:italic;">Live Data Golf Response</div>
+          <div id="test-table"></div>
+        </div>
+      </div>
+    </div>`;
+    return;
+  }
   const proScores=data.proScores||{};
   c.innerHTML=`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.18);border-radius:4px;padding:12px 14px;">
     <div style="margin-bottom:12px;">
