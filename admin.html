@@ -501,7 +501,7 @@ async function fetchProScores(){
   if(btn){btn.textContent='Fetching…';btn.disabled=true;}
   try{
     const round=document.getElementById('round-select')?.value||'3';
-    const url=`https://feeds.datagolf.com/preds/live-tournament-stats?stats=sg_total&round=${round}&display=value&file_format=json&key=${DG_KEY}`;
+    const url=`/.netlify/functions/datagolf?round=${round}`;
     const r=await fetch(url);
     if(!r.ok)throw new Error('HTTP '+r.status);
     const d=await r.json();
@@ -579,7 +579,7 @@ async function testFeed(){
   btn.textContent='Fetching…';btn.disabled=true;
   const round=document.getElementById('round-select')?.value||'1';
   try{
-    const url=`https://feeds.datagolf.com/preds/live-tournament-stats?stats=sg_total&round=${round}&display=value&file_format=json&key=${DG_KEY}`;
+    const url=`/.netlify/functions/datagolf?round=${round}`;
     const r=await fetch(url);
     if(!r.ok)throw new Error('HTTP '+r.status);
     const d=await r.json();
