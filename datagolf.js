@@ -3,15 +3,15 @@ exports.handler = async function(event) {
   const key = 'f5d9837e828cc18f400eb5f24bb0';
 
   const attempts = [
-    // ESPN golf scoreboard — works for Masters
+    // ESPN Masters 2026 — direct tournament ID
     {
-      label: 'espn-golf',
-      url: 'https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard?league=pga'
+      label: 'espn-masters',
+      url: 'https://site.api.espn.com/apis/site/v2/sports/golf/pga/leaderboard/401811941'
     },
-    // ESPN alternative endpoint
+    // ESPN scoreboard generic
     {
-      label: 'espn-golf-2',
-      url: 'https://golf-leaderboard-data.p.rapidapi.com/leaderboard/1'
+      label: 'espn-scoreboard',
+      url: 'https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard'
     },
     // Data Golf in-play
     {
@@ -25,51 +25,46 @@ exports.handler = async function(event) {
     }
   ];
 
+  const errors = [];
+
   for (const attempt of attempts) {
     try {
       const response = await fetch(attempt.url, {
-        headers: { 'Accept': 'application/json' }
+        headers: { 'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0' }
       });
 
-      if (!response.ok) continue;
-      const raw = await response.json();
+      if (!response.ok) {
+        errors.push(`${attempt.label}: HTTP ${response.status}`);
+        continue;
+      }
 
+      const raw = await response.json();
       let players = [];
       let eventName = 'Masters Tournament 2026';
 
-      if (attempt.label === 'espn-golf' || attempt.label === 'espn-golf-2') {
-        // ESPN format — find the Masters event
-        const events = raw.events || [];
-        const masters = events.find(e =>
-          e.name?.toLowerCase().includes('master') ||
-          e.shortName?.toLowerCase().includes('master')
-        ) || events[0];
-
-        if (!masters) continue;
-        eventName = masters.name || eventName;
-
-        const comp = masters.competitions?.[0];
-        const competitors = comp?.competitors || [];
-        if (!competitors.length) continue;
+      if (attempt.label.startsWith('espn')) {
+        const events = raw.events || (raw.event ? [raw.event] : []);
+        const ev = events[0] || raw;
+        eventName = ev.name || ev.fullName || eventName;
+        const comp = ev.competitions?.[0] || ev.competition || {};
+        const competitors = comp.competitors || ev.competitors || [];
 
         players = competitors.map(c => {
-          const name = c.athlete?.displayName || c.athlete?.fullName || '';
-          // Get today's round score
-          const score = parseInt(c.score) || 0;
-          const thru = parseInt(c.status?.thru) || 0;
+          const name = c.athlete?.displayName || c.athlete?.fullName || c.displayName || '';
+          const todayScore = c.linescores?.find(l => String(l.period) === String(round))?.value;
+          const today = todayScore !== undefined ? parseInt(todayScore) : (parseInt(c.score) || 0);
           return {
             name,
-            today: score,
-            total: parseInt(c.statistics?.find(s => s.name === 'total')?.displayValue) || score,
-            thru,
-            position: c.status?.position?.displayName || c.status?.position?.id || ''
+            today,
+            total: parseInt(c.statistics?.find(s => s.name === 'total' || s.abbreviation === 'TOT')?.displayValue || c.total) || today,
+            thru: parseInt(c.status?.thru || c.thru) || 0,
+            position: c.status?.position?.displayName || c.status?.type?.shortDetail || ''
           };
         }).filter(p => p.name);
 
-      } else if (attempt.label === 'datagolf-inplay' || attempt.label === 'datagolf-stats') {
+      } else if (attempt.label.startsWith('datagolf')) {
         eventName = raw.event_name || eventName;
         const stats = raw.live_stats || [];
-        if (!stats.length) continue;
         players = stats.map(p => ({
           name: p.player_name,
           today: p.today || 0,
@@ -86,26 +81,19 @@ exports.handler = async function(event) {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
           },
-          body: JSON.stringify({
-            source: attempt.label,
-            event_name: eventName,
-            last_updated: new Date().toISOString(),
-            players
-          })
+          body: JSON.stringify({ source: attempt.label, event_name: eventName, last_updated: new Date().toISOString(), players })
         };
+      } else {
+        errors.push(`${attempt.label}: 0 players parsed`);
       }
     } catch (err) {
-      continue;
+      errors.push(`${attempt.label}: ${err.message}`);
     }
   }
 
   return {
     statusCode: 503,
     headers: { 'Access-Control-Allow-Origin': '*' },
-    body: JSON.stringify({
-      error: 'No live scoring data available. All sources failed.',
-      players: [],
-      tried: attempts.map(a => a.label)
-    })
+    body: JSON.stringify({ error: 'All sources failed', errors, players: [] })
   };
 };
