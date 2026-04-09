@@ -456,6 +456,18 @@ function renderProScores(){
       <div style="font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:var(--gdeep);">⛳ Round 3 Scores · vs Par</div>
       <div style="font-family:'EB Garamond',serif;font-size:11px;font-style:italic;color:var(--gmid);">${proList.length} pros · auto-saves</div>
     </div>
+    <div style="padding:8px 10px 6px;border-bottom:.5px solid rgba(201,168,76,.15);display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <select id="round-select" class="txt-inp" style="flex:1;min-width:110px;padding:8px 10px;font-size:13px;">
+        <option value="1">Round 1 (Thu)</option>
+        <option value="2">Round 2 (Fri)</option>
+        <option value="3" selected>Round 3 (Sat)</option>
+        <option value="4">Round 4 (Sun)</option>
+      </select>
+      <button id="fetch-btn" class="add-btn" onclick="fetchProScores()" style="background:rgba(92,184,92,.15);border-color:rgba(92,184,92,.4);color:#7ed87e;white-space:nowrap;">⛳ Fetch Live Scores</button>
+      <button class="add-btn" onclick="startAutoFetch()" style="background:rgba(168,200,224,.1);border-color:rgba(168,200,224,.3);color:var(--sky);">▶ Auto</button>
+      <button class="add-btn" onclick="stopAutoFetch()" style="background:rgba(224,80,80,.08);border-color:rgba(224,80,80,.25);color:var(--bad);">■ Stop</button>
+      <div id="fetch-result" style="width:100%;font-size:11px;color:var(--goldl);opacity:.6;font-style:italic;margin-top:2px;"></div>
+    </div>
     <div style="padding:8px;">
       ${proList.map(pro=>{
         const raw=proScores[pro];
