@@ -505,20 +505,19 @@ async function fetchProScores(){
     const r=await fetch(url);
     if(!r.ok)throw new Error('HTTP '+r.status);
     const d=await r.json();
-    const liveStats=d.live_stats||[];
+    const liveStats=d.players||[];
     if(!liveStats.length){
       if(btn){btn.textContent='No live data yet';setTimeout(()=>{btn.textContent='Fetch Live R3 Scores';btn.disabled=false;},2000);}
       return;
     }
 
-    // Build name lookup — DG format is "Last, First"
-    // Try to match against our picks e.g. "S. Scheffler" → "Scheffler, Scottie"
+    // Build name lookup — handles both "Last, First" (DG) and "First Last" (ESPN)
     const scoreMap={};
     liveStats.forEach(p=>{
-      // Store by full DG name
-      scoreMap[p.player_name]=p.today; // vs par for round 3
-      // Also store by "Last" only for fuzzy matching
-      const last=p.player_name.split(',')[0].trim().toLowerCase();
+      scoreMap[p.name]=p.today;
+      // Last name matching — works for both formats
+      const parts=p.name.includes(',')?p.name.split(',')[0]:p.name.split(' ').pop();
+      const last=parts.trim().toLowerCase().replace(/[^a-z]/g,'');
       scoreMap['_last_'+last]=p.today;
     });
 
@@ -588,6 +587,7 @@ async function testFeed(){
     const tableEl=document.getElementById('test-table');
     resultEl.style.display='block';
 
+    const stats=d.players||[];
     if(!stats.length){
       tableEl.innerHTML=`<div style="font-size:12px;color:var(--creamd);opacity:.5;font-style:italic;">No live data yet — round may not have started.</div>`;
       btn.textContent='🔍 Test Feed (show raw scores)';btn.disabled=false;
@@ -595,14 +595,14 @@ async function testFeed(){
     }
 
     // Show event info
-    let html=`<div style="font-size:11px;color:var(--goldl);opacity:.7;margin-bottom:8px;font-style:italic;">${d.event_name||'PGA Tour'} · Round ${round} · Updated: ${d.last_updated||'—'} · ${stats.length} players</div>`;
+    let html=`<div style="font-size:11px;color:var(--goldl);opacity:.7;margin-bottom:8px;font-style:italic;">${d.event_name||'Masters'} · Round ${round} · Source: ${d.source||'—'} · ${stats.length} players</div>`;
 
-    // Table of top 20 players by today's score
+    // Table sorted by today's score
     const sorted=[...stats].sort((a,b)=>(a.today||99)-(b.today||99));
     html+=`<table style="width:100%;border-collapse:collapse;font-size:12px;">
       <tr style="background:rgba(201,168,76,.15);">
         <td style="padding:5px 8px;color:var(--gold);font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;">Pos</td>
-        <td style="padding:5px 8px;color:var(--gold);font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;">Player (DG format)</td>
+        <td style="padding:5px 8px;color:var(--gold);font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;">Player Name</td>
         <td style="padding:5px 8px;color:var(--gold);font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;text-align:center;">Today R${round}</td>
         <td style="padding:5px 8px;color:var(--gold);font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;text-align:center;">Total</td>
         <td style="padding:5px 8px;color:var(--gold);font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.08em;text-transform:uppercase;text-align:center;">Thru</td>
@@ -614,13 +614,13 @@ async function testFeed(){
       const clr=p.today<0?'#f0b8cc':p.today>0?'#a8c8e0':'var(--cream)';
       html+=`<tr style="border-bottom:.5px solid rgba(255,255,255,.05);">
         <td style="padding:5px 8px;color:var(--creamd);opacity:.5;">${p.position||i+1}</td>
-        <td style="padding:5px 8px;color:var(--cream);font-family:'Oswald',sans-serif;">${p.player_name}</td>
+        <td style="padding:5px 8px;color:var(--cream);font-family:'Oswald',sans-serif;">${p.name}</td>
         <td style="padding:5px 8px;text-align:center;font-weight:600;color:${clr};">${today}</td>
         <td style="padding:5px 8px;text-align:center;color:var(--creamd);opacity:.7;">${total}</td>
         <td style="padding:5px 8px;text-align:center;color:var(--creamd);opacity:.5;">${p.thru||'—'}</td>
       </tr>`;
     });
-    html+=`</table><div style="font-size:10px;color:var(--creamd);opacity:.35;margin-top:6px;font-style:italic;">Showing top 25 · DG name format is "Last, First" — name matching uses last name</div>`;
+    html+=`</table><div style="font-size:10px;color:var(--creamd);opacity:.35;margin-top:6px;font-style:italic;">Showing top 25 · Name format shown above is what we match against your picks</div>`;
     tableEl.innerHTML=html;
   }catch(e){
     document.getElementById('test-table').innerHTML=`<div style="font-size:12px;color:var(--bad);font-style:italic;">Error: ${e.message}</div>`;
