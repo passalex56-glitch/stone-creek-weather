@@ -398,15 +398,18 @@ function renderTeams(){
     const pick=picks[p.id]||'';
     const d=draws[p.id]||[];
     const pro1=pick,pro2=d[0]||'',pro3=d[1]||'';
-    const s1=proScores[pro1]||0;
-    const s2=proScores[pro2]||0;
-    const s3=proScores[pro3]||0;
-    const proTotal=s1+s2+s3;
-    const teamTotal=myPlayed>0&&proTotal!==0?myScore+proTotal:proTotal;
+    const s1=proScores[pro1]!==undefined?proScores[pro1]:null;
+    const s2=proScores[pro2]!==undefined?proScores[pro2]:null;
+    const s3=proScores[pro3]!==undefined?proScores[pro3]:null;
+    const proTotal=(s1||0)+(s2||0)+(s3||0);
+    const hasAnyPro=s1!==null||s2!==null||s3!==null;
+    const teamTotal=hasAnyPro?(myPlayed>0?myScore+proTotal:proTotal):0;
     return{...p,myScore,myPlayed,pick,pro2,pro3,s1,s2,s3,proTotal,teamTotal};
   }).sort((a,b)=>{
-    if(a.teamTotal===0&&b.teamTotal>0)return 1;
-    if(a.teamTotal>0&&b.teamTotal===0)return -1;
+    const aHas=(a.s1!==null||a.s2!==null||a.s3!==null);
+    const bHas=(b.s1!==null||b.s2!==null||b.s3!==null);
+    if(!aHas&&bHas)return 1;
+    if(aHas&&!bHas)return -1;
     return a.teamTotal-b.teamTotal;
   });
 
