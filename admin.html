@@ -428,7 +428,25 @@ function renderProScores(){
     draws.forEach(d2=>allPros.add(d2));
   });
   if(!allPros.size){
-    c.innerHTML=`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.18);border-radius:4px;padding:12px 14px;opacity:.45;font-style:italic;font-size:13px;">Complete picks and draw first.</div>`;
+    c.innerHTML=`<div style="background:var(--gdark);border:.5px solid rgba(201,168,76,.18);border-radius:4px;padding:12px 14px;">
+      <div style="opacity:.45;font-style:italic;font-size:13px;margin-bottom:14px;">Complete picks and draw first to see pro scores here.</div>
+      <div style="border-top:.5px solid rgba(201,168,76,.15);padding-top:12px;">
+        <div style="font-size:11px;color:var(--goldl);opacity:.7;margin-bottom:8px;font-style:italic;">Test the live Data Golf feed:</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px;">
+          <select id="round-select" class="txt-inp" style="width:130px;padding:8px 10px;font-size:13px;">
+            <option value="1">Round 1 (Thu)</option>
+            <option value="2">Round 2 (Fri)</option>
+            <option value="3" selected>Round 3 (Sat)</option>
+            <option value="4">Round 4 (Sun)</option>
+          </select>
+          <button class="add-btn" onclick="testFeed()" style="background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.35);color:var(--goldl);">🔍 Test Feed</button>
+        </div>
+        <div id="fetch-result" style="font-size:11px;color:var(--goldl);opacity:.6;font-style:italic;"></div>
+        <div id="test-result" style="margin-top:10px;max-height:300px;overflow-y:auto;display:none;">
+          <div id="test-table"></div>
+        </div>
+      </div>
+    </div>`;
     return;
   }
   const proScores=data.proScores||{};
