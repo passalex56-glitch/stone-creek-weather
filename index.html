@@ -746,7 +746,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
           <div class="tg-grp-num">Group 2</div>
         </div>
         <div class="tg-players">
-          <div class="tg-player first-player"><span class="fp-dot"></span>Luc Damian</div>
+          <div class="tg-player first-player"><span class="fp-dot"></span>Luc Damien</div>
           <div class="tg-player">Brad Magnuson</div>
           <div class="tg-player">Daniel Sherwood</div>
         </div>
@@ -832,6 +832,28 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
       Pro picks drawn from the 2026 Masters Tournament field · Augusta National Golf Club · April 9–12, 2026
       &nbsp;·&nbsp; <strong>Top picks:</strong> S. Scheffler (1) · R. McIlroy (3) · X. Schauffele (4) · T. Fleetwood (5) · L. Åberg (10)
     </div>
+  </div>
+
+  <!-- MASTERS TEAMS LEADERBOARD -->
+  <div class="masters-teams-section" id="masters-teams-section" style="padding:0 48px 28px;display:none;">
+    <div class="sec-hd">
+      <div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div>
+      <span class="sec-txt">Masters Teams · Combined Score · Lowest Wins The Jacket</span>
+      <div class="sec-rule"></div>
+    </div>
+    <div style="background:rgba(201,168,76,.06);border:.5px solid rgba(201,168,76,.2);border-radius:6px;overflow:hidden;">
+      <!-- Header -->
+      <div style="background:var(--gold);display:grid;grid-template-columns:1fr 80px 120px 120px 120px 90px;padding:8px 16px;gap:4px;">
+        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);">Player</div>
+        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">My Score</div>
+        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Pick</div>
+        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Draw 1</div>
+        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Draw 2</div>
+        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Total</div>
+      </div>
+      <div id="mt-body"></div>
+    </div>
+    <div style="text-align:center;font-size:10px;color:var(--creamd);opacity:.35;font-style:italic;margin-top:8px;font-family:'EB Garamond',serif;" id="mt-updated"></div>
   </div>
 
   <!-- RULES OF GOLF -->
@@ -1070,9 +1092,20 @@ async function loadWeather(){
 }
 
 // Convert WeatherAPI response → Open-Meteo shape so render() works unchanged
-function convertWeatherAPI(raw){
+// apr11raw = optional future.json response for April 11 specifically
+function convertWeatherAPI(raw,apr11raw){
   const cur=raw.current;
-  const fdays=raw.forecast.forecastday;
+  let fdays=raw.forecast.forecastday;
+
+  // Merge April 11 data from future endpoint if available and not already in forecast
+  if(apr11raw&&apr11raw.forecast&&apr11raw.forecast.forecastday){
+    const a11days=apr11raw.forecast.forecastday;
+    a11days.forEach(fd=>{
+      if(!fdays.find(d=>d.date===fd.date))fdays.push(fd);
+    });
+    // Sort by date
+    fdays.sort((a,b)=>a.date.localeCompare(b.date));
+  }
 
   // Build daily arrays
   const daily={
@@ -1310,6 +1343,102 @@ async function toggleSound(){
 
 const n=new Date();
 document.getElementById('cur-date').textContent=DS[n.getDay()]+', '+MS[n.getMonth()]+' '+n.getDate()+' · '+n.getFullYear();
+
+// ── MASTERS TEAMS ──────────────────────────────────────────
+const MT_JID='69cf1477856a682189f51614';
+const MT_JK='$2a$10$44R1Eg/oHWXmy1eTJVFZXur.kKDuM4/k034YqHSjsdsOVvjPIDVjS';
+const MT_JA='$2a$10$nPS4wCQiSqytcVKjiB.aS.RSXCt975l2MRrGjs2yRVi4R0ZwWUO1C';
+
+async function loadMastersTeams(){
+  try{
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${MT_JID}/latest`,{
+      headers:{'X-Master-Key':MT_JK,'X-Access-Key':MT_JA}
+    });
+    if(!r.ok)return;
+    const j=await r.json();
+    const d=j.record||{};
+    renderMastersTeams(d);
+  }catch(e){}
+}
+
+function renderMastersTeams(d){
+  const players=d.players||[];
+  const picks=d.mastersPicks||{};
+  const draws=d.mastersDraws||{};
+  const proScores=d.proScores||{};
+  const section=document.getElementById('masters-teams-section');
+
+  // Only show if at least one player has a pick assigned
+  const hasData=players.some(p=>picks[p.id]||(draws[p.id]||[]).length>0);
+  if(!hasData){section.style.display='none';return;}
+  section.style.display='block';
+
+  // Build team rows with totals
+  const teams=players.map(p=>{
+    let gross=0,played=0;
+    (p.scores||[]).forEach((s,i)=>{if(s&&s>0){gross+=s;played++;}});
+    const myScore=played===18?gross:null;
+    const pick=picks[p.id]||'';
+    const d2=(draws[p.id]||[]);
+    const pro1=pick,pro2=d2[0]||'',pro3=d2[1]||'';
+    const s1=proScores[pro1]!==undefined&&proScores[pro1]!==0?proScores[pro1]:null;
+    const s2=proScores[pro2]!==undefined&&proScores[pro2]!==0?proScores[pro2]:null;
+    const s3=proScores[pro3]!==undefined&&proScores[pro3]!==0?proScores[pro3]:null;
+    const hasProScores=s1!==null||s2!==null||s3!==null;
+    const proTotal=(s1||0)+(s2||0)+(s3||0);
+    const allIn=myScore!==null&&s1!==null&&s2!==null&&s3!==null;
+    const total=allIn?myScore+s1+s2+s3:(hasProScores?proTotal:null);
+    return{name:p.name,myScore,pick,pro2,pro3,s1,s2,s3,total,played};
+  }).sort((a,b)=>{
+    if(!a.total&&b.total)return 1;
+    if(a.total&&!b.total)return -1;
+    if(a.total&&b.total)return a.total-b.total;
+    return 0;
+  });
+
+  const rowStyle='display:grid;grid-template-columns:1fr 80px 120px 120px 120px 90px;padding:10px 16px;gap:4px;border-bottom:.5px solid rgba(201,168,76,.07);align-items:center;';
+  const nameStyle='font-family:"Playfair Display",serif;font-size:14px;font-style:italic;color:var(--goldl);';
+  const cellStyle='text-align:center;font-family:"Playfair Display",serif;font-size:13px;color:var(--cream);';
+  const proStyle='font-size:10px;color:var(--creamd);opacity:.55;display:block;font-family:"EB Garamond",serif;font-style:italic;';
+  const scoreStyle='font-size:16px;font-weight:500;display:block;';
+
+  let html='';
+  teams.forEach((t,i)=>{
+    const isLeader=i===0&&t.total;
+    const rowBg=isLeader?'background:rgba(201,168,76,.08);border-left:3px solid var(--gold);':'';
+    const totalDisp=t.total?`<span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:${isLeader?'var(--goldl)':'var(--cream)'};">${t.total}</span>`:'<span style="opacity:.35;font-style:italic;font-size:12px;">TBD</span>';
+
+    const myDisp=t.myScore
+      ?`<span style="${scoreStyle}">${t.myScore}</span><span style="${proStyle}">${t.played} holes</span>`
+      :`<span style="opacity:.35;font-size:12px;font-style:italic;">${t.played>0?t.played+' holes':'—'}</span>`;
+
+    const fmtVsPar=(s)=>s===0?'E':s>0?'+'+s:String(s);
+    const proCell=(name,score)=>`<div style="text-align:center;">
+      <span style="${proStyle}margin-bottom:2px;">${name||'—'}</span>
+      ${score!==null?`<span style="${scoreStyle}color:${score<0?'var(--az)':score>0?'var(--sky)':'var(--cream)'};">${fmtVsPar(score)}</span>`:`<span style="opacity:.35;font-size:12px;">TBD</span>`}
+    </div>`;
+
+    html+=`<div style="${rowStyle}${rowBg}">
+      <div style="${nameStyle}">${isLeader?'🏆 ':''}${t.name}</div>
+      <div style="${cellStyle}">${myDisp}</div>
+      ${proCell(t.pick,t.s1)}
+      ${proCell(t.pro2,t.s2)}
+      ${proCell(t.pro3,t.s3)}
+      <div style="${cellStyle}">${totalDisp}</div>
+    </div>`;
+  });
+
+  document.getElementById('mt-body').innerHTML=html||'<div style="padding:20px;text-align:center;opacity:.4;font-style:italic;">No team data yet</div>';
+
+  if(d.lastUpdated){
+    const t=new Date(d.lastUpdated);
+    document.getElementById('mt-updated').textContent=`Last updated ${t.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} · Refreshes every 30s`;
+  }
+}
+
+// Load Masters Teams on page load and refresh every 30s
+loadMastersTeams();
+setInterval(loadMastersTeams,30000);
 loadWeather();
 </script>
 </body>

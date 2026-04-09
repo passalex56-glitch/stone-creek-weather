@@ -386,7 +386,8 @@ function renderTeams(){
 
   // Only show if at least one player has a pick or draw assigned
   const hasTeams=players.some(p=>picks[p.id]||((draws[p.id]||[]).length>0));
-  if(!hasTeams){section.style.display='none';return;}
+  const hasProScores=Object.keys(proScores).length>0;
+  if(!hasTeams&&!hasProScores){section.style.display='none';return;}
   section.style.display='block';
 
   // Build team totals
@@ -401,7 +402,7 @@ function renderTeams(){
     const s2=proScores[pro2]||0;
     const s3=proScores[pro3]||0;
     const proTotal=s1+s2+s3;
-    const teamTotal=myPlayed>0&&proTotal>0?myScore+proTotal:0;
+    const teamTotal=myPlayed>0&&proTotal!==0?myScore+proTotal:proTotal;
     return{...p,myScore,myPlayed,pick,pro2,pro3,s1,s2,s3,proTotal,teamTotal};
   }).sort((a,b)=>{
     if(a.teamTotal===0&&b.teamTotal>0)return 1;
