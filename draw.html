@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Draw · Southern Illinois Masters 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Oswald:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c9a84c;--goldl:#e2c47a;--gdeep:#1a1208;
+  --green:#0d4a1e;--gdark:#081a0c;--gmid:#1a5c2a;
+  --cream:#f5f0e8;--creamd:#e8e0d0;
+  --az:#a8c8e0;--azl:#c8e0f0;
+  --red:#cc3322;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;background:var(--gdark);color:var(--cream);font-family:'EB Garamond',serif;overflow-x:hidden;}
+
+/* LOGIN */
+#login-screen{
+  position:fixed;inset:0;background:var(--gdark);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:100;padding:32px;
+}
+.login-logo{font-family:'Playfair Display',serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:8px;}
+.login-title{font-family:'Playfair Display',serif;font-size:32px;font-style:italic;color:var(--cream);margin-bottom:4px;text-align:center;}
+.login-sub{font-size:13px;color:var(--creamd);opacity:.45;font-style:italic;margin-bottom:40px;letter-spacing:.05em;text-align:center;}
+.login-inp{width:100%;max-width:280px;background:rgba(255,255,255,.06);border:.5px solid rgba(201,168,76,.3);border-radius:4px;padding:14px 18px;font-family:'Oswald',sans-serif;font-size:18px;letter-spacing:.15em;color:var(--cream);text-align:center;outline:none;margin-bottom:14px;}
+.login-inp::placeholder{opacity:.3;font-size:14px;letter-spacing:.1em;}
+.login-btn{width:100%;max-width:280px;background:var(--gold);border:none;border-radius:4px;padding:14px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gdeep);cursor:pointer;}
+.login-err{font-size:12px;color:var(--red);opacity:.8;margin-top:8px;font-style:italic;}
+
+/* MAIN */
+#main{display:none;min-height:100vh;}
+
+/* HEADER */
+.draw-header{
+  background:linear-gradient(180deg,rgba(10,34,16,.98) 0%,rgba(8,26,12,.95) 100%);
+  border-bottom:.5px solid rgba(201,168,76,.2);
+  padding:20px 20px 16px;text-align:center;position:relative;
+}
+.draw-header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+.dh-eyebrow{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-bottom:6px;}
+.dh-title{font-family:'Playfair Display',serif;font-size:28px;font-style:italic;color:var(--cream);line-height:1.1;margin-bottom:4px;}
+.dh-sub{font-size:11px;color:var(--creamd);opacity:.4;letter-spacing:.1em;font-style:italic;}
+.dh-progress{display:flex;align-items:center;gap:8px;margin-top:14px;justify-content:center;}
+.dh-prog-bar{height:3px;background:rgba(201,168,76,.15);border-radius:2px;flex:1;max-width:200px;overflow:hidden;}
+.dh-prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .6s ease;}
+.dh-prog-txt{font-family:'Oswald',sans-serif;font-size:11px;color:var(--goldl);letter-spacing:.1em;}
+
+/* PLAYER QUEUE */
+.queue-section{padding:16px 16px 8px;}
+.qs-label{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:.5;margin-bottom:10px;}
+.queue-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.q-player{
+  background:rgba(255,255,255,.04);border:.5px solid rgba(255,255,255,.08);
+  border-radius:6px;padding:10px 8px;text-align:center;cursor:pointer;
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.q-player:active{transform:scale(.97);}
+.q-player.drawn{background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.2);cursor:default;}
+.q-player.drawn .qp-name{opacity:.35;}
+.q-player-check{position:absolute;top:4px;right:5px;font-size:10px;color:var(--goldl);}
+.qp-name{font-family:'Oswald',sans-serif;font-size:12px;font-weight:500;letter-spacing:.05em;color:var(--cream);line-height:1.2;}
+.qp-pick{font-size:9px;color:var(--goldl);opacity:.6;font-family:'EB Garamond',serif;font-style:italic;margin-top:2px;}
+
+/* DRAW STAGE */
+.draw-stage{
+  margin:12px 16px;background:rgba(8,26,12,.9);
+  border:.5px solid rgba(201,168,76,.25);border-radius:10px;
+  overflow:hidden;min-height:280px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;position:relative;
+}
+.stage-idle{text-align:center;padding:32px 20px;}
+.si-icon{font-size:48px;margin-bottom:12px;opacity:.3;}
+.si-txt{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--cream);opacity:.3;}
+
+.stage-active{width:100%;padding:24px 20px;text-align:center;}
+.sa-player{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--goldl);opacity:.6;margin-bottom:4px;}
+.sa-name{font-family:'Playfair Display',serif;font-size:30px;font-style:italic;color:var(--cream);margin-bottom:20px;line-height:1.1;}
+
+/* DRAW CARDS */
+.draw-cards{display:flex;gap:12px;justify-content:center;margin-bottom:20px;}
+.draw-card{
+  width:120px;height:160px;perspective:600px;cursor:pointer;
+}
+.dc-inner{
+  width:100%;height:100%;position:relative;transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.4,0,.2,1);
+}
+.draw-card.flipped .dc-inner{transform:rotateY(180deg);}
+.dc-front,.dc-back{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.dc-front{
+  background:linear-gradient(135deg,#1a5c2a 0%,#0d3318 50%,#0a2a14 100%);
+  border:1.5px solid rgba(201,168,76,.4);
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.dc-front-pattern{
+  width:80px;height:80px;border:1.5px solid rgba(201,168,76,.3);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.dc-front-pattern::before{
+  content:'';position:absolute;inset:6px;border:1px solid rgba(201,168,76,.15);border-radius:50%;
+}
+.dc-flag{font-size:28px;}
+.dc-back{
+  background:linear-gradient(135deg,#0a2214 0%,#081a0c 100%);
+  border:1.5px solid rgba(201,168,76,.5);
+  transform:rotateY(180deg);
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+  padding:12px 8px;
+}
+.dc-back-label{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--goldl);opacity:.5;margin-bottom:6px;}
+.dc-back-name{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--cream);text-align:center;line-height:1.2;}
+.dc-back-score{font-family:'Oswald',sans-serif;font-size:11px;color:var(--goldl);opacity:.5;margin-top:4px;}
+.dc-num{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.15em;color:var(--goldl);opacity:.4;margin-top:4px;}
+
+/* TAP HINT */
+.tap-hint{font-family:'EB Garamond',serif;font-size:12px;font-style:italic;color:var(--creamd);opacity:.4;margin-bottom:8px;}
+
+/* SHUFFLE ANIMATION */
+@keyframes shuffle{
+  0%{transform:translateY(0) rotate(0deg);}
+  20%{transform:translateY(-8px) rotate(-3deg);}
+  40%{transform:translateY(-4px) rotate(2deg);}
+  60%{transform:translateY(-10px) rotate(-2deg);}
+  80%{transform:translateY(-6px) rotate(3deg);}
+  100%{transform:translateY(0) rotate(0deg);}
+}
+.draw-card.shuffling .dc-inner{animation:shuffle .4s ease infinite;}
+
+@keyframes dealIn{
+  from{opacity:0;transform:translateY(30px) scale(.9);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+.draw-card{animation:dealIn .4s ease both;}
+.draw-card:nth-child(2){animation-delay:.15s;}
+
+/* CONFIRM BTN */
+.confirm-btn{
+  background:var(--gold);border:none;border-radius:6px;
+  padding:14px 32px;font-family:'Oswald',sans-serif;font-size:13px;
+  font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gdeep);cursor:pointer;transition:all .2s;
+  display:none;margin-top:4px;
+}
+.confirm-btn.visible{display:block;}
+.confirm-btn:active{transform:scale(.97);}
+
+/* DRAW BTN */
+.draw-btn{
+  display:block;width:calc(100% - 32px);margin:8px 16px 16px;
+  background:var(--green);border:1.5px solid rgba(201,168,76,.3);
+  border-radius:8px;padding:18px;font-family:'Oswald',sans-serif;
+  font-size:15px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--goldl);cursor:pointer;transition:all .2s;text-align:center;
+}
+.draw-btn:active{transform:scale(.98);}
+.draw-btn:disabled{opacity:.3;cursor:default;}
+
+/* COMPLETED LIST */
+.completed-section{padding:0 16px 20px;}
+.cs-label{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:.5;margin-bottom:10px;}
+.completed-list{display:flex;flex-direction:column;gap:6px;}
+.comp-row{
+  background:rgba(201,168,76,.05);border:.5px solid rgba(201,168,76,.15);
+  border-radius:6px;padding:10px 14px;display:flex;align-items:center;gap:10px;
+}
+.cr-name{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:var(--cream);min-width:110px;}
+.cr-pros{display:flex;gap:6px;flex-wrap:wrap;}
+.cr-pro{
+  background:rgba(10,34,16,.6);border:.5px solid rgba(201,168,76,.2);
+  border-radius:20px;padding:3px 10px;font-size:11px;font-family:'EB Garamond',serif;
+  font-style:italic;color:var(--goldl);
+}
+
+/* COMPLETE SCREEN */
+#complete-screen{display:none;padding:40px 20px;text-align:center;}
+.cs-trophy{font-size:64px;margin-bottom:16px;animation:bounce 2s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.cs-title{font-family:'Playfair Display',serif;font-size:32px;font-style:italic;color:var(--goldl);margin-bottom:8px;}
+.cs-sub{font-size:14px;color:var(--creamd);opacity:.5;font-style:italic;margin-bottom:32px;}
+.cs-save-btn{background:var(--gold);border:none;border-radius:6px;padding:16px 32px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gdeep);cursor:pointer;}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:rgba(10,30,15,.95);border:.5px solid rgba(201,168,76,.4);
+  border-radius:6px;padding:10px 20px;font-family:'Oswald',sans-serif;
+  font-size:12px;letter-spacing:.1em;color:var(--goldl);
+  transition:transform .3s ease;z-index:200;white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-logo">Southern Illinois Masters 2026</div>
+  <div class="login-title">The Draw</div>
+  <div class="login-sub">Friday Night · After The Cut</div>
+  <input class="login-inp" type="password" id="pw-inp" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button class="login-btn" onclick="checkPw()">Enter</button>
+  <div class="login-err" id="pw-err"></div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <!-- HEADER -->
+  <div class="draw-header">
+    <div class="dh-eyebrow">Southern Illinois Masters · 2026</div>
+    <div class="dh-title">The Draw</div>
+    <div class="dh-sub">Apple Creek Golf Club · Makanda, IL</div>
+    <div class="dh-progress">
+      <div class="dh-prog-bar"><div class="dh-prog-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="dh-prog-txt" id="prog-txt">0 / 0 drawn</div>
+    </div>
+  </div>
+
+  <!-- DRAW STAGE -->
+  <div class="draw-stage" id="draw-stage">
+    <div class="stage-idle" id="stage-idle">
+      <div class="si-icon">⛳</div>
+      <div class="si-txt">Select a player below<br>to begin their draw</div>
+    </div>
+    <div class="stage-active" id="stage-active" style="display:none;">
+      <div class="sa-player">Now Drawing</div>
+      <div class="sa-name" id="sa-name">—</div>
+      <div class="draw-cards" id="draw-cards"></div>
+      <div class="tap-hint" id="tap-hint">Tap cards to reveal</div>
+      <button class="confirm-btn" id="confirm-btn" onclick="confirmDraw()">✓ Confirm Draw</button>
+    </div>
+  </div>
+
+  <!-- DRAW BUTTON -->
+  <button class="draw-btn" id="draw-btn" onclick="startDraw()" disabled>Select a player to draw</button>
+
+  <!-- PLAYER QUEUE -->
+  <div class="queue-section">
+    <div class="qs-label">Players — tap to select</div>
+    <div class="queue-grid" id="player-queue"></div>
+  </div>
+
+  <!-- COMPLETED -->
+  <div class="completed-section" id="completed-section" style="display:none;">
+    <div class="cs-label">Completed Draws</div>
+    <div class="completed-list" id="completed-list"></div>
+  </div>
+
+  <!-- COMPLETE SCREEN -->
+  <div id="complete-screen">
+    <div class="cs-trophy">🏆</div>
+    <div class="cs-title">The Draw Is Complete</div>
+    <div class="cs-sub">All teams set for Saturday · April 11, 2026</div>
+    <button class="cs-save-btn" onclick="saveDraw()">Save & Close</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PW = 'masters2026';
+const JID = '69cf1477856a682189f51614';
+const JK = '$2a$10$44R1Eg/oHWXmy1eTJVFZXur.kKDuM4/k034YqHSjsdsOVvjPIDVjS';
+const JA = '$2a$10$nPS4wCQiSqytcVKjiB.aS.RSXCt975l2MRrGjs2yRVi4R0ZwWUO1C';
+const JURL = `https://api.jsonbin.io/v3/b/${JID}`;
+
+let data = {};
+let selectedPlayer = null;
+let currentDrawn = [null, null];
+let flipped = [false, false];
+let drawPool = [];
+let drawnPros = new Set();
+
+function checkPw() {
+  const val = document.getElementById('pw-inp').value;
+  if (val === PW) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main').style.display = 'block';
+    loadData();
+  } else {
+    document.getElementById('pw-err').textContent = 'Incorrect password';
+    document.getElementById('pw-inp').value = '';
+  }
+}
+
+async function loadData() {
+  try {
+    const r = await fetch(JURL + '/latest', { headers: { 'X-Master-Key': JK, 'X-Access-Key': JA } });
+    if (r.ok) { const j = await r.json(); data = j.record || {}; }
+  } catch(e) {}
+  buildPool();
+  renderQueue();
+  renderCompleted();
+  updateProgress();
+}
+
+function buildPool() {
+  // Build draw pool from mastersPicks — picks are allowed to overlap but draws must be unique
+  const picks = data.mastersPicks || {};
+  const existingDraws = data.mastersDraws || {};
+
+  // Add all already drawn pros to drawnPros set
+  drawnPros = new Set();
+  Object.values(existingDraws).forEach(d => d.forEach(p => drawnPros.add(p)));
+
+  // Pool = all picks minus already drawn pros
+  const allPicks = Object.values(picks).filter(Boolean);
+  const uniquePicks = [...new Set(allPicks)];
+
+  // Full pool starts as all picks
+  drawPool = uniquePicks.filter(p => !drawnPros.has(p));
+}
+
+function renderQueue() {
+  const players = data.players || [];
+  const picks = data.mastersPicks || {};
+  const draws = data.mastersDraws || {};
+  const c = document.getElementById('player-queue');
+
+  c.innerHTML = players.map(p => {
+    const hasDraw = draws[p.id] && draws[p.id].length === 2;
+    const pick = picks[p.id] || '—';
+    return `<div class="q-player ${hasDraw ? 'drawn' : ''}" onclick="${hasDraw ? '' : `selectPlayer('${p.id}')`}" id="qp-${p.id}">
+      ${hasDraw ? '<div class="q-player-check">✓</div>' : ''}
+      <div class="qp-name">${p.name}</div>
+      <div class="qp-pick">${pick}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCompleted() {
+  const players = data.players || [];
+  const draws = data.mastersDraws || {};
+  const picks = data.mastersPicks || {};
+  const completed = players.filter(p => draws[p.id] && draws[p.id].length === 2);
+
+  const section = document.getElementById('completed-section');
+  if (!completed.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  document.getElementById('completed-list').innerHTML = completed.map(p => {
+    const d = draws[p.id];
+    const pick = picks[p.id] || '';
+    return `<div class="comp-row">
+      <div class="cr-name">${p.name}</div>
+      <div class="cr-pros">
+        <div class="cr-pro">Pick: ${pick}</div>
+        <div class="cr-pro">${d[0]}</div>
+        <div class="cr-pro">${d[1]}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateProgress() {
+  const players = data.players || [];
+  const draws = data.mastersDraws || {};
+  const total = players.length;
+  const done = players.filter(p => draws[p.id] && draws[p.id].length === 2).length;
+  document.getElementById('prog-fill').style.width = total ? `${(done/total)*100}%` : '0%';
+  document.getElementById('prog-txt').textContent = `${done} / ${total} drawn`;
+
+  if (done === total && total > 0) {
+    setTimeout(() => {
+      document.getElementById('complete-screen').style.display = 'block';
+    }, 1000);
+  }
+}
+
+function selectPlayer(id) {
+  const players = data.players || [];
+  const p = players.find(pl => pl.id === id);
+  if (!p) return;
+
+  // Deselect all
+  document.querySelectorAll('.q-player').forEach(el => el.style.outline = '');
+  // Select this one
+  const el = document.getElementById('qp-' + id);
+  if (el) el.style.outline = '1.5px solid var(--gold)';
+
+  selectedPlayer = p;
+  const btn = document.getElementById('draw-btn');
+  btn.disabled = false;
+  btn.textContent = `Draw for ${p.name}`;
+
+  // Reset stage
+  document.getElementById('stage-idle').style.display = 'flex';
+  document.getElementById('stage-active').style.display = 'none';
+}
+
+function startDraw() {
+  if (!selectedPlayer) return;
+  const picks = data.mastersPicks || {};
+  const myPick = picks[selectedPlayer.id] || '';
+
+  // Build available pool — exclude already drawn AND player's own pick
+  const available = drawPool.filter(pro => pro !== myPick && !drawnPros.has(pro));
+
+  if (available.length < 2) {
+    showToast('Not enough pros available — check picks first');
+    return;
+  }
+
+  // Shuffle and pick 2
+  const shuffled = [...available].sort(() => Math.random() - .5);
+  currentDrawn = [shuffled[0], shuffled[1]];
+  flipped = [false, false];
+
+  // Show stage
+  document.getElementById('stage-idle').style.display = 'none';
+  document.getElementById('stage-active').style.display = 'block';
+  document.getElementById('sa-name').textContent = selectedPlayer.name;
+  document.getElementById('confirm-btn').classList.remove('visible');
+  document.getElementById('tap-hint').style.display = 'block';
+
+  // Build cards with shuffle animation
+  const cards = document.getElementById('draw-cards');
+  cards.innerHTML = currentDrawn.map((pro, i) => `
+    <div class="draw-card shuffling" id="card-${i}" onclick="flipCard(${i})">
+      <div class="dc-inner">
+        <div class="dc-front">
+          <div class="dc-front-pattern"><div class="dc-flag">⛳</div></div>
+        </div>
+        <div class="dc-back">
+          <div class="dc-back-label">Draw ${i+1}</div>
+          <div class="dc-back-name">${pro}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Stop shuffle after 1.5s
+  setTimeout(() => {
+    document.querySelectorAll('.draw-card').forEach(c => c.classList.remove('shuffling'));
+  }, 1500);
+
+  document.getElementById('draw-btn').disabled = true;
+  document.getElementById('draw-btn').textContent = 'Tap cards to reveal...';
+}
+
+function flipCard(i) {
+  if (flipped[i]) return;
+  flipped[i] = true;
+  document.getElementById('card-' + i).classList.add('flipped');
+
+  // If both flipped, show confirm
+  if (flipped[0] && flipped[1]) {
+    document.getElementById('tap-hint').style.display = 'none';
+    document.getElementById('confirm-btn').classList.add('visible');
+    document.getElementById('draw-btn').textContent = 'Confirm the draw above';
+  }
+}
+
+async function confirmDraw() {
+  if (!selectedPlayer || !currentDrawn[0] || !currentDrawn[1]) return;
+
+  // Save to data
+  if (!data.mastersDraws) data.mastersDraws = {};
+  data.mastersDraws[selectedPlayer.id] = [currentDrawn[0], currentDrawn[1]];
+
+  // Add to drawnPros so they can't be drawn again
+  drawnPros.add(currentDrawn[0]);
+  drawnPros.add(currentDrawn[1]);
+
+  // Remove from pool
+  drawPool = drawPool.filter(p => !drawnPros.has(p));
+
+  // Save to JSONBin
+  await saveData();
+
+  showToast(`${selectedPlayer.name} · ${currentDrawn[0]} & ${currentDrawn[1]}`);
+
+  // Reset
+  selectedPlayer = null;
+  currentDrawn = [null, null];
+  document.getElementById('stage-idle').style.display = 'flex';
+  document.getElementById('stage-active').style.display = 'none';
+  document.getElementById('draw-btn').disabled = true;
+  document.getElementById('draw-btn').textContent = 'Select a player to draw';
+  document.querySelectorAll('.q-player').forEach(el => el.style.outline = '');
+
+  renderQueue();
+  renderCompleted();
+  updateProgress();
+}
+
+async function saveData() {
+  try {
+    await fetch(JURL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JK },
+      body: JSON.stringify(data)
+    });
+  } catch(e) {}
+}
+
+async function saveDraw() {
+  await saveData();
+  showToast('Draw saved! Good luck Saturday 🏆');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
