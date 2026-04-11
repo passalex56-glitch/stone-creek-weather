@@ -378,7 +378,7 @@ async function refresh(){await loadData();render();renderTeams();}
 refresh();
 setInterval(refresh,15000);
 
-function renderTeams(){
+function renderTeams(){ // v3
   const players=data.players||[];
   const picks=data.mastersPicks||{};
   const draws=data.mastersDraws||{};
@@ -394,8 +394,15 @@ function renderTeams(){
   // Build team totals
   const teams=players.map(p=>{
     const calc_p=calc(p);
-    const myScore=calc_p.gross||0;
     const myPlayed=calc_p.played;
+    // Build net score the same exact way the leaderboard NET column does
+    let _g=0,_t=0,_pl=0;
+    for(let i=0;i<18;i++){
+      const s=(p.scores||[])[i];
+      if(s&&s>0){_t+=s;_pl++;_g+=s-PAR[i];}
+    }
+    const _hcp=parseInt(p.hcp)||0;
+    const myScore=_pl===18?(_g-_hcp):null;
     const pick=picks[p.id]||'';
     const d=draws[p.id]||[];
     const pro1=pick,pro2=d[0]||'',pro3=d[1]||'';
@@ -404,7 +411,7 @@ function renderTeams(){
     const s3=pro3&&proScores[pro3]!==undefined?proScores[pro3]:null;
     const proTotal=(s1||0)+(s2||0)+(s3||0);
     const hasAnyPro=s1!==null||s2!==null||s3!==null;
-    const teamTotal=hasAnyPro?(myPlayed>0?myScore+proTotal:proTotal):0;
+    const teamTotal=hasAnyPro?(myScore!==null?myScore+proTotal:proTotal):0;
     return{...p,myScore,myPlayed,pick,pro2,pro3,s1,s2,s3,proTotal,teamTotal};
   }).sort((a,b)=>{
     const aHas=(a.s1!==null||a.s2!==null||a.s3!==null);
@@ -419,7 +426,7 @@ function renderTeams(){
   let h=`<table class="teams-table">
     <tr>
       <th class="left" style="width:160px;">Player</th>
-      <th>My Score</th>
+      <th>Net Score</th>
       <th>Pick</th>
       <th>Draw 1</th>
       <th>Draw 2</th>
@@ -434,7 +441,7 @@ function renderTeams(){
 
     const fvp=s=>s===undefined||s===null?null:(s===0?'E':s>0?'+'+s:String(s));
     const safeName=n=>n&&n!=='null'&&n!=='undefined'?n:'TBD';
-    const myDisp=t.myPlayed>0?t.myScore:'—';
+    const myDisp=t.myScore!==null?vs(t.myScore):'—';
     const hasS1=t.s1!==null;
     const hasS2=t.s2!==null;
     const hasS3=t.s3!==null;
@@ -442,7 +449,7 @@ function renderTeams(){
 
     h+=`<tr>
       <td class="player-td${isLeader?' ldr':''}">${t.name||'—'}</td>
-      <td class="my-score-td"><div style="font-size:18px;font-weight:700;">${myDisp}</div><div style="font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;">${t.myPlayed>0?t.myPlayed+' holes':'not started'}</div></td>
+      <td class="my-score-td"><div style="font-size:18px;font-weight:700;color:${t.myScore!==null&&t.myScore<0?'#cc3322':t.myScore>0?'#666':'#111'};">${myDisp}</div><div style="font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;">${t.myPlayed>0?'NET':'—'}</div></td>
       <td class="pro-td"><span class="pro-name">${safeName(t.pick)}</span><span class="pro-score${hasS1?'':' pending'}">${hasS1?fvp(t.s1):'TBD'}</span></td>
       <td class="pro-td"><span class="pro-name">${safeName(t.pro2)}</span><span class="pro-score${hasS2?'':' pending'}">${hasS2?fvp(t.s2):'TBD'}</span></td>
       <td class="pro-td"><span class="pro-name">${safeName(t.pro3)}</span><span class="pro-score${hasS3?'':' pending'}">${hasS3?fvp(t.s3):'TBD'}</span></td>
