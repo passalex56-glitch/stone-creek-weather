@@ -226,6 +226,7 @@ html,body{height:100%;background:var(--gdark);color:var(--cream);font-family:'EB
     <div style="font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-bottom:8px;">Step 1 · Paste Cut Survivors</div>
     <textarea id="cut-input" placeholder="McIlroy, Burns, Reed, Lowry..." style="width:100%;background:rgba(255,255,255,.05);border:.5px solid rgba(201,168,76,.2);border-radius:6px;padding:10px 12px;font-family:'EB Garamond',serif;font-size:13px;color:var(--cream);resize:none;height:80px;outline:none;"></textarea>
     <button onclick="setCutList()" style="margin-top:8px;width:100%;background:var(--gold);border:none;border-radius:6px;padding:12px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gdeep);cursor:pointer;">Set Cut List & Begin Draw</button>
+    <button onclick="shufflePlayers()" id="shuffle-btn" style="margin-top:8px;width:100%;background:rgba(168,200,224,.1);border:.5px solid rgba(168,200,224,.3);border-radius:6px;padding:12px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--sky);cursor:pointer;display:none;">🔀 Shuffle Player Order</button>
     <div id="cut-status" style="font-size:11px;color:var(--goldl);opacity:.6;font-style:italic;margin-top:6px;text-align:center;"></div>
   </div>
 
@@ -340,7 +341,9 @@ function setCutList() {
   status.textContent = `✓ ${drawPool.length} pros available · ${allPicks.size} picks excluded`;
 
   // Show draw UI
+  document.getElementById('shuffle-btn').style.display = 'block';
   document.getElementById('cut-setup').style.background = 'rgba(8,26,12,.5)';
+  setTimeout(autoPickNext, 400);
   document.getElementById('cut-setup').style.borderColor = 'rgba(201,168,76,.1)';
   document.getElementById('cut-status').style.color = 'var(--goldl)';
   document.getElementById('draw-stage').style.display = 'flex';
@@ -371,6 +374,44 @@ async function loadData() {
   renderQueue();
   renderCompleted();
   updateProgress();
+}
+
+function autoPickNext() {
+  const draws = data.mastersDraws || {};
+  const remaining = (data.players || []).filter(p => !(draws[p.id] && draws[p.id].length === 2));
+  if (!remaining.length) return;
+
+  // Pick a random player from remaining
+  const next = remaining[Math.floor(Math.random() * remaining.length)];
+
+  // Highlight with a brief delay so the UI settles
+  setTimeout(() => {
+    const el = document.getElementById('qp-' + next.id);
+    if (el) {
+      // Flash animation
+      el.style.outline = '2px solid var(--gold)';
+      el.style.background = 'rgba(201,168,76,.15)';
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    selectedPlayer = next;
+    const btn = document.getElementById('draw-btn');
+    btn.disabled = false;
+    btn.textContent = `🎴 Draw for ${next.name}`;
+    document.getElementById('stage-idle').querySelector('.si-txt').innerHTML = `<strong style="color:var(--goldl);">${next.name}</strong><br>is up next`;
+  }, 600);
+}
+
+function shufflePlayers() {
+  if (!data.players || !data.players.length) return;
+  // Fisher-Yates shuffle
+  const arr = [...data.players];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  data.players = arr;
+  renderQueue();
+  showToast('Player order shuffled 🔀');
 }
 
 function buildPool() {
@@ -551,6 +592,9 @@ async function confirmDraw() {
   renderQueue();
   renderCompleted();
   updateProgress();
+
+  // Auto-pick next undrawn player randomly
+  autoPickNext();
 }
 
 async function saveData() {
