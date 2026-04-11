@@ -221,8 +221,16 @@ html,body{height:100%;background:var(--gdark);color:var(--cream);font-family:'EB
     </div>
   </div>
 
+  <!-- CUT LIST SETUP -->
+  <div id="cut-setup" style="margin:12px 16px;background:rgba(8,26,12,.9);border:.5px solid rgba(201,168,76,.25);border-radius:10px;padding:16px;">
+    <div style="font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-bottom:8px;">Step 1 · Paste Cut Survivors</div>
+    <textarea id="cut-input" placeholder="McIlroy, Burns, Reed, Lowry..." style="width:100%;background:rgba(255,255,255,.05);border:.5px solid rgba(201,168,76,.2);border-radius:6px;padding:10px 12px;font-family:'EB Garamond',serif;font-size:13px;color:var(--cream);resize:none;height:80px;outline:none;"></textarea>
+    <button onclick="setCutList()" style="margin-top:8px;width:100%;background:var(--gold);border:none;border-radius:6px;padding:12px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gdeep);cursor:pointer;">Set Cut List & Begin Draw</button>
+    <div id="cut-status" style="font-size:11px;color:var(--goldl);opacity:.6;font-style:italic;margin-top:6px;text-align:center;"></div>
+  </div>
+
   <!-- DRAW STAGE -->
-  <div class="draw-stage" id="draw-stage">
+  <div class="draw-stage" id="draw-stage" style="display:none;">
     <div class="stage-idle" id="stage-idle">
       <div class="si-icon">⛳</div>
       <div class="si-txt">Select a player below<br>to begin their draw</div>
@@ -237,10 +245,10 @@ html,body{height:100%;background:var(--gdark);color:var(--cream);font-family:'EB
   </div>
 
   <!-- DRAW BUTTON -->
-  <button class="draw-btn" id="draw-btn" onclick="startDraw()" disabled>Select a player to draw</button>
+  <button class="draw-btn" id="draw-btn" onclick="startDraw()" disabled style="display:none;">Select a player to draw</button>
 
   <!-- PLAYER QUEUE -->
-  <div class="queue-section">
+  <div class="queue-section" id="queue-section" style="display:none;">
     <div class="qs-label">Players — tap to select</div>
     <div class="queue-grid" id="player-queue"></div>
   </div>
@@ -275,6 +283,52 @@ let currentDrawn = [null, null];
 let flipped = [false, false];
 let drawPool = [];
 let drawnPros = new Set();
+
+function setCutList() {
+  const raw = document.getElementById('cut-input').value.trim();
+  if (!raw) { alert('Please paste the cut survivors list first'); return; }
+
+  // Parse last names from the list
+  const names = raw.split(',').map(s => s.trim().toLowerCase().replace(/[^a-z]/g,''));
+  
+  // Filter drawPool to only include pros whose last name is in the cut list
+  // Normalize special chars for matching
+  const normName = s => s.toLowerCase()
+    .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e')
+    .replace(/[ìíîï]/g,'i').replace(/[òóôõö]/g,'o')
+    .replace(/[ùúûü]/g,'u').replace(/[ñ]/g,'n')
+    .replace(/[^a-z]/g,'');
+
+  // Build cut set from pasted names
+  const cutSet = new Set(names.map(n => normName(n)));
+
+  // Filter picks to only cut survivors
+  const allPicks = Object.values(data.mastersPicks || {}).filter(Boolean);
+  const uniquePicks = [...new Set(allPicks)];
+  
+  drawPool = uniquePicks.filter(pro => {
+    // pro format "S. McIlroy" — extract last name
+    const parts = pro.trim().split(' ');
+    const lastName = normName(parts[parts.length - 1]);
+    return cutSet.has(lastName) && !drawnPros.has(pro);
+  });
+
+  // Save cut list to data for reference
+  data.cutList = names;
+
+  const status = document.getElementById('cut-status');
+  status.textContent = `✓ ${drawPool.length} pros in draw pool from ${cutSet.size} cut survivors`;
+
+  // Show draw UI
+  document.getElementById('cut-setup').style.background = 'rgba(8,26,12,.5)';
+  document.getElementById('cut-setup').style.borderColor = 'rgba(201,168,76,.1)';
+  document.getElementById('cut-status').style.color = 'var(--goldl)';
+  document.getElementById('draw-stage').style.display = 'flex';
+  document.getElementById('draw-btn').style.display = 'block';
+  document.getElementById('queue-section').style.display = 'block';
+  const compSec = document.getElementById('completed-section');
+  if (compSec) compSec.style.display = 'block';
+}
 
 function checkPw() {
   const val = document.getElementById('pw-inp').value;
