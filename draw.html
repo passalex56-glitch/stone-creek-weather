@@ -376,6 +376,57 @@ async function loadData() {
   updateProgress();
 }
 
+async function redrawSlot(playerId, slotIndex) {
+  if (!confirm('Redo this draw slot? The current pro will be replaced with a new random draw.')) return;
+
+  const p = (data.players || []).find(pl => pl.id === playerId);
+  if (!p) return;
+
+  const draws = data.mastersDraws || {};
+  const picks = data.mastersPicks || {};
+  const myPick = picks[playerId] || '';
+  const currentDraws = [...(draws[playerId] || [])];
+
+  // Remove the pro being replaced from drawnPros so it goes back in the pool
+  const oldPro = currentDraws[slotIndex];
+  drawnPros.delete(oldPro);
+
+  // Also remove the other draw slot from available pool
+  const otherSlot = slotIndex === 0 ? currentDraws[1] : currentDraws[0];
+
+  // Find available pros — pool minus all drawn minus my pick minus other slot
+  const available = drawPool.filter(pro =>
+    pro !== myPick &&
+    pro !== otherSlot &&
+    !drawnPros.has(pro)
+  );
+
+  // Also check against all other players' draws
+  const allOtherDrawn = new Set();
+  Object.entries(draws).forEach(([pid, d]) => {
+    if (pid !== playerId) d.forEach(pr => allOtherDrawn.add(pr));
+  });
+  const finalPool = available.filter(pro => !allOtherDrawn.has(pro));
+
+  if (!finalPool.length) {
+    alert('No valid pros left in the pool for a redo. Check cut list.');
+    drawnPros.add(oldPro); // put it back
+    return;
+  }
+
+  // Pick random from pool
+  const newPro = finalPool[Math.floor(Math.random() * finalPool.length)];
+  currentDraws[slotIndex] = newPro;
+  drawnPros.add(newPro);
+
+  data.mastersDraws[playerId] = currentDraws;
+  await saveData();
+
+  showToast(`${p.name} · slot ${slotIndex+1} redrawn → ${newPro}`);
+  renderCompleted();
+  buildPool();
+}
+
 function autoPickNext() {
   const draws = data.mastersDraws || {};
   const remaining = (data.players || []).filter(p => !(draws[p.id] && draws[p.id].length === 2));
@@ -451,12 +502,18 @@ function renderCompleted() {
   document.getElementById('completed-list').innerHTML = completed.map(p => {
     const d = draws[p.id];
     const pick = picks[p.id] || '';
-    return `<div class="comp-row">
-      <div class="cr-name">${p.name}</div>
+    return `<div class="comp-row" style="flex-direction:column;gap:6px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="cr-name">${p.name}</div>
+      </div>
       <div class="cr-pros">
         <div class="cr-pro">Pick: ${pick}</div>
-        <div class="cr-pro">${d[0]}</div>
-        <div class="cr-pro">${d[1]}</div>
+        <div class="cr-pro" style="display:flex;align-items:center;gap:6px;">
+          ${d[0]} <button onclick="redrawSlot('${p.id}',0)" style="background:rgba(224,80,80,.15);border:.5px solid rgba(224,80,80,.3);border-radius:10px;padding:1px 7px;font-size:9px;color:var(--bad);cursor:pointer;font-family:'Oswald',sans-serif;letter-spacing:.05em;">redo</button>
+        </div>
+        <div class="cr-pro" style="display:flex;align-items:center;gap:6px;">
+          ${d[1]} <button onclick="redrawSlot('${p.id}',1)" style="background:rgba(224,80,80,.15);border:.5px solid rgba(224,80,80,.3);border-radius:10px;padding:1px 7px;font-size:9px;color:var(--bad);cursor:pointer;font-family:'Oswald',sans-serif;letter-spacing:.05em;">redo</button>
+        </div>
       </div>
     </div>`;
   }).join('');
