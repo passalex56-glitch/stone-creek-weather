@@ -284,40 +284,60 @@ let flipped = [false, false];
 let drawPool = [];
 let drawnPros = new Set();
 
+const MASTERS_FIELD=[
+  'S. Scheffler','J. Rahm','R. McIlroy','X. Schauffele','T. Fleetwood',
+  'M. Fitzpatrick','C. Young','R. MacIntyre','R. Henley','L. Åberg',
+  'B. DeChambeau','H. Matsuyama','S. Kim','C. Morikawa','M. Lee',
+  'J. Knapp','J. Bridgeman','P. Cantlay','A. Bhatia','M. McNealy',
+  'S. Burns','V. Hovland','J.J. Spaun','N. Hojgaard','A. Noren',
+  'C. Gotterup','H. English','B. Griffin','S. Lowry','A. Scott',
+  'H. Hall','S. Straka','J. Rose','R. Gerard','J. Thomas',
+  'J. Day','C. Conners','J. Spieth','K. Kitayama','N. Taylor',
+  'P. Reed','K. Bradley','S. Stevens','R. Hojgaard','D. Berger',
+  'C. Jarvis','R. Fox','C. Ortiz','T. Hatton','M. Kim',
+  'M. McCarty','M. Penge','G. Woodland','A. Rai','K. Reitan',
+  'N. Echavarria','B. Harman','M. Greyserman','W. Clark','A. Novak',
+  'S. Valimaki','C. Smith','T. McKibbin','H. Li','B. Koepka',
+  'R. Neergaard-Petersen','S. Im','M. Brennan','M. Homa','J. Keefer',
+  'S. Garcia','D. Johnson','Z. Johnson','C. Schwartzel','B. Watson',
+  'A. Potgieter','D. Riley','B. Campbell','D. Willett','F. Couples',
+  'N. Kataoka','A. Cabrera','V. Singh','M. Weir','J. Olazabal',
+  'J. Herrington (a)','E. Fang (a)','B. Holtz (a)','F. Laopakdee (a)','M. Pulcini (a)','M. Howell (a)',
+];
+
+function normName(s){
+  return s.toLowerCase()
+    .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e')
+    .replace(/[ìíîï]/g,'i').replace(/[òóôõö]/g,'o')
+    .replace(/[ùúûü]/g,'u').replace(/[ñ]/g,'n')
+    .replace(/\s*\(a\)/i,'').replace(/[^a-z]/g,'');
+}
+
+function getLastName(abbr){
+  const parts = abbr.trim().split(' ');
+  return normName(parts[parts.length-1]);
+}
+
 function setCutList() {
   const raw = document.getElementById('cut-input').value.trim();
   if (!raw) { alert('Please paste the cut survivors list first'); return; }
 
-  // Parse last names from the list
-  const names = raw.split(',').map(s => s.trim().toLowerCase().replace(/[^a-z]/g,''));
-  
-  // Filter drawPool to only include pros whose last name is in the cut list
-  // Normalize special chars for matching
-  const normName = s => s.toLowerCase()
-    .replace(/[àáâãäå]/g,'a').replace(/[èéêë]/g,'e')
-    .replace(/[ìíîï]/g,'i').replace(/[òóôõö]/g,'o')
-    .replace(/[ùúûü]/g,'u').replace(/[ñ]/g,'n')
-    .replace(/[^a-z]/g,'');
+  // Build cut set from pasted last names
+  const cutSet = new Set(raw.split(',').map(s => normName(s.trim())));
 
-  // Build cut set from pasted names
-  const cutSet = new Set(names.map(n => normName(n)));
+  // Get all picks — excluded from draw pool entirely
+  const allPicks = new Set(Object.values(data.mastersPicks || {}).filter(Boolean));
+  const pickedLastNames = new Set([...allPicks].map(p => getLastName(p)));
 
-  // Filter picks to only cut survivors
-  const allPicks = Object.values(data.mastersPicks || {}).filter(Boolean);
-  const uniquePicks = [...new Set(allPicks)];
-  
-  drawPool = uniquePicks.filter(pro => {
-    // pro format "S. McIlroy" — extract last name
-    const parts = pro.trim().split(' ');
-    const lastName = normName(parts[parts.length - 1]);
-    return cutSet.has(lastName) && !drawnPros.has(pro);
+  // Pool = Masters field filtered by: made cut + not picked + not already drawn
+  drawPool = MASTERS_FIELD.filter(pro => {
+    const ln = getLastName(pro);
+    return cutSet.has(ln) && !pickedLastNames.has(ln) && !drawnPros.has(pro);
   });
 
-  // Save cut list to data for reference
-  data.cutList = names;
-
+  data.cutList = [...cutSet];
   const status = document.getElementById('cut-status');
-  status.textContent = `✓ ${drawPool.length} pros in draw pool from ${cutSet.size} cut survivors`;
+  status.textContent = `✓ ${drawPool.length} pros available · ${allPicks.size} picks excluded`;
 
   // Show draw UI
   document.getElementById('cut-setup').style.background = 'rgba(8,26,12,.5)';
@@ -354,20 +374,10 @@ async function loadData() {
 }
 
 function buildPool() {
-  // Build draw pool from mastersPicks — picks are allowed to overlap but draws must be unique
-  const picks = data.mastersPicks || {};
-  const existingDraws = data.mastersDraws || {};
-
-  // Add all already drawn pros to drawnPros set
+  // Just track already drawn pros — actual pool is built when cut list is set
   drawnPros = new Set();
-  Object.values(existingDraws).forEach(d => d.forEach(p => drawnPros.add(p)));
-
-  // Pool = all picks minus already drawn pros
-  const allPicks = Object.values(picks).filter(Boolean);
-  const uniquePicks = [...new Set(allPicks)];
-
-  // Full pool starts as all picks
-  drawPool = uniquePicks.filter(p => !drawnPros.has(p));
+  Object.values(data.mastersDraws || {}).forEach(d => d.forEach(p => drawnPros.add(p)));
+  drawPool = [];
 }
 
 function renderQueue() {
