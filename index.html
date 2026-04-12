@@ -231,7 +231,8 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .mt-player-name{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:#fff !important;font-weight:700;}
 .mt-section-wrap{padding:0 48px 28px;}
 .mt-header{background:var(--gold);display:grid;grid-template-columns:1fr 80px 120px 120px 120px 90px;padding:8px 16px;gap:4px;}
-.mt-row{display:grid;grid-template-columns:1fr 80px 120px 120px 120px 90px;padding:10px 16px;gap:4px;border-bottom:.5px solid rgba(201,168,76,.07);align-items:center;background:rgba(10,30,15,.85);}
+.mt-row{display:flex;flex-direction:column;padding:12px 16px;border-bottom:.5px solid rgba(201,168,76,.07);background:rgba(10,30,15,.85);transition:background .15s;}
+.mt-row:active{background:rgba(201,168,76,.06);}
 .mt-row.leader{background:rgba(201,168,76,.08);border-left:3px solid var(--gold);}
 .mt-pro-label{font-size:10px;color:var(--creamd);opacity:.55;display:block;font-family:'EB Garamond',serif;font-style:italic;}
 .mt-pro-score{font-size:16px;font-weight:500;display:block;}
@@ -708,14 +709,14 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
       <div class="champ-card champ-current">
         <div class="champ-jacket-top"></div>
         <div class="champ-photo-wrap">
-          <img src="trophy_2026.jpeg" alt="2026 Trophy" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;">
+          <img src="champ_2026.jpeg" alt="Trevor Poore 2026 Champion" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
         </div>
         <div class="champ-body">
           <div class="champ-year" style="color:var(--goldl);">2026</div>
-          <div class="champ-name" style="font-style:italic;opacity:.6;">To be crowned</div>
-          <div class="champ-detail">April 11 · The Masters</div>
+          <div class="champ-name">Trevor Poore</div>
+          <div class="champ-detail">April 11 · Apple Creek Golf Club</div>
         </div>
-        <div class="champ-trophy" style="opacity:.35;">🏆</div>
+        <div class="champ-trophy">🏆</div>
       </div>
     </div>
   </div>
@@ -862,13 +863,9 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
     </div>
     <div style="background:rgba(8,24,12,.92);border:.5px solid rgba(201,168,76,.2);border-radius:6px;overflow:hidden;">
       <!-- Header -->
-      <div class="mt-header">
+      <div class="mt-header" style="background:var(--gold);display:flex;justify-content:space-between;padding:8px 16px;">
         <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);">Player</div>
-        <div class="mt-col-myscore" style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Score</div>
-        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Pick</div>
-        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Draw 1</div>
-        <div class="mt-col-draw2" style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Draw 2</div>
-        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);text-align:center;">Total</div>
+        <div style="font-family:'Playfair Display',serif;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gdeep);">Total · tap to expand</div>
       </div>
       <div id="mt-body"></div>
     </div>
@@ -1394,9 +1391,11 @@ function renderMastersTeams(d){
 
   // Build team rows with totals
   const teams=players.map(p=>{
-    let gross=0,played=0;
-    (p.scores||[]).forEach((s,i)=>{if(s&&s>0){gross+=s;played++;}});
-    const myScore=played===18?gross:null;
+    const PAR_WX=[5,4,3,4,3,5,4,4,4,3,4,3,4,4,4,3,4,5];
+    let gvp=0,played=0;
+    (p.scores||[]).forEach((s,i)=>{if(s&&s>0){gvp+=s-PAR_WX[i];played++;}});
+    const hcp=parseInt(p.hcp)||0;
+    const myScore=played===18?gvp-hcp:null;
     const pick=picks[p.id]||'';
     const d2=(draws[p.id]||[]);
     const pro1=pick,pro2=d2[0]||'',pro3=d2[1]||'';
@@ -1415,35 +1414,37 @@ function renderMastersTeams(d){
     return 0;
   });
 
-  const rowStyle='display:grid;grid-template-columns:1fr 80px 120px 120px 120px 90px;padding:10px 16px;gap:4px;border-bottom:.5px solid rgba(201,168,76,.07);align-items:center;background:rgba(10,30,15,.85);';
-  const nameStyle='font-family:"Playfair Display",serif;font-size:14px;font-style:italic;color:#ffffff!important;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.8);';
-  const cellStyle='text-align:center;font-family:"Playfair Display",serif;font-size:13px;color:var(--cream);';
-  const proStyle='font-size:10px;color:var(--creamd);opacity:.55;display:block;font-family:"EB Garamond",serif;font-style:italic;';
-  const scoreStyle='font-size:16px;font-weight:500;display:block;';
+  const fmtVsPar=(s)=>s===0?'E':s>0?'+'+s:String(s);
+
+  const proCell=(name,score)=>{
+    const vp=score!==null?fmtVsPar(score):null;
+    const clr=score!==null?(score<0?'var(--az)':score>0?'var(--sky)':'var(--cream)'):'rgba(255,255,255,.25)';
+    return `<div style="text-align:center;flex:1;">
+      <span style="font-size:9px;color:var(--creamd);opacity:.5;display:block;font-family:'EB Garamond',serif;font-style:italic;margin-bottom:2px;">${name||'—'}</span>
+      <span style="font-size:16px;font-weight:600;color:${clr};">${vp||'TBD'}</span>
+    </div>`;
+  };
 
   let html='';
   teams.forEach((t,i)=>{
-    const isLeader=i===0&&t.total;
-    const rowBg=isLeader?'background:rgba(201,168,76,.08);border-left:3px solid var(--gold);':'';
-    const totalDisp=t.total?`<span style="font-family:'Playfair Display',serif;font-size:20px;font-weight:500;color:${isLeader?'var(--goldl)':'var(--cream)'};">${t.total}</span>`:'<span style="opacity:.35;font-style:italic;font-size:12px;">TBD</span>';
+    const isLeader=i===0&&t.total!==null;
+    const safeId='mt_'+t.name.replace(/[^a-z0-9]/gi,'_');
+    const totalClr=t.total!==null?(t.total<0?'var(--az)':t.total>0?'var(--sky)':'var(--cream)'):'rgba(255,255,255,.2)';
+    const totalTxt=t.total!==null?fmtVsPar(t.total):'—';
 
-    const myDisp=t.myScore
-      ?`<span style="${scoreStyle}">${t.myScore}</span><span style="${proStyle}">${t.played} holes</span>`
-      :`<span style="opacity:.35;font-size:12px;font-style:italic;">${t.played>0?t.played+' holes':'—'}</span>`;
-
-    const fmtVsPar=(s)=>s===0?'E':s>0?'+'+s:String(s);
-    const proCell=(name,score,hide=false)=>`<div style="text-align:center;" ${hide?'class="mt-col-draw2"':''}>
-      <span style="${proStyle}margin-bottom:2px;">${name||'—'}</span>
-      ${score!==null?`<span style="${scoreStyle}color:${score<0?'var(--az)':score>0?'var(--sky)':'var(--cream)'};">${fmtVsPar(score)}</span>`:`<span style="opacity:.35;font-size:12px;">TBD</span>`}
-    </div>`;
-
-    html+=`<div class="mt-row${isLeader?' leader':''}">
-      <div class="mt-player-name">${isLeader?'🏆 ':''}${t.name}</div>
-      <div class="mt-col-myscore" style="${cellStyle}">${myDisp}</div>
-      ${proCell(t.pick,t.s1)}
-      ${proCell(t.pro2,t.s2)}
-      ${proCell(t.pro3,t.s3,true)}
-      <div style="${cellStyle}">${totalDisp}</div>
+    html+=`<div class="mt-row${isLeader?' leader':''}" onclick="toggleMTRow('${safeId}')" style="cursor:pointer;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="mt-player-name">${isLeader?'🏆 ':''}${t.name}</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:${totalClr};">${totalTxt}</span>
+          <span id="mt-arrow-${safeId}" style="font-size:10px;color:var(--goldl);opacity:.4;transition:transform .2s;">▼</span>
+        </div>
+      </div>
+      <div id="mt-expand-${safeId}" style="display:none;flex-direction:row;gap:8px;padding-top:10px;border-top:.5px solid rgba(201,168,76,.12);margin-top:8px;">
+        ${proCell(t.pick,t.s1)}
+        ${proCell(t.pro2,t.s2)}
+        ${proCell(t.pro3,t.s3)}
+      </div>
     </div>`;
   });
 
@@ -1453,6 +1454,15 @@ function renderMastersTeams(d){
     const t=new Date(d.lastUpdated);
     document.getElementById('mt-updated').textContent=`Last updated ${t.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})} · Refreshes every 30s`;
   }
+}
+
+function toggleMTRow(id){
+  const el=document.getElementById('mt-expand-'+id);
+  const arrow=document.getElementById('mt-arrow-'+id);
+  if(!el)return;
+  const open=el.style.display==='flex';
+  el.style.display=open?'none':'flex';
+  if(arrow)arrow.style.transform=open?'':'rotate(180deg)';
 }
 
 // Load Masters Teams on page load and refresh every 30s
