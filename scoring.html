@@ -445,7 +445,7 @@ function renderTeams(){ // v3
     const hasS1=t.s1!==null;
     const hasS2=t.s2!==null;
     const hasS3=t.s3!==null;
-    const totalDisp=t.proTotal!==0?fvp(t.teamTotal):'—';
+    const totalDisp=(hasS1||hasS2||hasS3)?fvp(t.teamTotal):'—';
 
     h+=`<tr>
       <td class="player-td${isLeader?' ldr':''}">${t.name||'—'}</td>
