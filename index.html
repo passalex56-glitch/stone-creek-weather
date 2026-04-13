@@ -541,7 +541,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   <!-- CBS WEATHER BOX — first thing after photo -->
   <div style="padding:28px 24px 0;max-width:520px;margin:0 auto;">
     <div class="apr11-box">
-      <div class="apr11-header"><span class="a11-hl" id="cbs-header-left">Saturday, April 11 Forecast</span><span class="a11-hr" id="cbs-header-right">The Masters</span></div>
+      <div class="apr11-header"><span class="a11-hl" id="cbs-header-left">Daily Weather</span><span class="a11-hr" id="cbs-header-right">Apple Creek Golf Club</span></div>
       <div class="apr11-body">
         <div class="a11-date">Southern Illinois Masters · Makanda, Illinois</div>
         <div class="a11-loc">Apple Creek Golf Club · Makanda, IL</div>
@@ -1209,29 +1209,11 @@ function render(data){
   const lu=document.getElementById('last-updated');
   if(lu){const t=new Date();let h=t.getHours(),m=t.getMinutes(),ap=h>=12?'PM':'AM';h=h%12||12;lu.textContent=`Updated ${h}:${m<10?'0':''}${m} ${ap}`;}
 
-  // Today widget
+  // Always show current conditions / today's daily forecast
   const ti=daily.time.indexOf(todayStr);
-  const ai=daily.time.indexOf(NEXT_EVENT_DATE);
-  const usingEventDate=ai>=0;
-  const di=usingEventDate?ai:ti;
-  if(!usingEventDate){
-    document.getElementById('cbs-header-left').textContent='Current Conditions';
-    document.getElementById('cbs-header-right').textContent='Live · Makanda IL';
-    document.getElementById('strip-date').textContent='Today · '+DS[now.getDay()]+', '+MS[now.getMonth()]+' '+now.getDate();
-    document.getElementById('strip-sub').textContent='Current conditions · Apple Creek Golf Club · Makanda, IL';
-    document.getElementById('strip-badge').textContent='⛳ Next event: April 10, 2027';
-    document.getElementById('strip-badge').style.background='rgba(168,200,224,.1)';
-    document.getElementById('strip-badge').style.borderColor='rgba(168,200,224,.3)';
-    document.getElementById('strip-badge').style.color='var(--sky)';
-  } else {
-    document.getElementById('cbs-header-left').textContent='Saturday, April 10 Forecast';
-    document.getElementById('cbs-header-right').textContent='Southern Illinois Masters';
-    document.getElementById('strip-date').textContent='Saturday, April 10, 2027';
-    document.getElementById('strip-sub').textContent='All weather data below is for April 10 · Makanda, IL';
-    document.getElementById('strip-badge').textContent='⛳ Southern Illinois Masters · April 10';
-  }
+  const di=ti;
   const srcHi=di>=0?Math.round(daily.temperature_2m_max[di]):Math.round(cur.temperature_2m);
-  const srcCur=usingEventDate?srcHi:Math.round(cur.temperature_2m);
+  const srcCur=Math.round(cur.temperature_2m);
   const srcLo=di>=0?Math.round(daily.temperature_2m_min[di]):Math.round(cur.apparent_temperature);
   const srcPop=di>=0?daily.precipitation_probability_max[di]:(ti>=0?daily.precipitation_probability_max[ti]:0);
   const srcCode=di>=0?daily.weathercode[di]:cur.weathercode;
@@ -1244,7 +1226,7 @@ function render(data){
   document.getElementById('a11-pop').textContent=srcPop;
   document.getElementById('a11-wind').textContent=srcWind;
   document.getElementById('a11-uv').textContent=srcUV;
-  document.getElementById('a11-cond').textContent=(WMO[srcCode]||'Fair')+(usingEventDate?'':' · Live now');
+  document.getElementById('a11-cond').textContent=(WMO[srcCode]||'Fair')+' · Live now';
   const score=golfScore(srcHi,srcWind,srcPop,srcCode,srcUV);
   const[word,reason]=golfWord(score);
   const clr=scoreColor(score);
@@ -1252,18 +1234,18 @@ function render(data){
   prf.style.stroke=clr;setTimeout(()=>{prf.style.strokeDashoffset=276.5*(1-score/100);},200);
   document.getElementById('play-num').textContent=score;
   const pw=document.getElementById('play-word');pw.textContent=word;pw.style.color=clr;
-  document.getElementById('play-reason').textContent=usingEventDate?reason:reason+' (today)';
+  document.getElementById('play-reason').textContent=reason+' (today)';
   document.getElementById('play-box').style.display='block';
   const b11=document.getElementById('a11-play-badge');
   b11.style.display='inline-flex';b11.style.color=clr;
   b11.style.borderColor=score>=70?'rgba(92,184,92,.3)':score>=45?'rgba(232,160,48,.3)':'rgba(224,80,80,.3)';
   b11.style.background=score>=70?'rgba(92,184,92,.1)':score>=45?'rgba(232,160,48,.1)':'rgba(224,80,80,.1)';
   b11.textContent=`⛳ ${score}/100 — ${word}`;
-  const targetDate=usingEventDate?NEXT_EVENT_DATE:todayStr;
+  const targetDate=todayStr;
   const noonIdx=hourly.time.findIndex(t=>t===targetDate+'T12:00');
   const windDir=noonIdx>=0?hourly.wind_direction_10m[noonIdx]:cur.wind_direction_10m;
   document.getElementById('wind-speed').textContent=srcWind;
-  document.getElementById('wind-dir').textContent=degToDir(windDir)+' wind'+(usingEventDate?'':' · live');
+  document.getElementById('wind-dir').textContent=degToDir(windDir)+' wind · live';
   document.getElementById('wind-gust').textContent=`Gusts to ${srcGust} mph`;
   document.getElementById('compass-needle').setAttribute('transform',`rotate(${windDir},42,42)`);
   const wSpd=srcWind;
@@ -1324,7 +1306,7 @@ function render(data){
     const hs=golfScore(ht,hw,hpop,hcode,huv);
     if(hs>bestScore){bestScore=hs;bestHrLabel=`${hHour%12||12}${hHour<12?'AM':'PM'}–${(hHour+2)%12||12}${(hHour+2)<12?'AM':'PM'}`;}
     const uvClr=huv<=2?'var(--good)':huv<=5?'var(--goldl)':huv<=7?'var(--warn)':'var(--bad)';
-    const isPast=!usingEventDate&&hHour<nowHour;
+    const isPast=hHour<nowHour;
     let cls='hr-card';
     if(hpop>=60||hcode>=80)cls+=' bad-hr';
     else if(hpop>=35||hcode>=60)cls+=' warn-hr';
@@ -1332,9 +1314,9 @@ function render(data){
     hourlyHTML.push(`<div class="${cls}" style="${isPast?'opacity:.35':''}"><div class="hr-time">${hHour%12||12}${hHour<12?'AM':'PM'}</div><span class="hr-icon">${ICON[hcode]||'🌡'}</span><div class="hr-temp">${ht}°</div><div style="font-size:9px;color:var(--azl);opacity:.8;margin-top:1px;">feels ${Math.round(hourly.apparent_temperature[i])}°</div><div class="hr-wind">${hw}mph ${hdir}</div><div class="hr-pop">${hpop}% 💧</div><div class="hr-uv" style="color:${uvClr}">UV ${huv}</div></div>`);
   }
   const hrLabel=document.querySelector('.hourly-section .sec-txt');
-  if(hrLabel)hrLabel.textContent=usingEventDate?'Hourly Forecast · April 10, 2027 · 6 AM – 8 PM':'Hourly Forecast · Today · 6 AM – 8 PM';
+  if(hrLabel)hrLabel.textContent='Hourly Forecast · Today · 6 AM – 8 PM';
   document.getElementById('hourly-scroll').innerHTML=hourlyHTML.length?hourlyHTML.join(''):'<div style="color:var(--creamd);opacity:.35;font-style:italic;padding:16px 0;">No hourly data available</div>';
-  if(bestHrLabel){document.getElementById('bw-label').textContent=usingEventDate?'⛳ Best Golf Window · Apr 10, 2027':'⛳ Best Golf Window · Today';document.getElementById('bw-time').textContent=bestHrLabel;document.getElementById('bw-sub').textContent=`Score ${bestScore}/100 today`;document.getElementById('best-window-wrap').style.display='block';}
+  if(bestHrLabel){document.getElementById('bw-label').textContent='⛳ Best Golf Window · Today';document.getElementById('bw-time').textContent=bestHrLabel;document.getElementById('bw-sub').textContent=`Score ${bestScore}/100 today`;document.getElementById('best-window-wrap').style.display='block';}
   document.getElementById('sb-body').innerHTML=daily.time.map((date,i)=>{
     const d2=new Date(date+'T12:00:00'),isToday=date===todayStr,isNextEv=date===NEXT_EVENT_DATE,mday=isNextEvent(date);
     const code=daily.weathercode[i],hi=Math.round(daily.temperature_2m_max[i]),lo=Math.round(daily.temperature_2m_min[i]),pop=daily.precipitation_probability_max[i];
