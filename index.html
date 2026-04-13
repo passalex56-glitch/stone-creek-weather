@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stone Creek Dr · Masters Weekend · April 11</title>
+<title>Southern Illinois Masters · Apple Creek Golf Club</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
@@ -95,7 +95,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .a11-strip-date{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--goldl);}
 .a11-strip-sub{font-size:12px;color:var(--creamd);opacity:.5;}
 .a11-strip-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(212,84,126,.1);border:.5px solid rgba(212,84,126,.3);border-radius:20px;padding:4px 14px;font-family:'Playfair Display',serif;font-size:10px;font-style:italic;color:var(--azl);margin-left:auto;}
-.countdown-section{padding:24px 48px 20px;border-bottom:.5px solid rgba(201,168,76,.08);}
+.countdown-section{display:none;}
 .hourly-section{padding:24px 48px 20px;}
 .wind-metrics{padding:0 48px 24px;display:flex;gap:16px;flex-wrap:wrap;}
 .extra-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 48px 28px;}
@@ -224,7 +224,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 .champ-card::before{content:'';position:absolute;top:6px;left:0;width:3px;height:calc(100% - 6px);background:linear-gradient(to bottom,var(--gold),var(--gmid));opacity:.6;}
 
 /* LIGHTNING */
-.lightning-banner{background:rgba(224,80,80,.1);border:.5px solid rgba(224,80,80,.35);padding:10px 48px;display:none;align-items:center;gap:12px;position:relative;z-index:10;}
+.lightning-banner{display:none !important;}
 .lb-text{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:#ffaaaa;}
 
 /* FOOTER */
@@ -413,7 +413,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   .asl{font-size:9px;}
   .asv{font-size:16px;}
   .a11-badge{font-size:11px;padding:5px 14px;}
-  .countdown-section{border-top:1px solid rgba(201,168,76,.18);padding:20px 14px 18px;}
+  .countdown-section{display:none !important;}
   .hourly-section{border-top:1px solid rgba(201,168,76,.12);padding:20px 14px 16px;}
   .wind-metrics{border-top:1px solid rgba(201,168,76,.12);padding:0 14px 18px;gap:12px;}
   .extra-row{border-top:1px solid rgba(201,168,76,.12);padding:16px 14px 18px;grid-template-columns:repeat(2,1fr);gap:10px;}
@@ -497,9 +497,9 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   <header class="bar">
     <div class="bar-left">
       <div style="display:flex;align-items:flex-end;gap:0;"><div class="fpole"></div><div class="ftri"></div></div>
-      <span class="bar-tag">Augusta National</span>
+      <span class="bar-tag">Southern Illinois Masters</span>
       <span style="color:rgba(201,168,76,.28);font-size:14px;">|</span>
-      <span class="bar-title">503 Stone Creek Dr · Makanda, IL · The Masters</span>
+      <span class="bar-title">Apple Creek Golf Club · Makanda, IL · Masters Weekend Tradition</span>
     </div>
     <div class="bar-right">
       <div style="text-align:right;">
@@ -507,23 +507,23 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
         <div class="bar-loc">Jackson County, Illinois</div>
       </div>
       <button class="snd-btn" id="snd-btn" onclick="toggleSound()">
-        <span id="snd-icon">♪</span><span id="snd-lbl">Play Augusta</span>
+        <span id="snd-icon">♪</span><span id="snd-lbl">Play Masters Theme</span>
       </button>
-      <a href="scoring.html" style="background:rgba(92,184,92,.15);border:.5px solid rgba(92,184,92,.45);border-radius:24px;padding:5px 16px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--good);text-decoration:none;letter-spacing:.07em;">⛳ Live Scoring</a>
+      <a href="scoring.html" style="background:rgba(92,184,92,.15);border:.5px solid rgba(92,184,92,.45);border-radius:24px;padding:5px 16px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--good);text-decoration:none;letter-spacing:.07em;">⛳ 2026 Results</a>
       <a href="draw.html" style="background:rgba(201,168,76,.12);border:.5px solid rgba(201,168,76,.4);border-radius:24px;padding:5px 16px;font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--goldl);text-decoration:none;letter-spacing:.07em;">🎴 The Draw</a>
     </div>
   </header>
 
   <div class="lightning-banner" id="lightning-banner">
     <span style="font-size:16px;">⚡</span>
-    <span class="lb-text">Storm risk detected for April 11 — monitor conditions before teeing off</span>
+    <span class="lb-text">Weather alerts are shown automatically when severe conditions are active.</span>
   </div>
 
   <main class="main">
     <div class="hero-section">
       <!-- Hole info top right -->
       <div class="hole-info">
-        <div class="hi-label" id="hi-label">Augusta National Golf Club</div>
+        <div class="hi-label" id="hi-label">Southern Illinois Masters · Apple Creek GC</div>
         <div class="hi-name" id="hi-name">Golden Bell</div>
         <div class="hi-stats" id="hi-stats">Par 3 · 155 yards</div>
       </div>
@@ -541,10 +541,10 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   <!-- CBS WEATHER BOX — first thing after photo -->
   <div style="padding:28px 24px 0;max-width:520px;margin:0 auto;">
     <div class="apr11-box">
-      <div class="apr11-header"><span class="a11-hl" id="cbs-header-left">Saturday, April 11 Forecast</span><span class="a11-hr" id="cbs-header-right">The Masters</span></div>
+      <div class="apr11-header"><span class="a11-hl" id="cbs-header-left">Daily Weather · Makanda</span><span class="a11-hr" id="cbs-header-right">Southern Illinois Masters</span></div>
       <div class="apr11-body">
-        <div class="a11-date">The Masters · Makanda, Illinois</div>
-        <div class="a11-loc">503 Stone Creek Dr · Tee time 9:00 AM CT</div>
+        <div class="a11-date">Southern Illinois Masters · Apple Creek Golf Club</div>
+        <div class="a11-loc">Defending Champion: Trevor Poore (2026) · Next Tournament: Saturday, April 10, 2027</div>
         <div class="a11-temp-row"><div class="a11-num" id="a11-hi">—</div><div class="a11-unit">°F</div></div>
         <div class="a11-cond" id="a11-cond">Loading…</div>
         <div class="a11-stats">
@@ -558,7 +558,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
       </div>
     </div>
     <div class="play-box" id="play-box" style="display:none;margin-top:16px;">
-      <div class="pb-title">Golf Playability · Apr 11</div>
+      <div class="pb-title">Golf Playability · Daily Outlook</div>
       <div style="display:flex;align-items:center;gap:14px;">
         <div class="play-ring">
           <svg viewBox="0 0 110 110"><circle class="prb" cx="55" cy="55" r="44"/><circle class="prf" id="prf" cx="55" cy="55" r="44" stroke-dasharray="276.5" stroke-dashoffset="276.5"/></svg>
@@ -569,12 +569,12 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
     </div>
   </div>
   <div class="apr11-strip">
-    <div><div class="a11-strip-date" id="strip-date">Saturday, April 11, 2026</div><div class="a11-strip-sub" id="strip-sub">All weather data below is for April 11 · Makanda, IL</div></div>
-    <div class="a11-strip-badge" id="strip-badge">⛳ The Masters · April 11</div>
+    <div><div class="a11-strip-date" id="strip-date">Southern Illinois Masters · Offseason</div><div class="a11-strip-sub" id="strip-sub">Defending Champion: Trevor Poore (2026) · Apple Creek Golf Club · Makanda, IL</div></div>
+    <div class="a11-strip-badge" id="strip-badge">⛳ Next Tournament · Saturday, April 10, 2027</div>
   </div>
 
   <div class="countdown-section">
-    <div class="cd-label">Countdown to First Tee · The Masters · 9:00 AM CT</div>
+    <div class="cd-label">Tournament Countdown</div>
     <div class="cd-inner">
       <div class="cd-timer">
         <div class="cd-block"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">Days</div></div>
@@ -597,8 +597,8 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   </div>
 
   <div class="hourly-section">
-    <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Hourly Forecast · April 11 · 6 AM – 8 PM</span><div class="sec-rule"></div></div>
-    <div class="hourly-scroll" id="hourly-scroll"><div style="color:var(--creamd);opacity:.35;font-style:italic;padding:20px 0;">Loading hourly…</div></div>
+    <div class="sec-hd"><div style="display:flex;align-items:flex-end;gap:0;"><div class="sfp"></div><div class="sft"></div></div><span class="sec-txt">Daily Forecast · 10-Day Outlook</span><div class="sec-rule"></div></div>
+    <div class="hourly-scroll" id="hourly-scroll"><div style="color:var(--creamd);opacity:.35;font-style:italic;padding:20px 0;">Loading daily forecast…</div></div>
   </div>
 
   <div class="wind-metrics">
@@ -954,7 +954,7 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
 
   <!-- LEADERBOARD -->
   <div class="lb-section">
-    <div class="sec-hd"><div style="width:5px;height:5px;border-radius:50%;background:var(--az);flex-shrink:0;"></div><span class="sec-txt">10-Day Leaderboard · Gold = Apr 11 · Blue = Today</span><div class="sec-rule"></div></div>
+    <div class="sec-hd"><div style="width:5px;height:5px;border-radius:50%;background:var(--az);flex-shrink:0;"></div><span class="sec-txt">10-Day Conditions Leaderboard · Gold = Next Tournament Window · Blue = Today</span><div class="sec-rule"></div></div>
     <div class="scoreboard">
       <div class="sb-head"><div class="sb-hc">Date</div><div class="sb-hc" style="text-align:left;">Day</div><div class="sb-hc">High</div><div class="sb-hc">Low</div><div class="sb-hc">Rain</div><div class="sb-hc">Conditions</div></div>
       <div id="sb-body"></div>
@@ -962,13 +962,13 @@ html,body{width:100%;min-height:100vh;background:var(--gdeep);font-family:'EB Ga
   </div>
 
   <section class="fc-section">
-    <div class="fc-head">10-Day Forecast · Gold = April 11</div>
+    <div class="fc-head">10-Day Forecast · Highlight = Southern Illinois Masters Weekend Window</div>
     <div class="fc-grid" id="fc-grid"></div>
   </section>
 </div><!-- end content -->
 
 <footer class="bfoot">
-  <div class="bfoot-l">All forecast data shows April 11 · Open-Meteo · Makanda IL · Augusta National hole photos</div>
+  <div class="bfoot-l">Forecast data powered by WeatherAPI · Makanda IL · Masters-inspired hole photography</div>
   <div class="bfoot-r"><div class="ldot"></div><div class="llbl">Live</div></div>
 </footer>
 
@@ -1014,7 +1014,7 @@ function buildSlideshow(){
 }
 function updateHoleInfo(i){
   const h=HOLES[i];
-  document.getElementById('hi-label').textContent=`Hole ${h.num} · Augusta National Golf Club`;
+  document.getElementById('hi-label').textContent=`Hole ${h.num} · Southern Illinois Masters Visuals`;
   document.getElementById('hi-name').textContent=h.name;
   document.getElementById('hi-stats').textContent=`Par ${h.par}  ·  ${h.yards} yards`;
 }
@@ -1056,16 +1056,17 @@ function golfWord(s){if(s>=85)return['Perfect','Ideal conditions — go play'];i
 function scoreColor(s){return s>=70?'var(--good)':s>=45?'var(--warn)':'var(--bad)';}
 function carryEffect(temp,hum){const t=(((temp-70)/10)*1).toFixed(1),h=((hum-50)/100*0.5).toFixed(1),alt=(400/300).toFixed(1);const total=(parseFloat(t)+parseFloat(h)+parseFloat(alt)).toFixed(1);return{total:(total>=0?'+':'')+total+'%',tip:`Alt +${alt}% · Temp ${t>=0?'+':''}${t}%`};}
 
-const TEE=new Date('2026-04-11T09:00:00-05:00');
+const NEXT_TOURNAMENT='2027-04-10';
+const TEE=new Date('2027-04-10T09:00:00-05:00');
 function updateCountdown(){
   const diff=TEE-new Date();
-  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');document.getElementById('cd-msg').textContent="⛳ It's tee time — The Masters is on!";return;}
+  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');document.getElementById('cd-msg').textContent='';return;}
   const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
   document.getElementById('cd-d').textContent=String(d).padStart(2,'0');
   document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
   document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
   document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
-  document.getElementById('cd-msg').textContent=d===0&&h<3?'⛳ Almost tee time!':d===0?'⛳ Game day!':'';
+  document.getElementById('cd-msg').textContent='';
 }
 setInterval(updateCountdown,1000);updateCountdown();
 
@@ -1210,25 +1211,13 @@ function render(data){
 
   // Today widget
   const ti=daily.time.indexOf(todayStr);
-  const ai=daily.time.indexOf(APR11);
-  const usingApr11=ai>=0;
-  const di=usingApr11?ai:ti;
-  if(!usingApr11){
-    document.getElementById('cbs-header-left').textContent='Current Conditions';
-    document.getElementById('cbs-header-right').textContent='Live · Makanda IL';
-    document.getElementById('strip-date').textContent='Today · '+DS[now.getDay()]+', '+MS[now.getMonth()]+' '+now.getDate();
-    document.getElementById('strip-sub').textContent='Showing live conditions · April 11 forecast available within 10 days';
-    document.getElementById('strip-badge').textContent='⛳ Apr 11 forecast coming soon';
-    document.getElementById('strip-badge').style.background='rgba(168,200,224,.1)';
-    document.getElementById('strip-badge').style.borderColor='rgba(168,200,224,.3)';
-    document.getElementById('strip-badge').style.color='var(--sky)';
-  } else {
-    document.getElementById('cbs-header-left').textContent='Saturday, April 11 Forecast';
-    document.getElementById('cbs-header-right').textContent='The Masters';
-    document.getElementById('strip-date').textContent='Saturday, April 11, 2026';
-    document.getElementById('strip-sub').textContent='All weather data below is for April 11 · Makanda, IL';
-    document.getElementById('strip-badge').textContent='⛳ The Masters · April 11';
-  }
+  const usingApr11=false;
+  const di=ti;
+  document.getElementById('cbs-header-left').textContent='Daily Weather · Makanda';
+  document.getElementById('cbs-header-right').textContent='Southern Illinois Masters';
+  document.getElementById('strip-date').textContent='Southern Illinois Masters · Offseason';
+  document.getElementById('strip-sub').textContent='Defending Champion: Trevor Poore (2026) · Apple Creek Golf Club';
+  document.getElementById('strip-badge').textContent='⛳ Next Tournament · Saturday, April 10, 2027';
   const srcHi=di>=0?Math.round(daily.temperature_2m_max[di]):Math.round(cur.temperature_2m);
   const srcCur=usingApr11?srcHi:Math.round(cur.temperature_2m);
   const srcLo=di>=0?Math.round(daily.temperature_2m_min[di]):Math.round(cur.apparent_temperature);
@@ -1243,8 +1232,8 @@ function render(data){
   document.getElementById('a11-pop').textContent=srcPop;
   document.getElementById('a11-wind').textContent=srcWind;
   document.getElementById('a11-uv').textContent=srcUV;
-  document.getElementById('a11-cond').textContent=(WMO[srcCode]||'Fair')+(usingApr11?'':' · Live now');
-  if(srcCode>=95)document.getElementById('lightning-banner').style.display='flex';
+  document.getElementById('a11-cond').textContent=(WMO[srcCode]||'Fair')+' · Daily outlook';
+  document.getElementById('lightning-banner').style.display='none';
   const score=golfScore(srcHi,srcWind,srcPop,srcCode,srcUV);
   const[word,reason]=golfWord(score);
   const clr=scoreColor(score);
@@ -1252,7 +1241,7 @@ function render(data){
   prf.style.stroke=clr;setTimeout(()=>{prf.style.strokeDashoffset=276.5*(1-score/100);},200);
   document.getElementById('play-num').textContent=score;
   const pw=document.getElementById('play-word');pw.textContent=word;pw.style.color=clr;
-  document.getElementById('play-reason').textContent=usingApr11?reason:reason+' (today)';
+  document.getElementById('play-reason').textContent=reason+' (today)';
   document.getElementById('play-box').style.display='block';
   const b11=document.getElementById('a11-play-badge');
   b11.style.display='inline-flex';b11.style.color=clr;
@@ -1263,7 +1252,7 @@ function render(data){
   const noonIdx=hourly.time.findIndex(t=>t===targetDate+'T12:00');
   const windDir=noonIdx>=0?hourly.wind_direction_10m[noonIdx]:cur.wind_direction_10m;
   document.getElementById('wind-speed').textContent=srcWind;
-  document.getElementById('wind-dir').textContent=degToDir(windDir)+' wind'+(usingApr11?'':' · live');
+  document.getElementById('wind-dir').textContent=degToDir(windDir)+' wind';
   document.getElementById('wind-gust').textContent=`Gusts to ${srcGust} mph`;
   document.getElementById('compass-needle').setAttribute('transform',`rotate(${windDir},42,42)`);
   const wSpd=srcWind;
@@ -1312,29 +1301,23 @@ function render(data){
   const flEl=document.getElementById('feels-hi-val');flEl.textContent=peakFeels;
   const flDiff=peakFeels-srcHi;
   document.getElementById('feels-hi-tip').textContent=flDiff>3?`+${flDiff}° warmer than air temp`:flDiff<-3?`${flDiff}° cooler than air temp`:'Matches air temp closely';
-  const hourlyHTML=[];let bestScore=-1,bestHrLabel='';
-  const nowHour=new Date().getHours();
-  for(let i=0;i<hourly.time.length;i++){
-    if(!hourly.time[i].startsWith(targetDate))continue;
-    const hHour=parseInt(hourly.time[i].split('T')[1]);
-    if(hHour<6||hHour>20)continue;
-    const ht=Math.round(hourly.temperature_2m[i]),hw=Math.round(hourly.wind_speed_10m[i]);
-    const hpop=hourly.precipitation_probability[i]||0,hcode=hourly.weathercode[i];
-    const huv=Math.round(hourly.uv_index[i]||0),hdir=degToDir(hourly.wind_direction_10m[i]||0);
-    const hs=golfScore(ht,hw,hpop,hcode,huv);
-    if(hs>bestScore){bestScore=hs;bestHrLabel=`${hHour%12||12}${hHour<12?'AM':'PM'}–${(hHour+2)%12||12}${(hHour+2)<12?'AM':'PM'}`;}
-    const uvClr=huv<=2?'var(--good)':huv<=5?'var(--goldl)':huv<=7?'var(--warn)':'var(--bad)';
-    const isPast=!usingApr11&&hHour<nowHour;
+  const dailyCards=[];
+  for(let i=0;i<daily.time.length;i++){
+    const d2=new Date(daily.time[i]+'T12:00:00');
+    const label=i===0?'Today':`${DS[d2.getDay()]}`;
+    const hi=Math.round(daily.temperature_2m_max[i]);
+    const lo=Math.round(daily.temperature_2m_min[i]);
+    const pop=daily.precipitation_probability_max[i]||0;
+    const code=daily.weathercode[i];
     let cls='hr-card';
-    if(hpop>=60||hcode>=80)cls+=' bad-hr';
-    else if(hpop>=35||hcode>=60)cls+=' warn-hr';
-    else if(hs>=75)cls+=' best-hr';
-    hourlyHTML.push(`<div class="${cls}" style="${isPast?'opacity:.35':''}"><div class="hr-time">${hHour%12||12}${hHour<12?'AM':'PM'}</div><span class="hr-icon">${ICON[hcode]||'🌡'}</span><div class="hr-temp">${ht}°</div><div style="font-size:9px;color:var(--azl);opacity:.8;margin-top:1px;">feels ${Math.round(hourly.apparent_temperature[i])}°</div><div class="hr-wind">${hw}mph ${hdir}</div><div class="hr-pop">${hpop}% 💧</div><div class="hr-uv" style="color:${uvClr}">UV ${huv}</div></div>`);
+    if(pop>=60||code>=80)cls+=' bad-hr';
+    else if(pop>=35||code>=60)cls+=' warn-hr';
+    else cls+=' best-hr';
+    dailyCards.push(`<div class="${cls}"><div class="hr-time">${label}</div><span class="hr-icon">${ICON[code]||'🌡'}</span><div class="hr-temp">${hi}°</div><div style="font-size:9px;color:var(--creamd);opacity:.7;margin-top:1px;">Low ${lo}°</div><div class="hr-pop">${pop}% 💧</div></div>`);
   }
   const hrLabel=document.querySelector('.hourly-section .sec-txt');
-  if(hrLabel)hrLabel.textContent=usingApr11?'Hourly Forecast · April 11 · 6 AM – 8 PM':'Hourly Forecast · Today · 6 AM – 8 PM (Apr 11 available within 10 days)';
-  document.getElementById('hourly-scroll').innerHTML=hourlyHTML.length?hourlyHTML.join(''):'<div style="color:var(--creamd);opacity:.35;font-style:italic;padding:16px 0;">No hourly data available</div>';
-  if(bestHrLabel){document.getElementById('bw-label').textContent=usingApr11?'⛳ Best Golf Window · Apr 11':'⛳ Best Golf Window · Today';document.getElementById('bw-time').textContent=bestHrLabel;document.getElementById('bw-sub').textContent=`Score ${bestScore}/100${usingApr11?' on Apr 11':' today'}`;document.getElementById('best-window-wrap').style.display='block';}
+  if(hrLabel)hrLabel.textContent='Daily Forecast · 10-Day Outlook';
+  document.getElementById('hourly-scroll').innerHTML=dailyCards.length?dailyCards.join(''):'<div style="color:var(--creamd);opacity:.35;font-style:italic;padding:16px 0;">No daily data available</div>';
   document.getElementById('sb-body').innerHTML=daily.time.map((date,i)=>{
     const d2=new Date(date+'T12:00:00'),isToday=date===todayStr,isApr11=date===APR11,mday=isMasters(date);
     const code=daily.weathercode[i],hi=Math.round(daily.temperature_2m_max[i]),lo=Math.round(daily.temperature_2m_min[i]),pop=daily.precipitation_probability_max[i];
@@ -1354,7 +1337,7 @@ function fadeYT(t,ms){const st=40,iv=ms/st,s0=ytPlayer.getVolume(),d=(t-s0)/st;l
 async function toggleSound(){
   const icon=document.getElementById('snd-icon'),lbl=document.getElementById('snd-lbl');
   if(!isPlaying){if(ytReady){ytPlayer.setVolume(0);ytPlayer.playVideo();setTimeout(()=>fadeYT(88,3500),600);}isPlaying=true;icon.innerHTML='<span class="pdots"><span></span><span></span><span></span></span>';lbl.textContent='Mute';}
-  else{if(ytReady){fadeYT(0,2000);setTimeout(()=>ytPlayer.pauseVideo(),2200);}isPlaying=false;icon.textContent='♪';lbl.textContent='Play Augusta';}
+  else{if(ytReady){fadeYT(0,2000);setTimeout(()=>ytPlayer.pauseVideo(),2200);}isPlaying=false;icon.textContent='♪';lbl.textContent='Play Masters Theme';}
 }
 
 const n=new Date();
