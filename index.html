@@ -376,7 +376,12 @@ async function loadTeams(){
     }).sort((a,b)=>{
       if(a.total===null&&b.total!==null)return 1;
       if(a.total!==null&&b.total===null)return-1;
-      if(a.total!==null&&b.total!==null)return a.total-b.total;
+      if(a.total!==null&&b.total!==null){
+        if(a.total!==b.total)return a.total-b.total;
+        // Tiebreaker: Trevor Poore won on Hole 1
+        if(a.name==='Trevor Poore')return-1;
+        if(b.name==='Trevor Poore')return 1;
+      }
       return 0;
     });
     document.getElementById('mt-body').innerHTML=teams.map((t,i)=>{
