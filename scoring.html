@@ -63,8 +63,6 @@ tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
 .et{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#444;margin-bottom:8px;}
 .es{font-size:13px;color:#888;font-family:'EB Garamond',serif;margin-bottom:22px;}
 .eb{display:inline-block;background:var(--green);padding:10px 24px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none;}
-
-/* ── MASTERS TEAMS ── */
 .teams-table{width:100%;border-collapse:collapse;background:#fff;border:4px solid #111;}
 .teams-table th{background:#1a5c2a;color:#fff;font-family:'Oswald',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 8px;text-align:center;border-right:1px solid rgba(255,255,255,.15);}
 .teams-table th.left{text-align:left;}
@@ -106,7 +104,6 @@ tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
 .mb-thru-num.done{color:var(--red);font-size:13px;}
 .mb-thru-lbl{font-size:8px;color:#555;text-transform:uppercase;letter-spacing:.07em;margin-top:1px;}
 .mb-grp{height:3px;background:#b8b0a0;}
-
 @media(max-width:700px){
   .wrap{padding:10px 6px 28px;overflow-x:visible;}
   .board-outer{min-width:0;}
@@ -148,9 +145,8 @@ tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
     <span class="nt">Southern Illinois Masters · Leaders</span>
   </div>
   <div class="nav-right">
-    <div class="lp"><div class="ld"></div><span class="lt">Live</span></div>
-    <a href="index.html" class="nl">← Weather</a>
-    <a href="draw.html" class="nl">The Draw</a>
+    <div class="lp"><div class="ld"></div><span class="lt">Final</span></div>
+    <a href="index.html" class="nl">← Home</a>
     <a href="admin.html" class="nl">Admin</a>
   </div>
 </nav>
@@ -158,18 +154,17 @@ tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
   <div class="board-outer desktop-board">
     <div class="board" id="board-container">
       <div class="title-bar">
-        <div class="ttxt">Leaders</div>
-        <div class="tsub">Southern Illinois Masters &nbsp;·&nbsp; Apple Creek Golf Club &nbsp;·&nbsp; April 11, 2026</div>
+        <div class="ttxt">Final Results</div>
+        <div class="tsub">Southern Illinois Masters &nbsp;·&nbsp; Apple Creek Golf Club &nbsp;·&nbsp; April 11, 2026 &nbsp;·&nbsp; Champion: Trevor Poore</div>
       </div>
       <div id="board"></div>
     </div>
   </div>
 
-  <!-- MOBILE COMPACT BOARD -->
   <div class="mobile-board" id="mobile-board">
     <div class="title-bar">
-      <div class="ttxt" style="font-size:18px;letter-spacing:.22em;">Leaders</div>
-      <div class="tsub">Southern Illinois Masters · Apr 11, 2026</div>
+      <div class="ttxt" style="font-size:18px;letter-spacing:.22em;">Final Results</div>
+      <div class="tsub">Southern Illinois Masters · Apr 11, 2026 · Champion: Trevor Poore</div>
     </div>
     <div class="mb-hdr">
       <div class="mb-hc">Pos</div>
@@ -188,7 +183,6 @@ tr.gdv td{height:3px;background:#b8b0a0;border:none;padding:0;}
   </div>
   <div class="refresh-lbl" id="refresh-lbl">Refreshes every 15 seconds</div>
 
-  <!-- ── MASTERS TEAMS LEADERBOARD ── -->
   <div id="masters-teams-section" style="display:none;margin-top:28px;">
     <div style="text-align:center;padding:10px 16px 8px;border-top:2px solid rgba(255,255,255,.12);border-bottom:2px solid rgba(255,255,255,.12);margin-bottom:10px;">
       <div style="font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:rgba(255,255,255,.38);letter-spacing:.2em;text-transform:uppercase;">Combined Team Score</div>
@@ -247,7 +241,11 @@ function render(){
   const sorted=players.map(p=>({...p,...calc(p)})).sort((a,b)=>{
     if(a.played===0&&b.played>0)return 1;
     if(a.played>0&&b.played===0)return -1;
-    return a.netVs-b.netVs||a.net-b.net||a.gross-b.gross;
+    if(a.netVs!==b.netVs)return a.netVs-b.netVs;
+    // Tiebreaker: Trevor Poore won on Hole 1
+    if(a.name==='Trevor Poore')return -1;
+    if(b.name==='Trevor Poore')return 1;
+    return a.net-b.net||a.gross-b.gross;
   });
   let lv=null,lp=1;
   sorted.forEach((p,i)=>{
@@ -259,7 +257,7 @@ function render(){
   const bp=PAR.slice(9).reduce((a,b)=>a+b,0);
   let h=`<table>`;
   h+=`<colgroup><col style="width:170px;">`;
-  for(let i=0;i<18;i++)h+=`<col style="width:26px;">`; 
+  for(let i=0;i<18;i++)h+=`<col style="width:26px;">`;
   h+=`<col style="width:36px;"><col style="width:36px;"><col style="width:60px;"><col style="width:60px;"><col style="width:42px;"></colgroup>`;
   h+=`<tr class="hdr"><td class="nm">Player</td>`;
   for(let i=0;i<9;i++)h+=`<td>${i+1}</td>`;
@@ -320,9 +318,8 @@ function renderMobile(sorted){
     const isTied=p.pos&&p.pos.startsWith('T');
     const posHtml=p.played===0
       ?`<span style="color:#ddd;font-size:13px;">—</span>`
-      :isTied
-        ?`<span class="t">T</span>${p.pos.slice(1)}`
-        :`${p.pos}`;
+      :isTied?`<span class="t">T</span>${p.pos.slice(1)}`
+      :`${p.pos}`;
     h+=`<div class="mb-row${isL?' ldr':''}${p.played===0?' ns':''}" onclick="openCard('${p.id}')">
       <div class="mb-pos">${posHtml}</div>
       <div class="mb-name">
@@ -345,6 +342,7 @@ function renderMobile(sorted){
   });
   el.innerHTML=h;
 }
+
 function openCard(pid){
   const p=(data.players||[]).find(x=>x.id===pid);if(!p)return;
   const{total,played,gross,netVs}=calc(p);
@@ -378,31 +376,23 @@ async function refresh(){await loadData();render();renderTeams();}
 refresh();
 setInterval(refresh,15000);
 
-function renderTeams(){ // v3
+function renderTeams(){
   const players=data.players||[];
   const picks=data.mastersPicks||{};
   const draws=data.mastersDraws||{};
   const proScores=data.proScores||{};
   const section=document.getElementById('masters-teams-section');
-
-  // Only show if at least one player has a pick or draw assigned
   const hasTeams=players.some(p=>picks[p.id]||((draws[p.id]||[]).length>0));
   const hasProScores=Object.keys(proScores).length>0;
   if(!hasTeams&&!hasProScores){section.style.display='none';return;}
   section.style.display='block';
 
-  // Build team totals
   const teams=players.map(p=>{
-    const calc_p=calc(p);
-    const myPlayed=calc_p.played;
-    // Build net score the same exact way the leaderboard NET column does
     let _g=0,_t=0,_pl=0;
-    for(let i=0;i<18;i++){
-      const s=(p.scores||[])[i];
-      if(s&&s>0){_t+=s;_pl++;_g+=s-PAR[i];}
-    }
+    for(let i=0;i<18;i++){const s=(p.scores||[])[i];if(s&&s>0){_t+=s;_pl++;_g+=s-PAR[i];}}
     const _hcp=parseInt(p.hcp)||0;
     const myScore=_pl===18?(_g-_hcp):null;
+    const myPlayed=_pl;
     const pick=picks[p.id]||'';
     const d=draws[p.id]||[];
     const pro1=pick,pro2=d[0]||'',pro3=d[1]||'';
@@ -412,16 +402,17 @@ function renderTeams(){ // v3
     const proTotal=(s1||0)+(s2||0)+(s3||0);
     const hasAnyPro=s1!==null||s2!==null||s3!==null;
     const teamTotal=hasAnyPro?(myScore!==null?myScore+proTotal:proTotal):0;
-    return{...p,myScore,myPlayed,pick,pro2,pro3,s1,s2,s3,proTotal,teamTotal};
+    return{...p,myScore,myPlayed,pick,pro2,pro3,s1,s2,s3,proTotal,teamTotal,hasAnyPro};
   }).sort((a,b)=>{
-    const aHas=(a.s1!==null||a.s2!==null||a.s3!==null);
-    const bHas=(b.s1!==null||b.s2!==null||b.s3!==null);
+    const aHas=a.hasAnyPro,bHas=b.hasAnyPro;
     if(!aHas&&bHas)return 1;
     if(aHas&&!bHas)return -1;
-    return a.teamTotal-b.teamTotal;
+    if(a.teamTotal!==b.teamTotal)return a.teamTotal-b.teamTotal;
+    // Tiebreaker: Trevor Poore won on Hole 1
+    if(a.name==='Trevor Poore')return -1;
+    if(b.name==='Trevor Poore')return 1;
+    return 0;
   });
-
-  const prosDone=teams.some(t=>t.s1>0||t.s2>0||t.s3>0);
 
   let h=`<table class="teams-table">
     <tr>
@@ -438,15 +429,12 @@ function renderTeams(){ // v3
     const prev=teams[i-1];
     if(i>0&&t.teamTotal>0&&prev.teamTotal>0&&t.teamTotal!==prev.teamTotal)
       h+=`<tr class="teams-grp"><td colspan="6"></td></tr>`;
-
     const fvp=s=>s===undefined||s===null?null:(s===0?'E':s>0?'+'+s:String(s));
     const safeName=n=>n&&n!=='null'&&n!=='undefined'?n:'TBD';
     const myDisp=t.myScore!==null?vs(t.myScore):'—';
-    const hasS1=t.s1!==null;
-    const hasS2=t.s2!==null;
-    const hasS3=t.s3!==null;
+    const hasS1=t.s1!==null,hasS2=t.s2!==null,hasS3=t.s3!==null;
+    // FIX: show total whenever any pro score exists, even if sum is 0 (E)
     const totalDisp=(hasS1||hasS2||hasS3)?fvp(t.teamTotal):'—';
-
     h+=`<tr>
       <td class="player-td${isLeader?' ldr':''}">${t.name||'—'}</td>
       <td class="my-score-td"><div style="font-size:18px;font-weight:700;color:${t.myScore!==null&&t.myScore<0?'#cc3322':t.myScore>0?'#666':'#111'};">${myDisp}</div><div style="font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:.07em;">${t.myPlayed>0?'NET':'—'}</div></td>
@@ -456,7 +444,6 @@ function renderTeams(){ // v3
       <td class="total-td${isLeader?' leader':''}">${totalDisp}</td>
     </tr>`;
   });
-
   h+=`</table>`;
   document.getElementById('teams-board').innerHTML=h;
 }
